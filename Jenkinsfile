@@ -15,7 +15,10 @@ pipeline{
     stages{
         stage('Build and Package'){
             steps{
-                sh 'npm install --no-audit'
+                sh '''
+                npm install --no-audit
+                ng build --configuration=production
+                '''
             }
         }
         stage('NPM Dependency Audit') {
@@ -26,6 +29,14 @@ pipeline{
                 '''
             }
         }
+        stage('Unit Testing'){
+            steps{
+                sh 'sleep 5s'
+            }
+        }
+
+
+
     }
     
 

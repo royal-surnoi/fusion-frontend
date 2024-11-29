@@ -1,4 +1,4 @@
-FROM nginx
+FROM nginx:1.25.2
 COPY /dist /usr/share/nginx/html
 COPY /dist/browser /usr/share/nginx/html
 COPY ./nginx.conf /etc/nginx/nginx.conf

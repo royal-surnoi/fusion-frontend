@@ -38,11 +38,7 @@ export class ArticleService {
   }
  
   getCommentsByArticleId(articleId: number): Observable<any[]> {
-    return this.http.get<any[]>(`http://54.162.84.143:8080
- 
- 
- 
- /api/comments/article/${articleId}`);
+    return this.http.get<any[]>(`http://54.162.84.143:8080/api/comments/article/${articleId}`);
   }
  
   addComment(articleId: number, comment: string): Observable<any> {

@@ -355,7 +355,7 @@ export class CourseService {
   // -----------------------------student dashbord--------------------
   getCourseAssignments(courseId: number): Observable<any[]> {
  
-    return this.http.get<any[]>(` http://54.162.84.143:8080/course/${courseId}`);
+    return this.http.get<any[]>(`http://54.162.84.143:8080/course/${courseId}`);
  
  
  

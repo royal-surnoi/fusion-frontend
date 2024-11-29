@@ -57,43 +57,43 @@ pipeline{
         //     }
         // }
 
-        stage ("SAST - SonarQube") {
-            steps {
-                dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend'){
-                    script {
-                        withSonarQubeEnv('sonarqube') {
-                            withEnv(["PATH+SONAR=$SONAR_SCANNER_HOME/bin"]) {
-                                sh '''
-                                    sonar-scanner \
-                                        -Dsonar.projectKey=fusion-fe \
-                                        -Dsonar.sources=. \
-                                        -Dsonar.host.url=http://3.87.22.97:9000 \
-                                        -Dsonar.token=sqp_4504048bc6ef51e702899801c87e22b8ccf8a4d2
-                                '''
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        // stage('containerization') {
+        // stage ("SAST - SonarQube") {
         //     steps {
-        //         script{
-        //             sh '''
-        //                 EXISTING_IMAGE=$(docker images -q $docker_registry)
-        //                 if [ ! -z "$EXISTING_IMAGE" ]; then
-        //                     echo "previous build Image '$IMAGE_NAME' found. Removing..."
-        //                     docker rmi -f $EXISTING_IMAGE
-        //                     echo "previous build image is removed."
-        //                 else
-        //                     echo "No existing image found for '$IMAGE_NAME'."
-        //                 fi
-        //                 docker build -t $docker_registry:$GIT_COMMIT .
-        //             '''
+        //         dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend'){
+        //             script {
+        //                 withSonarQubeEnv('sonarqube') {
+        //                     withEnv(["PATH+SONAR=$SONAR_SCANNER_HOME/bin"]) {
+        //                         sh '''
+        //                             sonar-scanner \
+        //                                 -Dsonar.projectKey=fusion-fe \
+        //                                 -Dsonar.sources=. \
+        //                                 -Dsonar.host.url=http://3.87.22.97:9000 \
+        //                                 -Dsonar.token=sqp_4504048bc6ef51e702899801c87e22b8ccf8a4d2
+        //                         '''
+        //                     }
+        //                 }
+        //             }
         //         }
         //     }
         // }
+
+        stage('containerization') {
+            steps {
+                script{
+                    sh '''
+                        EXISTING_IMAGE=$(docker images -q $docker_registry)
+                        if [ ! -z "$EXISTING_IMAGE" ]; then
+                            echo "previous build Image '$IMAGE_NAME' found. Removing..."
+                            docker rmi -f $EXISTING_IMAGE
+                            echo "previous build image is removed."
+                        else
+                            echo "No existing image found for '$IMAGE_NAME'."
+                        fi
+                        docker build -t $docker_registry:$GIT_COMMIT .
+                    '''
+                }
+            }
+        }
 
     }
     

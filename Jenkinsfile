@@ -15,10 +15,12 @@ pipeline{
     stages{
         stage('Build and Package'){
             steps{
-                sh '''
-                npm install --no-audit
-                ng build --configuration=production
-                '''
+                dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend'){
+                    sh '''
+                        npm install --no-audit
+                        ng build --configuration=production
+                    '''
+                }
             }
         }
         stage('NPM Dependency Audit') {

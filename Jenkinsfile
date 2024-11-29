@@ -95,43 +95,50 @@ pipeline{
             }
         }
 
-        stage('Trivy Vulnerability Scanner') {
+        // stage('Trivy Vulnerability Scanner') {
+        //     steps {
+        //         sh  ''' 
+        //             trivy image $docker_registry:$GIT_COMMIT \
+        //                 --severity LOW,MEDIUM,HIGH \
+        //                 --exit-code 0 \
+        //                 --quiet \
+        //                 --format json -o trivy-image-MEDIUM-results.json
+
+        //             trivy image $docker_registry:$GIT_COMMIT \
+        //                 --severity CRITICAL \
+        //                 --exit-code 1 \
+        //                 --quiet \
+        //                 --format json -o trivy-image-CRITICAL-results.json
+        //         '''
+        //     }
+        //     post {
+        //         always {
+        //             sh '''
+        //                 trivy convert \
+        //                     --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
+        //                     --output trivy-image-MEDIUM-results.html trivy-image-MEDIUM-results.json 
+
+        //                 trivy convert \
+        //                     --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
+        //                     --output trivy-image-CRITICAL-results.html trivy-image-CRITICAL-results.json
+
+        //                 trivy convert \
+        //                     --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
+        //                     --output trivy-image-MEDIUM-results.xml  trivy-image-MEDIUM-results.json 
+
+        //                 trivy convert \
+        //                     --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
+        //                     --output trivy-image-CRITICAL-results.xml trivy-image-CRITICAL-results.json          
+        //             '''
+        //         }
+        //     }
+        // }
+
+        stage('Publish Docker Image') {
             steps {
-                sh  ''' 
-                    trivy image $docker_registry:$GIT_COMMIT \
-                        --severity LOW,MEDIUM,HIGH \
-                        --exit-code 0 \
-                        --quiet \
-                        --format json -o trivy-image-MEDIUM-results.json
-
-                    trivy image $docker_registry:$GIT_COMMIT \
-                        --severity CRITICAL \
-                        --exit-code 1 \
-                        --quiet \
-                        --format json -o trivy-image-CRITICAL-results.json
-                '''
-            }
-            post {
-                always {
-                    sh '''
-                        trivy convert \
-                            --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
-                            --output trivy-image-MEDIUM-results.html trivy-image-MEDIUM-results.json 
-
-                        trivy convert \
-                            --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
-                            --output trivy-image-CRITICAL-results.html trivy-image-CRITICAL-results.json
-
-                        trivy convert \
-                            --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
-                            --output trivy-image-MEDIUM-results.xml  trivy-image-MEDIUM-results.json 
-
-                        trivy convert \
-                            --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
-                            --output trivy-image-CRITICAL-results.xml trivy-image-CRITICAL-results.json          
-                    '''
-                }
-            }
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                sh "docker push $docker_registry:$GIT_COMMIT"
+            }       
         }
     }
     

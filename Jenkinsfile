@@ -140,6 +140,33 @@ pipeline{
                 sh "docker push $docker_registry:$GIT_COMMIT"
             }       
         }
+
+        stage('Deploy - AWS EC2') {
+            steps {
+                script{
+                     // Fetch AWS instance IP
+                    withAWS(credentials: 'aws-fusion-dev-deploy', region: 'us-east-1') {
+                        DEV_INSTANCE_IP = sh(
+                            script: "aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --filters Name=tag:Name,Values=dev-deploy --output text",
+                            returnStdout: true
+                        ).trim()
+                    }
+                    sshagent(['dev-deploy-ec2-instance']) {
+                        sh """
+                            ssh -o StrictHostKeyChecking=no ec2-user@${DEV_INSTANCE_IP} "
+                                // echo "Cleaning up old containers..."
+                                // docker ps -aq | xargs -r docker rm -f
+                                echo "Running new Docker container..."
+                                docker run -d -p 80:80 ${docker_registry}:${GIT_COMMIT}
+                            "
+                        """
+                    }
+                    
+                }
+            }   
+        }
+
+
     }
     
 

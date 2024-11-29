@@ -3,7 +3,7 @@ export const environment = {
     standalone:true,
 
    
-    apiBaseUrl:'http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com',
+    apiBaseUrl:'http://54.162.84.143:8080',
 
  
 

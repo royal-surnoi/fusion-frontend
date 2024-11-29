@@ -2,12 +2,12 @@ export const environment = {  production:false,
     standalone:true,
  
 
-    // apiBaseUrl:'http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com'
+    // apiBaseUrl:'http://54.162.84.143:8080'
 
 
 
 
-        apiBaseUrl:'http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com'
+        apiBaseUrl:'http://54.162.84.143:8080'
 
 
 
@@ -27,7 +27,7 @@ export const environment = {  production:false,
 
 
 
-        // apiBaseUrl:'http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com'
+        // apiBaseUrl:'http://54.162.84.143:8080'
 
     // webSocketUrl:'ws://localhost:8080/ws'
 }

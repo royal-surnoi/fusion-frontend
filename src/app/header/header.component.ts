@@ -418,7 +418,7 @@ getSafeImageUrl(imageData: string | SafeUrl | undefined): SafeUrl {
   private getAllUsers(): void {
     console.log('Fetching all users');
     this.isLoading = true;
-    this.http.get<User[]>('http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com/user/all').subscribe(
+    this.http.get<User[]>('http://54.162.84.143:8080/user/all').subscribe(
       users => {
         console.log('Fetched users:', users);
         this.users = users.filter(user => user && user.id && user.name );

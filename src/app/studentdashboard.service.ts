@@ -231,7 +231,7 @@ constructor(private http: HttpClient){
     console.log(userId, courseId, "pppppppppp");
   
     if (courseTerm === 'long') {
-      // http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com/
+      // http://54.162.84.143:8080/
       return this.http.get(`${environment.apiBaseUrl}/video/progressOfCourse/user/${courseId}/course/${userId}`);
     } else if (courseTerm === 'short') {
       

@@ -651,7 +651,7 @@ updateCurrentLesson() {
     // return isOpen;
   }
    generateTranscript(): void {
-    this.http.post('http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com/transcribeRecommendations',{}).subscribe(
+    this.http.post('http://54.162.84.143:8080/transcribeRecommendations',{}).subscribe(
       (response) => {
         console.log('Transcript generated:', response);
         // Handle the response here if needed

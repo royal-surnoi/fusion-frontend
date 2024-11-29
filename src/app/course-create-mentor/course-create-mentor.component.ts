@@ -2193,9 +2193,9 @@ updateProject(): void {
 
 
 
-      // this.http.post(`http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com/saveLesson/${this.lessonId}/${this.courseId}`, formData).subscribe(
+      // this.http.post(`http://54.162.84.143:8080/saveLesson/${this.lessonId}/${this.courseId}`, formData).subscribe(
 
-        // this.http.post(`http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com/saveLesson/${this.lessonId}/${this.courseId}`, formData).subscribe(
+        // this.http.post(`http://54.162.84.143:8080/saveLesson/${this.lessonId}/${this.courseId}`, formData).subscribe(
 
         response => {
           console.log('Assignment saved successfully:', response);

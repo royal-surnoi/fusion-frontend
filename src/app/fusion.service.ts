@@ -1892,12 +1892,12 @@ private convertToLocalDateTime(dateString: string): string {
 }
 getUserByIds(id: string): Observable<any> {
 
-  return this.http.get(` http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com/user/${id}`);
+  return this.http.get(` http://54.162.84.143:8080/user/${id}`);
 
 
-  // return this.http.get(`http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com/user/${id}`);
+  // return this.http.get(`http://54.162.84.143:8080/user/${id}`);
 
-  // return this.http.get(`http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com/user/${id}`);
+  // return this.http.get(`http://54.162.84.143:8080/user/${id}`);
 
 }
 getMonthlyStats(courseId: number): Observable<any> {

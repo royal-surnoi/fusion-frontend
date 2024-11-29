@@ -37,13 +37,13 @@ export interface FollowRequestUser {
 })
 export class UsersprofileService {
  
-  private apiBaseUrl = 'http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com';
-  private apiUrl = 'http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com/user/all';
+  private apiBaseUrl = 'http://54.162.84.143:8080';
+  private apiUrl = 'http://54.162.84.143:8080/user/all';
  
-  private incrementUrl = 'http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com/follow/incrementCounts';
-  private decrementUrl = 'http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com/follow/decrementCounts';
-  private followUrl = 'http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com/follow/saveByIds';
-  private apiUrll = 'http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com/api/users';
+  private incrementUrl = 'http://54.162.84.143:8080/follow/incrementCounts';
+  private decrementUrl = 'http://54.162.84.143:8080/follow/decrementCounts';
+  private followUrl = 'http://54.162.84.143:8080/follow/saveByIds';
+  private apiUrll = 'http://54.162.84.143:8080/api/users';
  
  
  

@@ -735,7 +735,7 @@
 //   }
 //   getUserNameById(userId: number): Observable<User> {
 
-//     return this.http.get<User>(`http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com
+//     return this.http.get<User>(`http://54.162.84.143:8080
 
  
  

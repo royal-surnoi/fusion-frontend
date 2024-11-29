@@ -15,7 +15,7 @@ export class SearchService {
 
 
 
-  private apiUrl = 'http://ec2-13-235-67-148.ap-south-1.compute.amazonaws.com/user';
+  private apiUrl = 'http://54.162.84.143:8080/user';
 
 
 

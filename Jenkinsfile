@@ -25,57 +25,57 @@ pipeline{
             }
         }
 
-        // stage('Dependency Scanning') {
-        //     parallel {
-        //         stage('NPM Dependency Audit') {
-        //             steps {
-        //                 sh '''
-        //                     npm audit --audit-level=critical
-        //                     echo $?
-        //                 '''
-        //             }
-        //         }
+        stage('Dependency Scanning') {
+            parallel {
+                stage('NPM Dependency Audit') {
+                    steps {
+                        sh '''
+                            npm audit --audit-level=critical
+                            echo $?
+                        '''
+                    }
+                }
 
-        //         stage('OWASP Dependency Check') {
-        //             steps {
-        //                 dependencyCheck additionalArguments: '''
-        //                     --scan \'./\' 
-        //                     --out \'./\'  
-        //                     --format \'ALL\' 
-        //                     --disableYarnAudit \
-        //                     --prettyPrint''', odcInstallation: 'OWASP-DepCheck-10'
+                stage('OWASP Dependency Check') {
+                    steps {
+                        dependencyCheck additionalArguments: '''
+                            --scan \'./\' 
+                            --out \'./\'  
+                            --format \'ALL\' 
+                            --disableYarnAudit \
+                            --prettyPrint''', odcInstallation: 'OWASP-DepCheck-10'
 
-        //                 dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
-        //             }
-        //         }
-        //     }
-        // }
+                        dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
+                    }
+                }
+            }
+        }
 
-        // stage('Unit Testing'){
-        //     steps{
-        //         sh 'sleep 5s'
-        //     }
-        // }
+        stage('Unit Testing'){
+            steps{
+                sh 'sleep 5s'
+            }
+        }
 
-        // stage ("SAST - SonarQube") {
-        //     steps {
-        //         dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend'){
-        //             script {
-        //                 withSonarQubeEnv('sonarqube') {
-        //                     withEnv(["PATH+SONAR=$SONAR_SCANNER_HOME/bin"]) {
-        //                         sh '''
-        //                             sonar-scanner \
-        //                                 -Dsonar.projectKey=fusion-fe \
-        //                                 -Dsonar.sources=. \
-        //                                 -Dsonar.host.url=http://3.87.22.97:9000 \
-        //                                 -Dsonar.token=sqp_4504048bc6ef51e702899801c87e22b8ccf8a4d2
-        //                         '''
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+        stage ("SAST - SonarQube") {
+            steps {
+                dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend'){
+                    script {
+                        withSonarQubeEnv('sonarqube') {
+                            withEnv(["PATH+SONAR=$SONAR_SCANNER_HOME/bin"]) {
+                                sh '''
+                                    sonar-scanner \
+                                        -Dsonar.projectKey=fusion-fe \
+                                        -Dsonar.sources=. \
+                                        -Dsonar.host.url=http://3.87.22.97:9000 \
+                                        -Dsonar.token=sqp_4504048bc6ef51e702899801c87e22b8ccf8a4d2
+                                '''
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         stage('containerization') {
             steps {
@@ -95,44 +95,44 @@ pipeline{
             }
         }
 
-        // stage('Trivy Vulnerability Scanner') {
-        //     steps {
-        //         sh  ''' 
-        //             trivy image $docker_registry:$GIT_COMMIT \
-        //                 --severity LOW,MEDIUM,HIGH \
-        //                 --exit-code 0 \
-        //                 --quiet \
-        //                 --format json -o trivy-image-MEDIUM-results.json
+        stage('Trivy Vulnerability Scanner') {
+            steps {
+                sh  ''' 
+                    trivy image $docker_registry:$GIT_COMMIT \
+                        --severity LOW,MEDIUM,HIGH \
+                        --exit-code 0 \
+                        --quiet \
+                        --format json -o trivy-image-MEDIUM-results.json
 
-        //             trivy image $docker_registry:$GIT_COMMIT \
-        //                 --severity CRITICAL \
-        //                 --exit-code 1 \
-        //                 --quiet \
-        //                 --format json -o trivy-image-CRITICAL-results.json
-        //         '''
-        //     }
-        //     post {
-        //         always {
-        //             sh '''
-        //                 trivy convert \
-        //                     --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
-        //                     --output trivy-image-MEDIUM-results.html trivy-image-MEDIUM-results.json 
+                    trivy image $docker_registry:$GIT_COMMIT \
+                        --severity CRITICAL \
+                        --exit-code 1 \
+                        --quiet \
+                        --format json -o trivy-image-CRITICAL-results.json
+                '''
+            }
+            post {
+                always {
+                    sh '''
+                        trivy convert \
+                            --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
+                            --output trivy-image-MEDIUM-results.html trivy-image-MEDIUM-results.json 
 
-        //                 trivy convert \
-        //                     --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
-        //                     --output trivy-image-CRITICAL-results.html trivy-image-CRITICAL-results.json
+                        trivy convert \
+                            --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
+                            --output trivy-image-CRITICAL-results.html trivy-image-CRITICAL-results.json
 
-        //                 trivy convert \
-        //                     --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
-        //                     --output trivy-image-MEDIUM-results.xml  trivy-image-MEDIUM-results.json 
+                        trivy convert \
+                            --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
+                            --output trivy-image-MEDIUM-results.xml  trivy-image-MEDIUM-results.json 
 
-        //                 trivy convert \
-        //                     --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
-        //                     --output trivy-image-CRITICAL-results.xml trivy-image-CRITICAL-results.json          
-        //             '''
-        //         }
-        //     }
-        // }
+                        trivy convert \
+                            --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
+                            --output trivy-image-CRITICAL-results.xml trivy-image-CRITICAL-results.json          
+                    '''
+                }
+            }
+        }
 
         stage('Publish Docker Image') {
             steps {
@@ -175,7 +175,7 @@ pipeline{
                 }
             }
         }
-        
+
 
 
     }

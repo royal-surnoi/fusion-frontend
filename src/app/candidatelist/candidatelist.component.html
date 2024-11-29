@@ -1,0 +1,21 @@
+<table class="candidate-table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Progress</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let candidate of candidates" (click)="onCandidateClick(candidate.id)">
+      <td>{{ candidate.name }}</td>
+      <td>{{ candidate.email }}</td>
+      <td>
+        <div class="progress-bar">
+          <div class="progress" [style.width.%]="candidate.progress"></div>
+        </div>
+        {{ candidate.progress }}%
+      </td>
+    </tr>
+  </tbody>
+</table>

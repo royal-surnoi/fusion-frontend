@@ -1,0 +1,168 @@
+
+ 
+ 
+*{
+    font-family: 'Mulish';
+    font-size: 10px;
+}
+body {
+    font-family: 'Mulish';
+    box-sizing: border-box;
+}
+ 
+ 
+.footer {
+    /* background-color: #333; */
+    background-color: #F87777;
+    color: #fff;
+    padding: 0px 0;
+    height: 180px;
+    width: 100%;
+   
+}
+ 
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    /* max-width: 1200px; */
+    width: 100%;
+    margin: 0 auto;
+     z-index: 999;
+    padding: 0 20px;
+}
+ 
+.left-side {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transform: translate(42px);
+}
+.middleSection {
+    display: flex;
+    flex-direction: column;
+    /* gap: 10px; */
+    transform: translate(-44px);
+}
+ 
+.contactInfoList{
+    margin: 1px;
+}
+.contactInfoHeading{
+    margin: 2px;
+    text-align: center;
+    font-size: 17px;
+    font-family: 'Times New Roman', Times, serif;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+ 
+.right-side {
+    display: flex;
+    flex-direction: column;
+    /* gap: 10px; */
+    transform: translate(-90px, 32px);
+}
+ 
+.left-side .logo {
+    width: 120px;
+    height: auto;
+    transform: translate(-8px, -2px);
+}
+ 
+.left-side .caption li {
+    /* margin-top: 5px; */
+    list-style: none;
+    font-size: 10px;
+}
+.fab {
+    width: 30px;
+    height: 30px;
+    margin-right: -4px;
+    font-size: 20px;
+}
+.fa-facebook{
+    color: rgb(141, 169, 230);
+}
+/* .fa-twitter{
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    transform: translate(-4px, -4px);
+} */
+.fa-instagram{
+    /* color: rgb(244,2,209); */
+    color: rgb(255, 2, 230);
+}
+ 
+.X_twitter svg{
+    display: inline;
+    transform: translate(-4px, -4px);
+    font-size: 24px;
+    width: 20px;
+    height: 24px;
+}
+ 
+.fa-linkedin{
+    color: rgb(112, 156, 200);
+}
+ 
+/* .left-side .social-media a img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+} */
+ 
+ 
+ 
+.right-side .map iframe {
+    /* max-width: 100%;
+    height: auto; */
+    width: 125px;
+    height: 117px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+   
+}
+ 
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+   
+    .left-side,
+    .right-side {
+        align-items: center;
+    }
+   
+    .right-side .map iframe {
+        width: 100%;
+        height: 200px;
+    }
+}
+.copyRigt{
+    text-align: center;
+    font-size: 12px;
+    font-family: 'Mulish';
+    transform: translate(10px, -35px);
+}
+ 
+.fa-home{
+    transform: translate(-30px, -95px);
+    display: inline;
+ 
+}
+.fa-phone-flip{
+    transform: translate(-30px, -55px);
+    display: inline;
+ 
+}
+.fa-envelope{
+    transform: translate(-30px, -37px);
+    display: inline;
+ 
+}
+ 
+ 

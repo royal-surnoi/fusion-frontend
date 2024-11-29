@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Confirmation</h2>
+<mat-dialog-content>
+  <p>
+    Are you sure you want to
+    <span *ngIf="data.action === 'delete'">delete the group?</span>
+    <span *ngIf="data.action === 'leave'">leave the group?</span>
+    <span *ngIf="data.action === 'deleteMessage'">delete the message?.</span>
+    <span *ngIf="data.action === 'blockUser'">block?</span>
+    <span *ngIf="data.action === 'unblockUser'">unblock?</span>
+    <span *ngIf="data.action === 'Clear Chat'">Clear Chat?</span>
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">No</button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="true" *ngIf="data.action === 'delete'">delete group</button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="true"*ngIf="data.action === 'leave'">leave group</button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="true" *ngIf="data.action === 'deleteMessage'">delete message</button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="true"*ngIf="data.action === 'blockUser'">block</button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="true"*ngIf="data.action === 'unblockUser'">unblock</button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="true"*ngIf="data.action === 'Clear Chat'">Clear</button>
+</mat-dialog-actions>
+ 
+ 
+ 
+ 

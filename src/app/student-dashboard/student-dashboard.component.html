@@ -1,0 +1,883 @@
+ 
+<!-- Toolbar -->
+<div class="dashboard-toolbar">
+  <button class="icon-button" (click)="toggleSidenav()">
+    <i class="fas fa-bars"></i>
+  </button>
+  <span class="toolbar-title">Candidate Dashboard</span>
+</div>
+ 
+<div class="dashboard-container">
+  <div class="sidenav-container">
+    <!-- Sidenav -->
+    <div
+    [class.sidenav-open]="sidenavOpened"
+    [class.sidenav-closed]="!sidenavOpened"
+    class="sidenav"
+  >
+    <!-- Profile Section -->
+    <div class="profile-section">
+      <img
+        *ngIf="candidateDetails.userImage !== null"
+        [src]="image(candidateDetails.userImage)"
+        alt=""
+        class="avatar"
+      />
+      <img
+        *ngIf="candidateDetails.userImage === null"
+        src="../../assets/download.png"
+        alt=""
+        class="avatar"
+      />
+      <h2 class="candidate-name">{{ candidateDetails.name }}</h2>
+    </div>
+ 
+    <!-- Line Separator -->
+    <div class="line-separator"></div>
+ 
+    <!-- Navigation List -->
+    <div class="nav-list">
+      <a
+        class="nav-item"
+        (click)="setActiveSection('overview')"
+        [class.active]="activeSection === 'overview'"
+      >
+        <i class="fas fa-tachometer-alt nav-icon"></i>
+        <span class="nav-names">Overview</span>
+      </a>
+      <a
+        class="nav-item"
+        (click)="setActiveSection('courses')"
+        [class.active]="activeSection === 'courses'"
+      >
+        <i class="fas fa-graduation-cap nav-icon"></i>
+        <span class="nav-names">Courses</span>
+      </a>
+      <a
+        class="nav-item"
+        (click)="setActiveSection('progress')"
+        [class.active]="activeSection === 'progress'"
+      >
+        <i class="fas fa-chart-line nav-icon"></i>
+        <span class="nav-names">Progress</span>
+      </a>
+      <a
+        class="nav-item"
+        (click)="setActiveSection('assignments')"
+        [class.active]="activeSection === 'assignments'"
+      >
+        <i class="fas fa-tasks nav-icon"></i>
+        <span class="nav-names">Assignments</span>
+      </a>
+      <a
+        class="nav-item"
+        (click)="setActiveSection('achievements')"
+        [class.active]="activeSection === 'achievements'"
+      >
+        <i class="fas fa-trophy nav-icon"></i>
+        <span class="nav-names">Achievements</span>
+      </a>
+      <a
+        class="nav-item"
+        (click)="setActiveSection('upcoming-activities')"
+        [class.active]="activeSection === 'upcoming-activities'"
+      >
+        <i class="fas fa-calendar-alt nav-icon"></i>
+        <span class="nav-names">Upcoming Activities</span>
+      </a>
+      <a
+        class="nav-item"
+        (click)="setActiveSection('resources')"
+        [class.active]="activeSection === 'resources'"
+      >
+        <i class="fas fa-book nav-icon"></i>
+        <span class="nav-names">Resources</span>
+      </a>
+     
+      <!-- New "Booked Slots" Tab -->
+      <a
+        class="nav-item"
+        (click)="setActiveSection('booked-slots')"
+        [class.active]="activeSection === 'booked-slots'"
+      >
+        <i class="fas fa-calendar-check nav-icon"></i>
+        <span class="nav-names">Booked Slots</span>
+      </a>
+    </div>
+  </div>
+ 
+ 
+    <!-- Content Area -->
+    <div
+      [class.content-expanded]="!sidenavOpened"
+      [class.content-collapsed]="sidenavOpened"
+      class="content"
+    >
+      <div class="content-area">
+        <!-- Loading Spinner -->
+        <div *ngIf="loading" class="loading-spinner">
+          <i class="fas fa-spinner fa-spin"></i>
+        </div>
+ 
+        <ng-container *ngIf="!loading">
+          <!-- Overview Section -->
+          <div *ngIf="activeSection === 'overview'" class="overview-grid">
+            <!-- Quick Status Section -->
+            <div class="status-card card">
+              <div class="card-title">Quick Status</div>
+              <div class="card-content">
+                <div class="stat-item">
+                  <span class="stat-value">{{ completedCount }}</span>
+                  <span class="stat-label">Completed Courses</span>
+                </div>
+                <div class="line-separator"></div>
+                <div class="stat-item">
+                  <span class="stat-value">{{
+                    enrolledCourseCount
+                  }}</span>
+                  <span class="stat-label">Enrolled courses</span>
+                </div>
+                <div class="line-separator"></div>
+                <div class="stat-item">
+                  <!-- Achivmentcount -->
+                  <span class="stat-value">{{ completedCount }}</span>
+                  <span class="stat-label">Achievements</span>
+                </div>
+              </div>
+            </div>
+ 
+            <!-- Overall Progress Section -->
+            <div class="progress-card card">
+              <div class="card-title">Overall Progress</div>
+              <mat-card-content class="card-content">
+                <ngx-charts-pie-chart
+                  [results]="overallProgress"
+                  [gradient]="true"
+                  [labels]="true"
+                  [doughnut]="true"
+                >
+                </ngx-charts-pie-chart>
+              </mat-card-content>
+            </div>
+ 
+            <!-- Recent Activity Section -->
+            <div class="recent-activity-card card">
+              <div class="card-title">Recent Activity</div>
+              <div class="card-content">
+                <div class="activity-list">
+                  <div
+                    class="activity-item"
+                    *ngFor="let activity of Assignements"
+                  >
+                    <div class="upcominact">
+                      <div class="icon">
+                        <i class="fas fa-calendar"></i>
+                      </div>
+                      <div>
+                        <div class="activity-title">
+                          {{ activity.assignmentTitle }}
+                        </div>
+                        <div class="activity-date">
+                          Due: {{ activity.formattedDueDate }}
+                        </div>
+                        <div class="activity-date">
+                          Start: {{ activity.formattedstartDate }}
+                        </div>
+                        <div class="activity-date">
+                          Review: {{ activity.formattedreviewMeetDate }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Additional activities (quizzes, projects)  -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end overview-->
+ 
+          <!-- Courses Section -->
+          <div *ngIf="activeSection === 'courses'" class="courses-grid">
+            <div class="courses-grid1">
+              <div
+                *ngFor="let item of enrolledCourseList; let i = index"
+                class="course-card"
+              >
+                <h2>{{ item.course.courseTitle }}</h2>
+                <div class="progress-bar">
+                  <div
+                    class="progress"
+                    [style.width.%]="item.overAllCourseProgress"
+                    [style.background-color]="
+                      getProgressColor(courseProgress[i])
+                    "
+                  ></div>
+                </div>
+                <p class="progress-text">
+                  {{ item.overAllCourseProgress }}% Completed
+                </p>
+                <div class="course-stats">
+                  <div class="stat">
+                    <i class="fas fa-tasks"></i>
+                    <div class="tooltip">Assignments</div>
+                    <span>{{ item.AssignmentProgressFraction }}</span>
+                  </div>
+                  <div class="stat">
+                    <i class="fas fa-question-circle"></i>
+                    <div class="tooltip">Quizzes</div>
+                    <span> {{ item.quizProgressFraction }}</span>
+                  </div>
+                  <div class="stat">
+                    <i class="fas fa-project-diagram"></i>
+                    <div class="tooltip">Projects</div>
+                    <span> {{ item.ProjectProgressFraction }}</span>
+                  </div>
+                </div>
+                <div class="course-buttons">
+                  <a
+                    class="btn"
+                    [routerLink]="['/coursedashboard']"
+                    [queryParams]="{ courseId: item.course.id }"
+                    >Continue</a
+                  >
+                  <a class="btn" [routerLink]="['/activities', item.course.id]"
+                    >View Details</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <!---end courses-->
+ 
+          <!-- Progress Section -->
+          <div *ngIf="activeSection === 'progress'" class="progress-section">
+            <!-- Overall Progress Card -->
+            <div class="overall-progress-card custom-card">
+              <div class="custom-card-title">Overall Progress</div>
+              <!-- <div class="custom-card-content"> -->
+              <div class="custom-pie-chart">
+                <ngx-charts-advanced-pie-chart
+                  [results]="overallProgress"
+                  [gradient]="true"
+                ></ngx-charts-advanced-pie-chart>
+              </div>
+            </div>
+ 
+            <!-- Skill Progress Card -->
+            <div class="skill-progress-card custom-card">
+              <div class="custom-card-title">Skill Progress</div>
+              <div class="custom-card-content">
+                <div
+                  *ngFor="let skill of candidateData?.skillProgress"
+                  class="skill-item"
+                >
+                  <span>{{ skill.name }}</span>
+                  <div class="custom-progress-bar">
+                    <div
+                      class="custom-progress"
+                      [style.width.%]="skill.level"
+                    ></div>
+                  </div>
+                  <span class="skill-level">{{ skill.level }}%</span>
+                </div>
+              </div>
+            </div>
+ 
+            <!-- Course Container -->
+            <!-- <div class="course-container">
+              <select
+                [(ngModel)]="selectedCourse"
+                (change)="filterCourses()"
+                class="course-select"
+              >
+                <option *ngFor="let title of courseTitles" [value]="title">
+                  {{ title }}
+                </option>
+              </select>
+ 
+              <table class="course-table">
+                <thead>
+                  <tr>
+                    <th>Course Title</th>
+                    <th>Quizzes</th>
+                    <th>Assignments</th>
+                    <th>Projects</th>
+                    <th>Report</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let course of filteredCourseActivities">
+                    <td>{{ course.courseTitle }}</td>
+                    <td>
+                      <ul>
+                        <li
+                          *ngFor="let quiz of course.quizNames"
+                          (click)="getActivityProgress('quiz', quiz, course)"
+                          class="activity-item"
+                        >
+                          {{ quiz }}
+                        </li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li
+                          *ngFor="let assignment of course.assignmentTitles"
+                          (click)="
+                            getActivityProgress(
+                              'assignment',
+                              assignment,
+                              course
+                            )
+                          "
+                          class="activity-item"
+                        >
+                          {{ assignment }}
+                        </li>
+                      </ul>
+                    </td>
+                    <td>
+                      <ul>
+                        <li
+                          *ngFor="let project of course.projectTitles"
+                          (click)="
+                            getActivityProgress('project', project, course)
+                          "
+                          class="activity-item"
+                        >
+                          {{ project }}
+                        </li>
+                      </ul>
+                    </td>
+                    <td>
+                      <button
+                        (click)="viewCourseReport(course)"
+                        class="report-button"
+                      >
+                        View Report
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+ 
+         
+              <div *ngIf="selectedProgress" class="progress-modal">
+                <div class="progress-content">
+                  <h2>{{ selectedProgress.title }} Progress</h2>
+                  <p>Description: {{ selectedProgress.desc }}</p>
+                  <p>Type: {{ selectedProgress.type | titlecase }}</p>
+                  <p>Progress: {{ selectedProgress.progress }}%</p>
+                  <button (click)="closeProgressModal()" class="close-button">
+                    Close
+                  </button>
+                </div>
+              </div>
+ 
+            
+              <div *ngIf="courseReport" class="report-modal">
+                <div class="report-content">
+                  <h2>{{ courseReport.courseTitle }} Report</h2>
+                  <p>Description: {{ courseReport.courseDescription }}</p>
+                  <p>Quiz Progress: {{ courseReport.quizProgress }}%</p>
+                  <p>
+                    Assignment Progress: {{ courseReport.assignmentProgress }}%
+                  </p>
+                  <p>Project Progress: {{ courseReport.projectProgress }}%</p>
+                  <button (click)="closeCourseReport()" class="close-button">
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div> -->
+
+            <!-- Feedback and Grades Section -->
+            <select class="custom-select" (change)="onCourseSelect($event)">
+              <option value="" disabled selected>Please select a course</option>
+              <option *ngFor="let option of dropdownOptions" [value]="option.courseId + '|' + option.courseTerm">
+                {{ option.text }}
+              </option>
+            </select>
+            
+            <select class="custom-select" (change)="onModuleOrLessonSelect($event)" [(ngModel)]="selectedModuleOrLessonId">
+              <option value="" disabled selected>Please select a {{ isLongTerm ? 'module' : 'lesson' }}</option>
+              <option *ngFor="let option of moduleOrLessonOptions" [value]="option.id">
+                {{ option.name }}
+              </option>
+            </select>
+            
+            <select *ngIf="isLongTerm" class="custom-select" (change)="onLessonSelect($event)" [(ngModel)]="selectedLessonId">
+              <option value="" disabled selected>Please select a lesson</option>
+              <option *ngFor="let lesson of lessonOptions" [value]="lesson.id">
+                {{ lesson.lessonTitle }}
+              </option>
+            </select>
+            
+            <table *ngIf="courseDetails" class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Course Title</th>
+                  <th>Quizzes</th>
+                  <th>Assignments</th>
+                  <th>Projects</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-label="Course Title">{{ courseDetails.courseTitle }}</td>
+                  <td data-label="Quizzes">{{ courseDetails.submittedQuizzesCount }} / {{ courseDetails.totalQuizzesCount }}</td>
+                  <td data-label="Assignments">{{ courseDetails.submittedAssignmentsCount }} / {{ courseDetails.totalAssignmentsCount }}</td>
+                  <td data-label="Projects">{{ courseDetails.completedProjectsCount }} / {{ courseDetails.totalProjectsCount }}</td>
+                  <td><button (click)="viewReports(courseIDforcd)">View Report</button></td>
+                </tr>
+              </tbody>
+            </table>
+        
+            <div *ngIf="isReportVisible" class="modal-overlay">
+              <div class="modal-content">
+                <h2>Course Report</h2>
+                <div *ngIf="isLoading" class="loading-spinner"></div>
+                <div *ngIf="!isLoading && selectedCourseDetails">
+                  <p><strong>Course Title:</strong> {{ selectedCourseDetails.courseTitle }}</p>
+                  <p><strong>Project Progress:</strong> {{ selectedCourseDetails.projectProgress}}</p>
+                  <p><strong>Quiz Progress:</strong> {{ selectedCourseDetails.quizProgress}}</p>
+                  <p><strong>Assignment Progress:</strong> {{ selectedCourseDetails.assignmentProgress}}</p>
+                </div>
+                <button (click)="closeReport()">Close</button>
+              </div>
+            </div>
+            <!-- <div class="modal" [class.show]="isReportVisible">
+              <div class="modal-content">
+                <h2>{{ selectedCourseDetails.courseTitle }}</h2>
+                <p>{{ selectedCourseDetails.courseDescription }}</p>
+                
+                <div>
+                  <p>Project Progress: {{ selectedCourseDetails.projectProgress }}%</p>
+                  <p>Quiz Progress: {{ selectedCourseDetails.quizProgress }}%</p>
+                  <p>Assignment Progress: {{ selectedCourseDetails.assignmentProgress }}%</p>
+                </div>
+            
+                <button (click)="closeReport()">Close</button>
+              </div>
+            </div> -->
+            
+            <div class="details-container">
+              <div *ngIf="quizDetails" class="details-column">
+                <h3 class="section-title">Quiz Details</h3>
+                <ul class="item-list">
+                  <li *ngFor="let quiz of quizDetails.quizzes" class="item-list-element" [ngClass]="{'status-completed': quiz.status === 'Completed', 'status-pending': quiz.status === 'Pending', 'status-not-started': quiz.status === 'Not Started'}">
+                    {{ quiz.quizTitle }} - {{ quiz.status }}
+                  </li>
+                </ul>
+              </div>
+              <div *ngIf="assignmentDetails" class="details-column">
+                <h3 class="section-title">Assignment Details</h3>
+                <ul class="item-list">
+                  <li *ngFor="let assignment of assignmentDetails.assignments" class="item-list-element" [ngClass]="{'status-completed': assignment.status === 'Completed', 'status-pending': assignment.status === 'Pending', 'status-not-started': assignment.status === 'Not Started'}">
+                    {{ assignment.assignmentTitle }} - {{ assignment.status }}
+                  </li>
+                </ul>
+              </div>
+              <div *ngIf="projectDetails" class="details-column">
+                <h3 class="section-title">Project Details</h3>
+                <ul class="item-list">
+                  <li *ngFor="let project of projectDetails.projects" class="item-list-element" [ngClass]="{'status-completed': project.status === 'Completed', 'status-pending': project.status === 'Pending', 'status-not-started': project.status === 'Not Started'}">
+                    {{ project.projectTitle }} - {{ project.status }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+<!-- ------------------------ -->
+<div class="feedback-grades">
+              <h2 class="feed-title">Feed and Grades</h2>
+ 
+              <table class="feed-table">
+                <thead>
+                  <tr>
+                    <th>Course Title</th>
+                    <!-- <th>Activity</th> -->
+                    <th>Grade</th>
+                    <th>Feedback</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of feedItems">
+                    <!-- changes -->
+                    <td>{{ item.course?.courseTitle }}</td>
+                    <!-- <td>{{ item.activity }}</td> -->
+                    <td>{{ item.grade }}</td>
+                    <td>{{ item.feedback }}</td>
+                    <td>{{ item.createdAt | date:'short' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+ 
+          </div>
+          <!-----end progress-->
+ 
+          <!-- Assignments Section -->
+          <div
+            *ngIf="activeSection === 'assignments'"
+            class="assignments-section"
+          >
+            <mat-tab-group>
+              <mat-tab label="Upcoming">
+                <mat-list>
+                  <mat-list-item *ngFor="let assignment of UpcomingAssignment">
+                    <!-- <mat-icon mat-list-icon>assignment</mat-icon> -->
+                    <div>{{ assignment.assignmentTitle }}</div>
+                    <div>Start: {{ assignment.formattedStartDate }}</div>
+                    <div>End: {{ assignment.formattedEndDate }}</div>
+                    <div>Review: {{ assignment.formattedReviewDate }}</div>
+                    <!-- <button mat-raised-button color="primary">Start</button> -->
+                  </mat-list-item>
+                  <!-- <div *ngFor="let assignment of UpcomingAssignment">
+                    <h1>assignment</h1>
+                    <div mat-line>{{ assignment.assignmentTitle }}</div>
+                    <div mat-line>Start: {{ assignment.formattedStartDate }}</div>
+                    <div mat-line>End: {{ assignment.formattedEndDate }}</div>
+                    <div mat-line>Review: {{ assignment.formattedReviewDate }}</div>
+                  </div> -->
+                </mat-list>
+              </mat-tab>
+              <mat-tab label="Completed">
+                <mat-list>
+                  <mat-list-item *ngFor="let assignment of completedAssignment">
+                    <!-- <mat-icon mat-list-icon>assignment_turned_in</mat-icon> -->
+                    <div>{{ assignment.assignmentTitle }}</div>
+                    <div>Submitted At: {{ assignment.formattedDate }}</div>
+                    <!-- <button mat-button color="accent">View Feedback</button> -->
+                  </mat-list-item>
+                </mat-list>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+          <!--end assignment-->
+ 
+          <!-- Achievements Section -->
+          <!-- <div
+            *ngIf="activeSection === 'achievements'"
+            class="achievements-section"
+          >
+            <div class="achievements-grid">
+              <mat-card
+                *ngFor="let item of enrolledCourseList; let i = index"
+                class="course-card"
+              >
+                <mat-card-header>
+                  <div mat-card-avatar class="course-avatar"></div>
+                  <mat-card-title>{{ item.course.courseTitle }}</mat-card-title>
+                  <mat-card-subtitle>{{
+                    item.course.user.name
+                  }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                  <p class="achievements-text">{{ item.course.courseDescription }}</p>
+                  <mat-progress-bar
+                    [value]="item.overAllCourseProgress"
+                  ></mat-progress-bar>
+                  <p class="progress-text">
+                    {{ item.overAllCourseProgress }}% Complete
+                  </p>
+                </mat-card-content>
+                <mat-card-actions class="continue-action">
+                  <button
+                    mat-raised-button
+                    color="accent"
+                    [routerLink]="['/Certificate', item.course.id]"
+                    [disabled]="item.overAllCourseProgress !== 100"
+                  >
+                    {{
+                      item.overAllCourseProgress === 100
+                        ? "View Certificate"
+                        : "Continue"
+                    }}
+                  </button>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+          </div> -->
+          <!--end Achievements -->
+ 
+          <!-- Achievements Section -->
+          <div
+            *ngIf="activeSection === 'achievements'"
+            class="achievements-section"
+          >
+            <div class="achievements-grid">
+              <div
+                *ngFor="let item of enrolledCourseList; let i = index"
+                class="course-card"
+              >
+                <div class="course-card-header">
+                  <div class="course-avatar"></div>
+                  <div class="course-info">
+                    <div class="course-title">
+                      {{ item.course.courseTitle }}
+                    </div>
+                    <div class="course-subtitle">
+                      {{ item.course.user.name }}
+                    </div>
+                  </div>
+                </div>
+                <div class="course-card-content">
+                  <p class="achievements-text">
+                    <!-- {{ item.course.courseDescription }} -->
+                  </p>
+                  <div class="progress-bar">
+                    <div
+                      class="progress-fill"
+                      [style.width]="item.overAllCourseProgress + '%'"
+                    ></div>
+                  </div>
+                  <p class="progress-text">
+                    {{ item.overAllCourseProgress }}% Completed
+                  </p>
+                </div>
+                <div class="course-card-actions">
+                  <button
+                    class="course-button"
+                    [routerLink]="['/Certificate', item.course.id]"
+                    [disabled]="item.overAllCourseProgress !== 100"
+                  >
+                    {{
+                      item.overAllCourseProgress === 100
+                        ? "View Certificate"
+                        : "Continue"
+                    }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+ 
+          <!-- Upcoming-activities -->
+          <div
+            *ngIf="activeSection === 'upcoming-activities'"
+            class="upcoming-activities-section"
+          >
+            <div class="upcoming-activities">
+              <div class="activity-list">
+                <div
+                  class="activity-item"
+                  *ngFor="let activity of Assignements"
+                >
+                  <div class="upcominact">
+                    <div class="icon">
+                      <i class="fas fa-calendar"></i>
+                    </div>
+                    <div>
+                      <div class="activity-title">
+                        {{ activity.assignmentTitle }}
+                      </div>
+                      <div class="activity-date">
+                        Due: {{ activity.formattedDueDate }}
+                      </div>
+                      <div class="activity-date">
+                        Start: {{ activity.formattedstartDate }}
+                      </div>
+                      <div class="activity-date">
+                        Review: {{ activity.formattedreviewMeetDate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="activity-item" *ngFor="let activity of quizzes">
+                  <div class="upcominact">
+                    <div class="icon">
+                      <i class="fas fa-calendar"></i>
+                    </div>
+                    <div>
+                      <div class="activity-title">{{ activity.title }}</div>
+                      <div class="activity-date">
+                        Due: {{ activity.formattedDueDate }}
+                      </div>
+                      <div class="activity-date">
+                        Start: {{ activity.formattedstartDate }}
+                      </div>
+                      <div class="activity-date">
+                        Review: {{ activity.formattedreviewMeetDate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="activity-item" *ngFor="let activity of projects">
+                  <div class="upcominact">
+                    <div class="icon">
+                      <i class="fas fa-calendar"></i>
+                    </div>
+                    <div>
+                      <div class="activity-title">
+                        {{ activity.projectTitle }}
+                      </div>
+                      <div class="activity-date">
+                        Due: {{ activity.formattedDueDate }}
+                      </div>
+                      <div class="activity-date">
+                        Start: {{ activity.formattedstartDate }}
+                      </div>
+                      <div class="activity-date">
+                        Review: {{ activity.formattedreviewMeetDate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end upcoming activities-->
+ 
+          <!-- Resources Section -->
+          <!-- <div *ngIf="activeSection === 'resources'" class="resources-section">
+            <div class="resources card">
+              <h2>Resources</h2>
+              <mat-grid-list cols="3" rowHeight="250px">
+                <mat-grid-tile *ngFor="let course of enrolledCourses">
+                  <mat-card class="resource-card">
+                    <mat-card-header>
+                      <mat-card-title class="title">{{
+                        course.course.courseTitle
+                      }}</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="description">
+                      <p>{{ course.course.courseDescription }}</p>
+                    </mat-card-content>
+                    <mat-card-actions class="file-2">
+                      <button (click)="downloadFile(course.course.id)">
+                        Download File
+                      </button>
+                      <button (click)="previewFile(course.course.id)">
+                        Preview File
+                      </button>
+                    </mat-card-actions>
+                  </mat-card>
+                </mat-grid-tile>
+              </mat-grid-list>
+            </div>
+          </div> -->
+          <!--end resourses-->
+ 
+          <!-- Resources Section -->
+          <div *ngIf="activeSection === 'resources'" class="resources-section">
+            <div class="resources">
+              <div class="grid-container">
+                <div class="grid-item" *ngFor="let course of enrolledCourses">
+                  <div class="resource-card">
+                    <div class="resource-card-header">
+                      <div class="resource-card-title">
+                        {{ course.course.courseTitle }}
+                      </div>
+                    </div>
+                    <!-- <div class="resource-card-content">
+                      <p>{{ course.course.courseDescription }}</p> -->
+                      <!-- Course description can go here if needed -->
+                    <!-- </div> -->
+                    <div class="resource-button">
+                      <button
+                        class="button"
+                        (click)="downloadFile(course.course.id)"
+                      >
+                        Download File
+                      </button>
+                      <button
+                        class="button"
+                        (click)="previewFile(course.course.id)"
+                      >
+                        Preview File
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="activeSection === 'booked-slots'" class="booked-slots-section">
+            <div class="booked-slots">
+              <h2>Booked Slots</h2>
+              <table mat-table [dataSource]="bookedSlots1" class="mat-elevation-z8">
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef>ID</th>
+                  <td mat-cell *matCellDef="let slot">{{ slot.id }}</td>
+                </ng-container>
+               
+                <!-- Mock Test Title Column -->
+                <ng-container matColumnDef="title">
+                  <th mat-header-cell *matHeaderCellDef>Mock Test Title</th>
+                  <td mat-cell *matCellDef="let slot">{{ slot.title }}</td>
+                </ng-container>
+               
+                <!-- Start Time Column -->
+                <ng-container matColumnDef="slotDate">
+                  <th mat-header-cell *matHeaderCellDef>Start Time</th>
+                  <td mat-cell *matCellDef="let slot">{{ formatSlotTime(slot.slotDate) }}</td>
+                </ng-container>
+               
+                <!-- End Time Column -->
+                <ng-container matColumnDef="endDate">
+                  <th mat-header-cell *matHeaderCellDef>End Time</th>
+                  <td mat-cell *matCellDef="let slot">{{ formatSlotTime(slot.endDate) }}</td>
+                </ng-container>
+               
+                <!-- Test Type Column -->
+                <ng-container matColumnDef="type">
+                  <th mat-header-cell *matHeaderCellDef>Test Type</th>
+                  <td mat-cell *matCellDef="let slot">{{ slot.type }}</td>
+                </ng-container>
+               
+                <!-- Action Column -->
+                <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef>Action</th>
+                  <td mat-cell *matCellDef="let slot">
+                    <button mat-button color="primary"
+                            (click)="onGoButtonClick(slot.mockId)"
+                            [disabled]="!slot.mockId || !isButtonEnabled(slot.slotDate, slot.endDate)">
+                      Go
+                    </button>
+                  </td>
+                </ng-container>
+               
+                <tr mat-header-row *matHeaderRowDef="bookedSlotColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: bookedSlotColumns;"></tr>
+              </table>
+            </div>
+            <div class="feedback-container">
+              <h2 class="feedback-heading">Feedback</h2>
+              <table class="feedback-table">
+                  <thead>
+                      <tr>
+                          <th>S.No</th>
+                          <th>Feedback</th>
+                          <th>Grade</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let item of feedbackData; let i = index">
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ item.feedback }}</td>
+                          <td>{{ item.grade }}</td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+ 
+           
+          </div>
+ 
+
+         
+          
+         
+
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+ 
+ 
+ 

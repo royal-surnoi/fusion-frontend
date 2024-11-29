@@ -1,0 +1,247 @@
+/* project.component.css */
+
+.project-container {
+
+    max-width: 800px;
+
+    margin: 0 auto;
+
+    padding: 20px;
+
+    background-color: #f9f9f9;
+
+    border-radius: 8px;
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+}
+
+.project-title {
+
+    text-align: center;
+
+    color: #333;
+
+    margin-bottom: 20px;
+
+}
+
+.project-details {
+
+    background-color: #fff;
+
+    padding: 15px;
+
+    border-radius: 5px;
+
+    margin-bottom: 20px;
+
+}
+
+.project-form {
+
+    background-color: #fff;
+
+    padding: 20px;
+
+    border-radius: 5px;
+
+}
+
+.form-group {
+
+    margin-bottom: 20px;
+
+}
+
+label {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-weight: bold;
+
+}
+
+input[type="text"],
+textarea {
+
+    width: 100%;
+
+    padding: 10px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 4px;
+
+}
+
+textarea {
+
+    resize: vertical;
+
+}
+
+.team-members {
+
+    margin-top: 20px;
+
+}
+
+.team-member {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 10px;
+
+}
+
+.team-member input {
+
+    flex: 1;
+
+}
+
+.add-btn,
+.remove-btn {
+
+    padding: 5px 10px;
+
+    background-color: #2196F3;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 4px;
+
+    cursor: pointer;
+
+}
+
+.remove-btn {
+
+    background-color: #f44336;
+
+}
+
+.submit-btn {
+
+    display: block;
+
+    width: 100%;
+
+    padding: 10px;
+
+    background-color: #4CAF50;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 5px;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition: background-color 0.3s ease;
+
+}
+
+.submit-btn:hover {
+
+    background-color: #45a049;
+
+}
+
+.submit-btn:disabled {
+
+    background-color: #cccccc;
+
+    cursor: not-allowed;
+
+}
+
+.error-message {
+
+    color: #f44336;
+
+    font-size: 14px;
+
+    margin-top: 5px;
+
+}
+
+@media (max-width: 600px) {
+
+    .project-container {
+
+        padding: 10px;
+
+    }
+
+    .project-form {
+
+        padding: 15px;
+
+    }
+
+    .team-member {
+
+        flex-direction: column;
+
+    }
+
+}
+
+.file-upload {
+    margin-top: 20px;
+}
+
+.file-upload input[type="file"] {
+    display: none;
+}
+
+.upload-btn {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload-btn:hover {
+    background-color: #1976D2;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.file-info span {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.remove-file-btn {
+    padding: 5px 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.remove-file-btn:hover {
+    background-color: #d32f2f;
+}

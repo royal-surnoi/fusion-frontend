@@ -1,0 +1,288 @@
+<div class="search-container">
+  <input type="text" [(ngModel)]="searchTerm" (input)="searchCourses()" placeholder="Search courses..." class="search-input">
+</div>
+ 
+<hr>
+<h5>Recommended Courses for you </h5>
+<hr>
+<div class="carousel">
+  <div *ngFor="let recommendation of recommendations" class="course-card"  style="width:242px;height:310px;">
+    <img [src]="recommendation.safeImageUrl" [alt]="recommendation.course_title" style="width: 242px;height:100px;">
+    <p style="font-weight: bold;font-size:20px;text-align: center;">{{ recommendation.course_title }}</p>
+    <div class="course-card-details" style="height:100px;margin-left: 10px;">
+    <!-- <p><strong>Duration:</strong> {{ recommendation.course_duration }} hours</p> -->
+    <p><strong>Language:</strong> {{ recommendation.course_language }}</p>
+    <!-- <p><strong>Rating:</strong> {{ recommendation.course_rating }}</p> -->
+ 
+    <div class="rating">
+      <p><strong>Rating:</strong></p>
+      <div class="stars">
+        <span *ngFor="let star of [1, 2, 3, 4, 5]" [ngClass]="{'filled': star <= recommendation.course_rating}">
+          &#9733;
+        </span>
+      </div>
+    </div>
+   
+   
+ 
+ 
+   
+    <p><strong>Fee:</strong> {{ recommendation.currency }} {{ recommendation.course_fee }}</p>
+    <p><strong>Term:</strong> {{ recommendation.course_term }}</p>
+  </div>
+    <button class="action-button"
+      [routerLink]="['/courseland']"
+      style="margin-left:120px;"
+      [queryParams]="{ courseId: recommendation.course_id }">
+      Enroll Now
+    </button>
+  </div>
+</div>
+ 
+ 
+<div *ngIf="recommendations.length === 0">
+  <p>No course recommendations available.</p>
+</div>
+ 
+ 
+<hr>
+ 
+ 
+<!-- AIML Splecial Courses -->
+ 
+<ng-container *ngFor="let lesson of specialRecommendations | keyvalue">
+  <ng-container *ngIf="lesson.value != null && !isLoadingrec">
+    <h4>{{ lesson.key }}</h4>
+    <hr>
+    <ng-container>
+      <div class="card-container2">
+        <div class="card" *ngFor="let course of lesson.value | slice:0:7">
+          <div class="front" >
+            <div class="course-Type blink">{{course.course_type}}</div>
+            <img [src]="image(course.course_image)" [alt]="course.course_title" />
+            <div class="course-level">{{course.level}}</div>
+            <h6 [title]="course.course_title"> {{ course.course_title.length > 15 ? (course.course_title.slice(0, 15) + '...') : course.course_title }}</h6>
+          </div>
+          <div class="back">
+            <div class="back-inner">
+              <div>
+                <h3 [title]="course.course_title"> {{ course.course_title.length > 20 ? (course.course_title.slice(0, 15) + '...') : course.course_title }}</h3>
+                <p >Language: {{course.course_language}}</p>
+                <p class="course-instructor">
+                  <a (click)="onInstructorSelect(course.user_id)">
+                    {{course.user_name || 'Unknown Instructor'}}
+                  </a>
+                </p>
+                <div class="course-stats">
+                  <span class="course-rating">
+                    <ng-container *ngIf="(course.rating$ | async) === 0">
+                      <i class="far fa-star" *ngFor="let star of generateEmptyStarsArrayonly()"></i>
+                    </ng-container>
+                    <ng-container *ngIf="course.rating$ | async">
+                      <i class="fas fa-star" *ngFor="let star of generateStarsArray(course.rating$)"></i>
+                      <i class="far fa-star" *ngFor="let star of generateEmptyStarsArray(course.rating$)"></i>
+                    </ng-container>
+                  </span>
+                  <span class="course-students">
+                    <i class="fas fa-user"></i> {{course.enrollmentCount$ | async}}
+                  </span>
+                </div>
+                <p class="course-duration"><span>{{formatDuration(course.course_duration)}}</span>
+                  <span class="Moveleft">Term : {{course.course_term}}</span></p>
+                </div>
+              <div class="course-footer">
+                <span class="course-price">{{course.course_fee | customCurrency:course.currency}}</span>
+                <button class="action-button"
+              [ngClass]="{
+                'enroll-button': !course.enroled && course.projectProgress !== 100,
+                'enrolled-button': course.enroled && course.projectProgress !== 100,
+                'completed-button': course.projectProgress === 100
+              }"
+              [disabled]="course.projectProgress === 100"
+              [routerLink]="course.projectProgress === 100 ? null : course.enroled ? ['/coursedashboard'] : ['/courseland']"
+              [queryParams]="course.projectProgress === 100 ? null : { courseId: course.id }">
+              {{ course.projectProgress === 100 ? 'Completed' : (course.enroled ? 'Enrolled' : 'Enroll Now') }}
+            </button>
+              </div>
+              <div class="progress-card">
+                <p-progressBar [value]="course.projectProgress" class="slim-progress-bar"></p-progressBar>
+              </div>
+            </div>
+          </div></div>
+        <div *ngIf="lesson.value.length >= 7" class="card">
+          <div class="front" >
+            <i class="fa-solid fa-circle-arrow-right icons"></i>
+            <p>View More...</p>
+            </div>
+            <div class="back">
+              <a (click)="showAllCourses(lesson.value,lesson.key)" class="show-more-button">View More...</a>
+            </div>
+          </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>
+ 
+<!-- Full-screen overlay for all courses -->
+<div *ngIf="showAllCoursesOverlay" class="full-screen-overlay">
+  <div class="overlay-content">
+    <h2>{{coursekey}}</h2>
+    <hr/>
+    <div class="card-container2">
+      <div *ngFor="let course of allCourses" class="course-card">
+          <div class="course-image">
+            <div class="course-Type blink">{{course.course_type}}</div>
+            <img [src]="image(course.course_image)" [alt]="course.course_title" />
+            <div class="course-level">{{course.level}}</div>
+            <h6 [title]="course.course_title"> {{ course.course_title.length > 20 ? (course.course_title.slice(0, 20) + '...') : course.course_title }}</h6>
+          </div>
+          <div class="course-content">
+            <h3 class="course-title">{{course.course_title}}</h3>
+            <p>Language: {{course.course_language}}</p>
+            <p class="course-instructor">
+              <a (click)="onInstructorSelect(course.user_id)">
+                {{course.user_name || 'Unknown Instructor'}}
+              </a>
+            </p>
+            <div class="course-stats">
+              <span class="course-rating">
+                <ng-container *ngIf="(course.rating$ | async) === 0">
+                  <i class="far fa-star" *ngFor="let star of generateEmptyStarsArrayonly()"></i>
+                </ng-container>
+                <ng-container *ngIf="course.rating$ | async">
+                  <i class="fas fa-star" *ngFor="let star of generateStarsArray(course.rating$)"></i>
+                  <i class="far fa-star" *ngFor="let star of generateEmptyStarsArray(course.rating$)"></i>
+                </ng-container>
+              </span>
+              <span class="course-students">
+                <i class="fas fa-user"></i> {{course.enrollmentCount$ | async}}
+              </span>
+            </div>
+            <p class="course-duration"><span>{{formatDuration(course.course_duration)}}</span>
+               <span class="Moveleft">Term : {{course.course_term}}</span></p>
+            </div>
+          <div class="course-footer">
+            <span class="course-price">{{course.course_fee | customCurrency:course.currency}}</span>
+            <button class="action-button"
+              [ngClass]="{
+                'enroll-button': !course.enroled && course.projectProgress !== 100,
+                'enrolled-button': course.enroled && course.projectProgress !== 100,
+                'completed-button': course.projectProgress === 100
+              }"
+              [disabled]="course.projectProgress === 100"
+              [routerLink]="course.projectProgress === 100 ? null : course.enroled ? ['/coursedashboard'] : ['/courseland']"
+              [queryParams]="course.projectProgress === 100 ? null : { courseId: course.id }">
+              {{ course.projectProgress === 100 ? 'Completed' : (course.enroled ? 'Enrolled' : 'Enroll Now') }}
+            </button>
+          </div>
+          <div class="progress-card">
+            <p-progressBar [value]="course.projectProgress" class="slim-progress-bar"></p-progressBar>
+          </div>
+      </div>
+    </div>
+    <button (click)="closeOverlay()" class="close-overlay-button"><i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>
+ 
+<div *ngIf="isLoadingrec" class="loading-spinner">
+  <div class="spinner"></div>
+  <p>Loading...</p>
+</div>
+ 
+ 
+<div *ngIf="specialRecommendations== null">
+  <p>No course recommendations available.</p>
+</div>
+<!-- End Of AIML SPECIAL Courses -->
+ 
+ 
+ 
+ 
+<div *ngIf="isLoading" class="loading-spinner">
+  <div class="spinner"></div>
+  <p>Loading...</p>
+</div>
+ 
+ 
+<ng-container *ngIf="!isLoading">
+  <h4>Our Courses</h4>
+  <hr>
+  <ng-container *ngIf="(filteredCourses$ | async) as filteredCourses">
+    <div *ngIf="filteredCourses.length > 0; else noCourses" class="card-container">
+      <div *ngFor="let course of filteredCourses | paginate: { itemsPerPage: 12, currentPage: page }">
+       
+        <div class="card" href="#!">
+          <div class="front" >
+            <div class="course-Type blink">{{course.courseType}}</div>
+            <img [src]="image(course.courseImage)" [alt]="course.courseTitle" />
+            <div class="course-level">{{course.level}}</div>
+            <h6 [title]="course.courseTitle"> {{ course.courseTitle.length > 15 ? (course.courseTitle.slice(0, 15) + '...') : course.courseTitle }}</h6>
+          </div>
+          <div class="back">
+            <div class="back-inner">
+              <div>
+                <h3 [title]="course.courseTitle"> {{ course.courseTitle.length > 15 ? (course.courseTitle.slice(0, 15) + '...') : course.courseTitle }}</h3>
+                <p >Language: {{course.courseLanguage}}</p>
+                <p class="course-instructor" >
+                  <a (click)="onInstructorSelect(course.user)">
+                    {{course.user?.name || 'Unknown Instructor'}}
+                  </a>
+                </p>
+                <div class="course-stats">
+                  <span class="course-rating">
+                    <ng-container *ngIf="(course.rating$ | async) === 0">
+                      <i class="far fa-star" *ngFor="let star of generateEmptyStarsArrayonly()"></i>
+                    </ng-container>
+                    <ng-container *ngIf="course.rating$ | async as rating">
+                      <i class="fas fa-star" *ngFor="let star of generateStarsArray(rating)"></i>
+                      <i class="far fa-star" *ngFor="let star of generateEmptyStarsArray(rating)"></i>
+                    </ng-container>
+                  </span>
+                  <span class="course-students">
+                    <i class="fas fa-user"></i> {{course.enrollmentCount$ | async}}
+                  </span>
+                </div>
+                <p class="course-duration"><span>{{course.courseDuration}} weeks</span>
+                   <span class="Moveleft">Term : {{course.courseTerm}}</span></p>
+                </div>
+              <div class="course-footer">
+                <span class="course-price">{{course.courseFee | customCurrency:course.currency}}</span>
+                <button class="action-button"
+            [ngClass]="{
+              'enroll-button': !course.enroled && course.projectProgress !== 100,
+              'enrolled-button': course.enroled && course.projectProgress !== 100,
+              'completed-button': course.projectProgress === 100
+            }"
+            [disabled]="course.projectProgress === 100"
+            [routerLink]="course.projectProgress === 100 ? null : course.enroled ? ['/coursedashboard'] : ['/courseland']"
+            [queryParams]="course.projectProgress === 100 ? null : { courseId: course.id }">
+            {{ course.projectProgress === 100 ? 'Completed' : (course.enroled ? 'Enrolled' : 'Enroll Now') }}
+          </button>
+              </div>
+              <div class="progress-card">
+                <p-progressBar [value]="course.projectProgress" class="slim-progress-bar"></p-progressBar>
+              </div>
+            </div>
+          </div></div>
+     </div>
+    </div>
+    <div class="page-change-bar">
+      <pagination-controls (pageChange)="page = $event" ></pagination-controls>
+    </div>
+ 
+   
+  </ng-container>
+</ng-container>
+ 
+<ng-template #noCourses>
+  <div class="no-courses-container">
+    <i class="fas fa-book-open"></i>
+    <h2>No courses available</h2>
+    <p>We couldn't find any courses matching your search. Please try again later or modify your search criteria.</p>
+  </div>
+</ng-template>
+ 
+ 
+ 
+ 

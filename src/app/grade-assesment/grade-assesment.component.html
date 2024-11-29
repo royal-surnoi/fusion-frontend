@@ -1,0 +1,25 @@
+[Friday 19:15] Shiva  Kumar
+<h2 mat-dialog-title>Grade Assessment: {{data.assessment.title}}</h2>
+<mat-dialog-content>
+  <form [formGroup]="gradeForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Grade</mat-label>
+      <input matInput type="number" formControlName="grade" required min="0" max="100">
+      <mat-error *ngIf="gradeForm.get('grade')?.invalid && gradeForm.get('grade')?.touched">
+        Grade must be between 0 and 100
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Feedback</mat-label>
+      <textarea matInput formControlName="feedback" rows="4"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!gradeForm.valid">
+    Submit Grade
+  </button>
+</mat-dialog-actions>
+ 
+ 

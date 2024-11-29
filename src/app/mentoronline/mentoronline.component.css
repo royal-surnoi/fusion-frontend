@@ -1,0 +1,124 @@
+a.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+a.disabled {
+    pointer-events: none;
+    color: grey;
+    text-decoration: none;
+  }
+ 
+.overlay {
+    position: fixed;
+    /* top: 0; */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-top:5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+   
+  .overlay form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+   
+  .overlay form h2 {
+    margin-top: 0;
+  }
+   
+  .overlay form div {
+    margin-bottom: 15px;
+  }
+   
+  .overlay form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+   
+  .overlay form input[type="text"],
+  .overlay form input[type="date"],
+  .overlay form input[type="number"],
+  .overlay form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+   
+  .overlay form .questions-container {
+    max-height: 300px; /* Adjust based on your needs */
+    overflow-y: auto;
+  }
+   
+  .overlay form .question-block {
+    margin-bottom: 15px;
+  }
+   
+  .overlay form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+   
+  .overlay form button[type="submit"] {
+     background-color: #007bff;
+    color: #fff;
+  }
+   
+  .overlay form button[type="button"] {
+    background-color: #dc3545;
+    color: #fff;
+  }
+.course-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 50px;
+  }
+ 
+  .course-table th,
+  .course-table td {
+    border: 2px solid #f78888;
+    padding: 8px;
+    text-align: center;
+  }
+ 
+  .course-table th {
+    background-color:#5DA2D5;
+    color: white;
+  }
+ 
+  .course-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+ 
+  #joinButton {
+    background-color: #f79c9c;;
+    color: black;              
+    border:1px solid #897889cc;;            
+    border-radius: 40px;      
+    padding: 10px 30px;      
+    font-size: 15px;          
+    cursor: pointer;          
+    transition: background-color 0.3s ease;
+  }
+ 
+#joinButton:hover {
+    background-color: #5DA2D5;
+    color: white;
+}
+ 
+ 
+ 

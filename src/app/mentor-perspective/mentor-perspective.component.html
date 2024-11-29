@@ -1,0 +1,130 @@
+
+<!-- mentor-dashboard.component.html -->
+ 
+<div class="dashboard-container">
+  <div class="dashboard-toolbar">
+    <button class="icon-button" (click)="toggleSidenav()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <span class="toolbar-title">Mentor Dashboard</span>
+  </div>
+ 
+  <div>
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="side" opened class="sidenav">
+      <div class="mentor-profile">
+        <img
+          class="user-picture"
+          [src]="
+            newImage
+              ? newImage
+              : userImage
+              ? userImage
+              : '../../assets/imagepng.png'
+          "
+          alt="User Profile"
+        />
+        <h3 class="candidate-name">{{ name }}</h3>
+        <p class="candidate-name">{{ profession }}</p>
+      </div>
+ 
+      <!-- Add this line separator -->
+      <div class="line-separator"></div>
+ 
+      <!-- Navigation List -->
+      <div class="nav-list">
+        <a
+          class="nav-item"
+          (click)="setActiveSection('dashboard')"
+          [class.active]="activeSection === 'dashboard'"
+        >
+          <i class="fas fa-tachometer-alt nav-icon"></i>
+          <span class="nav-names">Dashboard</span>
+        </a>
+        <a
+          class="nav-item"
+          (click)="setActiveSection('overview')"
+          [class.active]="activeSection === 'overview'"
+        >
+          <i class="fa-solid fa-camera-retro"></i>
+          <span class="nav-names">Overview</span>
+        </a>
+        <a
+          class="nav-item"
+          (click)="setActiveSection('courses')"
+          [class.active]="activeSection === 'courses'"
+        >
+          <i class="fa-solid fa-book-open"></i>
+          <span class="nav-names">Courses</span>
+        </a>
+ 
+        <a
+          class="nav-item"
+          (click)="setActiveSection('online')"
+          [class.active]="activeSection === 'online'"
+        >
+          <i class="fa-solid fa-chalkboard-user"></i>
+          <span class="nav-names">Online courses</span>
+        </a>
+ 
+        <a
+          class="nav-item"
+          (click)="setActiveSection('students')"
+          [class.active]="activeSection === 'students'"
+        >
+          <i class="fas fa-user-graduate"></i>
+          <span class="nav-names">Students</span>
+        </a>
+        <a
+          class="nav-item"
+          (click)="setActiveSection('progress')"
+          [class.active]="activeSection === 'progress'"
+        >
+          <i class="fas fa-bars-progress"></i>
+          <span class="nav-names">Progress</span>
+        </a>
+        <a
+          class="nav-item"
+          (click)="setActiveSection('analytics')"
+          [class.active]="activeSection === 'analytics'"
+        >
+          <i class="fas fa-chart-bar"></i>
+          <span class="nav-names">Analytics</span>
+        </a>
+        <a
+        class="nav-item"
+        (click)="setActiveSection('mock')"
+        [class.active]="activeSection === 'mock'"
+      >
+        <i class="fa-solid fa-cube"></i>
+        <span class="nav-names">mock</span>
+      </a>
+      </div>
+    </mat-sidenav>
+ 
+    <!-- end side nav -->
+   
+  <mat-sidenav-content>
+    <div class="sidenav-content">
+      <div class="content-area">
+        <app-mentor-overview
+          *ngIf="activeSection === 'overview'"
+        ></app-mentor-overview>
+        <app-zmentorsdashboard
+          *ngIf="activeSection === 'courses'"
+        ></app-zmentorsdashboard>
+        <app-student *ngIf="activeSection === 'students'"></app-student>
+        <app-assement *ngIf="activeSection === 'progress'"></app-assement>
+        <app-analytics *ngIf="activeSection === 'analytics'"></app-analytics>
+        <app-mock *ngIf="activeSection === 'mock'" ></app-mock>
+        <app-mentormaindashboard *ngIf="activeSection === 'dashboard'"></app-mentormaindashboard>
+ 
+        <app-mentoronline *ngIf="activeSection === 'online'"></app-mentoronline>
+      </div>
+    </div>
+  </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+ 
+ 
+ 

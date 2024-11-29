@@ -1,0 +1,151 @@
+<div class="container" *ngIf="mockTests.length > 0">
+  <div class="card">
+    <div [ngSwitch]="selectedTestType">
+      <!-- Assignment Form -->
+      <div *ngSwitchCase="'ASSIGNMENT'">
+        <h3><strong>Assignment Details</strong></h3>
+        <form [formGroup]="assignmentForm" (ngSubmit)="submitAssignmentForm()">
+          <div>
+            <label for="title"><strong>Title:</strong></label>
+            <input type="text" id="title" formControlName="assignmentTitle" readonly>
+          </div>
+          <div>
+            <label for="description"><strong>Description:</strong></label>
+            <textarea id="description" formControlName="assignmentDescription" readonly></textarea>
+          </div>
+          <div>
+            <label for="document"><strong>Assignment Document:</strong></label>
+            <div *ngIf="documentUrl" class="document-links">
+              <button class="btn" (click)="viewDocument(documentUrl)">View Document</button>
+              <button class="btn" (click)="downloadDocument(fetchedDocument, 'assignment.pdf')">Download Document</button>
+            </div>
+          </div>
+          <div>
+            <label for="userAssignmentAnswer"><strong>Your Answer:</strong></label>
+            <textarea id="userAssignmentAnswer" formControlName="userAssignmentAnswer" placeholder="Enter your answer here"></textarea>
+          </div>
+          <div>
+            <label for="assignmentDocument">Upload Assignment:</label>
+            <input type="file" id="assignmentDocument" (change)="onFileChange($event)" required>
+          </div>
+          <button type="submit" [disabled]="assignmentForm.invalid">Submit Assignment</button>
+        </form>
+      </div>
+ 
+      <!-- Project Form -->
+      <div *ngSwitchCase="'PROJECT'" class="project-container">
+        <div class="project-details">
+          <h3><strong>Project Details</strong></h3>
+          <div *ngFor="let project of mockTests[0]?.projects">
+            <div>
+              <label><strong>Project Name:</strong></label>
+              <p>{{ project.title }}</p>
+            </div>
+            <div>
+              <label><strong>Project Description:</strong></label>
+              <p>{{ project.description }}</p>
+            </div>
+            <div>
+              <label><strong>Project Document:</strong></label>
+              <div *ngIf="project.document" class="document-links">
+                <button class="btn" (click)="viewDocument(getDocumentUrl(project.document))">View Document</button>
+                <button class="btn" (click)="downloadDocument(project.document, 'project.pdf')">Download Document</button>
+              </div>
+            </div>
+          </div>
+        </div>
+ 
+        <div class="submit-form">
+          <form [formGroup]="submitForm" (ngSubmit)="onSubmit()">
+            <h3><strong>Submit Project</strong></h3>
+            <div>
+              <label for="userAnswer">Your Notes:</label>
+              <textarea id="userAnswer" formControlName="userAnswer" placeholder="Enter your notes here"></textarea>
+            </div>
+            <div>
+              <label for="file">Upload Project:</label>
+              <input type="file" id="file" (change)="onFileSelected($event)" required>
+            </div>
+            <button type="submit" [disabled]="!selectedFile">Submit Project</button>
+          </form>
+        </div>
+      </div>
+ 
+      <!-- Interview Form -->
+      <div *ngSwitchCase="'INTERVIEW'">
+        <h3><strong>Interview Details</strong></h3>
+        <form [formGroup]="interviewForm" (ngSubmit)="submitInterviewForm()">
+          <!-- Training Room Name -->
+          <div class="form-group">
+            <label for="trainingRoomName"><strong>Training Room Name:</strong></label>
+            <input
+              id="trainingRoomName"
+              formControlName="trainingRoomName"
+              type="text"
+              class="form-control"
+              readonly
+              placeholder="Training Room Name">
+          </div>
+     
+          <!-- Conference URL -->
+          <div class="form-group">
+            <label for="conferenceUrl"><strong>Conference URL:</strong></label>
+            <input
+              id="conferenceUrl"
+              formControlName="conferenceUrl"
+              type="text"
+              class="form-control"
+              readonly
+              placeholder="Conference URL">
+          </div>
+     
+          <!-- Conference URL Display as a Clickable Link -->
+          <div *ngIf="interviewForm.get('conferenceUrl')?.value">
+            <a
+              [href]="interviewForm.get('conferenceUrl')?.value"
+              target="_blank"
+              class="btn btn-link">
+              Join Conference
+            </a>
+          </div>
+         
+     
+          <!-- Submit Button -->
+          <div class="form-group">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              [disabled]="!interviewForm.valid">
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+     
+ 
+ 
+      <!-- Fallback for unknown test type -->
+      <div *ngSwitchDefault>
+        <p>No form available for this test type.</p>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<!-- No tests available message -->
+<ng-template #noTests>
+  <p>No mock tests available at the moment.</p>
+</ng-template>
+ 
+<!-- Document Viewer -->
+<div *ngIf="showDocumentViewer" class="document-viewer">
+  <div class="viewer-header">
+    <h3>Document Viewer</h3>
+    <button (click)="closeViewer()">Close</button>
+  </div>
+  <iframe [src]="viewerUrl" width="100%" height="600px"></iframe>
+</div>
+ 
+ 
+ 
+ 

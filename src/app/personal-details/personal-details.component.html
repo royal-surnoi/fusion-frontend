@@ -1,0 +1,563 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <!-- <div class="container-fluid">
+    <a class="navbar-brand" href="#"><span class="my">my</span><span class="myl">Learnings</span> </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+ 
+    </button>
+    <div class="navbar-brand1">
+      <span class="navbar-tab">{{currentTab}}</span>
+    </div>
+  </div> -->
+ 
+  <!-- <img *ngIf="image" [src]="image" alt="pp" class="pp"> -->
+ 
+  <!-- <img  *ngIf="image" [src]="image" alt="Profile Picture" class="profile-picture"> -->
+ 
+ 
+</nav>
+ 
+<div class=" student-holder" (click)="studentholder()">
+  <div class="gotod"> <i class="fa-solid fa-angle-left"></i>
+    <span (click)="studentholder()" class="pointer"> Go To Dashboard</span>
+  </div>
+</div>
+ 
+ 
+<div class="wrapper">
+  <div class="sidebar">
+    <ul class="ulList">
+      <li class="profileList profileList1">
+        <div class="profileCircle">
+          <!-- Displaying profile image if available -->
+          <img *ngIf="image" [src]="image" alt="Profile Image" width="120px" height="140px">
+          <i *ngIf="!image" class="bi bi-person-circle" (click)="triggerFileInput()"></i>
+        </div>
+        <input type="file" id="profile-image-input" accept="image/*" (change)="onProfileImageSelected($event)" hidden />
+        <div *ngIf="profileImageError" class="error-message">{{ profileImageError }}</div>
+        <div class="profileUserName">{{ employee.firstName }}</div>
+        <button class="editBtn" (click)="triggerFileInput()">
+          <svg height="1em" viewBox="0 0 512 512">
+            <path
+              d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z">
+            </path>
+          </svg>
+        </button>
+      </li>
+ 
+      <li (click)="currentTab = 'Personal-info'" [class.active]="currentTab === 'Personal-info'"
+        class="profileList profileList5 profilek">
+        <i class="bi bi-person-vcard-fill increase"></i>
+        <span class="Inspan">Personal Info</span>
+      </li>
+ 
+      <li (click)="currentTab = 'Education'" [class.active]="currentTab === 'Education'"
+        class="profileList profileList2 profilek">
+        <i class="bi bi-book-half increase"></i>
+        <span class="Inspan">Education</span>
+      </li>
+ 
+      <li (click)="setExperienceTab()"
+        class="profileList profileList3 profilek"   [class.disabled]="!isGraduationCompleted()">
+        <i class="bi bi-key-fill increase"></i>
+        <span class="Inspan">Experience</span>
+      </li>
+      <li (click)="currentTab = 'Change Password'" [class.active]="currentTab === 'Change Password'"
+        class="profileList profileList3 profilek">
+        <i class="bi bi-key-fill increase"></i>
+        <span class="Inspan">Change Password</span>
+      </li>
+    </ul>
+  </div>
+  <div class="content">
+    <div class="nav"></div>
+    <div class="Personal-info" *ngIf="currentTab === 'Personal-info'">
+      <div class="user-details">
+        <div>
+          <label for="fullName">Full Name:</label>
+          <input id="fullName" [(ngModel)]="user.name" [disabled]="!isEditingUser">
+        </div>
+ 
+        <div>
+          <label for="email">Email:</label>
+          <input id="email" [(ngModel)]="user.email" disabled>
+        </div>
+ 
+        <button *ngIf="!isEditingUser" class="btn btn-secondary mt-auto" (click)="enableEditUser()">Edit name</button>
+        <button *ngIf="isEditingUser" class="btn btn-secondary mt-auto" (click)="saveChanges()">Save</button>
+        <button *ngIf="isEditingUser" class="btn btn-secondary mt-auto" (click)="cancelEditUser()">Cancel</button>
+      </div>
+      <h3 class="basicInfo">Basic Information</h3>
+      <form [formGroup]="personalInfoForm" class="form-grid" (ngSubmit)="onSubmit()">
+ 
+        <!-- Phone Number -->
+        <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('phoneNumber') }">
+          <label>Phone Number<span class="star">*</span></label>
+          <input type="tel" formControlName="phoneNumber" />
+          <div *ngIf="isFieldInvalid('phoneNumber')" class="error-message">
+            <div *ngIf="personalInfoForm.get('phoneNumber')?.errors?.['required']">Phone number is required</div>
+            <div
+              *ngIf="personalInfoForm.get('phoneNumber')?.errors?.['minlength'] || personalInfoForm.get('phoneNumber')?.errors?.['maxlength']">
+              Mobile number must be 10 digits
+            </div>
+            <div *ngIf="personalInfoForm.get('phoneNumber')?.errors?.['pattern']">
+              Phone number should contain only digits
+            </div>
+          </div>
+        </div>
+ 
+        <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('gender') }">
+          <label>Gender<span class="star">*</span></label>
+          <select formControlName="gender">
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+          <div *ngIf="isFieldInvalid('gender')" class="error-message">Gender is required</div>
+        </div>
+ 
+        <!-- Country -->
+        <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('permanentCountry') }">
+          <label>Country<span class="star">*</span></label>
+          <select formControlName="permanentCountry">
+            <option value="India" selected>India</option>
+            <option value="non-india">Non-India</option>
+          </select>
+          <div *ngIf="isFieldInvalid('permanentCountry')" class="error-message">Country is required</div>
+        </div>
+ 
+        <!-- State -->
+        <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('permanentState') }">
+          <label>State<span class="star">*</span></label>
+          <input type="text" formControlName="permanentState" placeholder="Your State name" />
+          <div *ngIf="isFieldInvalid('permanentState')" class="error-message">
+            <div *ngIf="personalInfoForm.get('permanentState')?.errors?.['required']">State is required</div>
+            <div *ngIf="personalInfoForm.get('permanentState')?.errors?.['pattern']">State should contain only alphabets
+            </div>
+          </div>
+        </div>
+ 
+        <!-- City -->
+        <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('permanentCity') }">
+          <label> City<span class="star">*</span></label>
+          <input type="text" formControlName="permanentCity" placeholder="Your City name" />
+          <div *ngIf="isFieldInvalid('permanentCity')" class="error-message">City is required</div>
+        </div>
+ 
+        <!-- address -->
+        <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('permanentCity') }">
+          <label> Address line<span class="star">*</span></label>
+          <input type="text" formControlName="permanentAddress" placeholder="Your house number" />
+          <div *ngIf="isFieldInvalid('permanentAddress')" class="error-message">Address line is required</div>
+        </div>
+ 
+        <!-- Pin Code -->
+        <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('permanentZipcode') }">
+          <label>Pin Code<span class="star">*</span></label>
+          <input type="text" formControlName="permanentZipcode" placeholder="Your Pincode" />
+          <div *ngIf="isFieldInvalid('permanentZipcode')" class="error-message">Pincode is required</div>
+        </div>
+ 
+        <!-- Date of Birth -->
+        <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('dateOfBirth') }">
+          <label>Date of Birth<span class="star">*</span></label>
+          <input type="date" formControlName="dateOfBirth" (change)="calculateAge()" />
+          <div *ngIf="isFieldInvalid('dateOfBirth')" class="error-message">Date of birth is required</div>
+        </div>
+ 
+        <!--  age  -->
+ 
+        <div class="form-group">
+          <label>Age</label>
+          <input type="text" formControlName="age" readonly />
+        </div>
+ 
+        <!-- User Description -->
+        <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('userDescription') }">
+          <label>User Description</label>
+          <textarea formControlName="userDescription" rows="3" placeholder="Describe yourself"></textarea>
+          <div *ngIf="isFieldInvalid('userDescription')" class="error-message">
+            <div *ngIf="personalInfoForm.get('userDescription')?.errors?.['maxlength']">Description cannot exceed 500
+              characters</div>
+          </div>
+        </div>
+ 
+        <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('profession') }">
+          <label>
+            <P></P>Profession<span class="star">*</span>
+          </label>
+          <input type="text" formControlName="profession" placeholder="Your profession" />
+          <div *ngIf="isFieldInvalid('profession')" class="error-message">Profession is required</div>
+        </div>
+ 
+ 
+        <!-- User Language -->
+        <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('userLanguage') }">
+          <label>User Language<span class="star">*</span></label>
+          <input type="text" formControlName="userLanguage" placeholder="Enter your preferred language">
+          <div *ngIf="isFieldInvalid('userLanguage')" class="error-message">User language is required</div>
+          <div *ngIf="isFieldInvalid('userLanguage')" class="error-message">user language field accepts multiple values,
+            should be separate with (,)</div>
+        </div>
+ 
+        <!-- Skills Input Field -->
+        <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('skills') }">
+          <label>Skills<span class="star">*</span></label>
+          <input type="text" formControlName="skills" placeholder="Enter your skills">
+          <div *ngIf="isFieldInvalid('skills')" class="error-message">Skills are required</div>
+          <div *ngIf="isFieldInvalid('skills')" class="error-message">Skills field accepts multiple values, should be
+            separate with (,)</div>
+        </div>
+ 
+        <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('interests') }">
+          <label>Interests<span class="star">*</span></label>
+          <input type="text" formControlName="interests" placeholder="Enter your interests">
+          <div *ngIf="isFieldInvalid('interests')" class="error-message">Interests are required</div>
+          <div *ngIf="isFieldInvalid('interests')" class="error-message">Interests field accepts multiple values, should
+            be separate with (,)</div>
+        </div>
+ 
+        <div class="form-actions">
+          <button type="submit" *ngIf="!personalDetailsId" [disabled]="personalInfoForm.invalid"
+            class="btn btn-primary mt-auto">Save</button>
+          <button type="button" *ngIf="personalDetailsId && !isEditing" (click)="enableEditingPersonalInfo()"
+            class="btn btn-secondary mt-auto">Edit</button>
+          <button type="button" *ngIf="personalDetailsId && isEditing" (click)="updateDetails()"
+            [disabled]="personalInfoForm.invalid" class="btn btn-primary mt-auto">Update</button>
+          <button type="button" *ngIf="personalDetailsId && isEditing" (click)="cancelEditingPersonalInfo()"
+            class="btn btn-secondary mt-auto">Cancel</button>
+        </div>
+      </form>
+    </div>
+ 
+ 
+    <!-- <div class="Education-label" *ngIf="currentTab === 'Education'">
+      <h3 class="basicInfo">Education Information</h3>
+      <div class="education-form">
+        <div class="row">
+          <div *ngFor="let educationForm of educations; let i = index" class="col-md-12">
+            <form [formGroup]="educationForm" *ngIf="shouldShowForm(i)">
+              <div class="card mb-4 mx-2">
+                <div class="card-body">
+                  <h6 class="card-title">{{ educationForm.get('level')?.value }}</h6>
+ 
+                  <div>
+                    <label>Status<span class="star">*</span></label>
+                    <select formControlName="status" (change)="onStatusChange(i)">
+                      <option value="">Select Status</option>
+                      <option value="pursuing">Pursuing</option>
+                      <option value="completed">Completed</option>
+                    </select>
+                    <div *ngIf="isFieldInvalid('status')" class="error-message">Status is required</div>
+                  </div>
+ 
+                  <div class="mb-3">
+                    <label for="instituteInput{{i}}" class="form-label">Name of the institute</label>
+                    <input type="text" class="form-control" formControlName="institute" id="instituteInput{{i}}"
+                      placeholder="Institute">
+                      <div *ngIf="isFieldInvalid('institute')" class="error-message">Institute is required</div>
+                  </div>
+                  <div class="mb-3" *ngIf="educationForm.get('level')?.value !== 'SSC'">
+                    <label for="specializationInput{{i}}" class="form-label">Specialization</label>
+                    <input type="text" class="form-control" formControlName="specialization"
+                      id="specializationInput{{i}}" placeholder="Specialization">
+                      <div *ngIf="isFieldInvalid('institute')" class="error-message">Institute is required</div>
+                  </div>
+ 
+                  <div class="mb-3" *ngIf="showPursuingClass(educationForm)">
+                    <label for="pursuingClassInput{{i}}" class="form-label">pursuingClass</label>
+                    <input type="text" class="form-control" formControlName="pursuingClass" id="pursuingClassInput{{i}}"
+                      placeholder="pursuingClass">
+                      <div *ngIf="isFieldInvalid('pursuingClass')" class="error-message">pursuingClass is required</div>
+                  </div>
+ 
+                  <div class="mb-3"
+                    *ngIf="educationForm.get('level')?.value === 'SSC' || educationForm.get('level')?.value === 'Intermediate'">
+                    <label for="educationBoardInput{{i}}" class="form-label">Education Board</label>
+                    <input type="text" class="form-control" formControlName="educationBoard"
+                      id="educationBoardInput{{i}}" placeholder="educationBoard">
+                      <div *ngIf="isFieldInvalid('educationBoard')" class="error-message">educationBoard is required</div>
+                  </div>
+ 
+                  <div class="mb-3">
+                    <label for="percentageInput{{i}}" class="form-label">Percentage/CGPA</label>
+                    <input type="number" class="form-control" formControlName="percentage" id="percentageInput{{i}}"
+                      placeholder="Percentage">
+                      <div *ngIf="isFieldInvalid('percentage')" class="error-message">percentage is required</div>
+                  </div>
+ 
+                  <div class="mb-3">
+                    <label for="yearOfJoining{{i}}" class="form-label">Year of Joining</label>
+                    <input type="number" class="form-control" formControlName="yearOfJoining" id="yearOfJoining{{i}}"
+                      placeholder="Year of Joining">
+                      <div *ngIf="isFieldInvalid('yearOfJoining')" class="error-message">yearOfJoining is required</div>
+                  </div>
+ 
+                  <div class="mb-3" *ngIf="showYearOfPassout(educationForm)">
+                    <label for="yearOfPassout{{i}}" class="form-label">Year of Passing</label>
+                    <input type="number" class="form-control" formControlName="yearOfPassout" id="yearOfPassout{{i}}"
+                      placeholder="Year of Passing">
+                      <div *ngIf="isFieldInvalid('yearOfPassout')" class="error-message">yearOfPassout is required</div>
+                  </div>
+ 
+                  <div class="mb-3" *ngIf="showPursuingClass(educationForm)">
+                    <label for="yearOfPassout{{i}}" class="form-label">Expected Year of Passing</label>
+                    <input type="number" class="form-control" formControlName="yearOfPassout" id="yearOfPassout{{i}}"
+                      placeholder="Year of Passing">
+                      <div *ngIf="isFieldInvalid('yearOfPassout')" class="error-message"> Expected yearOfPassout is required</div>
+                  </div>
+ 
+                  <div *ngIf="educationForm.get('level')?.value == 'SSC'">
+                    <label>level<span class="star">*</span></label>
+                    <select formControlName="intermediateDiploma">
+                      <option value="">Select level</option>
+                      <option value="Intermediate">Intermediate</option>
+                      <option value="Diploma">Diploma</option>
+                    </select>
+                    <div *ngIf="isFieldInvalid('intermediateDiploma')" class="error-message">field  is required</div>
+                  </div>
+ 
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="submit-button">
+        <button *ngIf="!educationId" class="btn btn-success mt-3" (click)="submitAllEducations()">Save</button>
+        <button *ngIf="educationId && !isEditing" class="btn btn-primary mt-3" (click)="enableEditing()">Edit</button>
+        <button *ngIf="educationId && isEditing" class="btn btn-success mt-3" (click)="updateAllEducations()">Update
+        </button>
+        <button *ngIf="educationId && isEditing" class="btn btn-secondary mt-3"
+          (click)="cancelEditing()">Cancel</button>
+      </div>
+    </div> -->
+  <div class="Education-label" *ngIf="currentTab === 'Education'">
+      <h3 class="basicInfo">Education Information</h3>
+      <div class="education-form">
+        <div class="row">
+          <div *ngFor="let educationForm of educations; let i = index" class="col-12">
+            <form [formGroup]="educationForm" *ngIf="shouldShowForm(i)">
+              <div class="card mb-4 mx-2">
+                <div class="card-body">
+                  <h6 class="card-title">{{ educationForm.get('level')?.value }}</h6>
+   
+                  <!-- Use Flexbox container with flex-wrap and add gap -->
+                  <div class="d-flex flex-wrap" style="gap: 15px;">
+                    <!-- Status Field -->
+                    <div class="col-md-5 mb-3">
+                      <label>Status<span class="star">*</span></label>
+                      <select formControlName="status" (change)="onStatusChange(i)" class="form-control">
+                        <option value="">Select Status</option>
+                        <option value="pursuing">Pursuing</option>
+                        <option value="completed">Completed</option>
+                      </select>
+                      <div *ngIf="isFieldInvalid('status')" class="error-message">Status is required</div>
+                    </div>
+   
+                    <!-- Institute Field -->
+                    <div class="col-md-5 mb-3">
+                      <label for="instituteInput{{i}}" class="form-label">Name of the Institute</label>
+                      <input type="text" class="form-control" formControlName="institute" id="instituteInput{{i}}" placeholder="Institute">
+                      <div *ngIf="isFieldInvalid('institute')" class="error-message">Institute is required</div>
+                    </div>
+   
+                    <!-- Specialization Field (conditional) -->
+                    <div class="col-md-5 mb-3" *ngIf="educationForm.get('level')?.value !== 'SSC'">
+                      <label for="specializationInput{{i}}" class="form-label">Specialization</label>
+                      <input type="text" class="form-control" formControlName="specialization" id="specializationInput{{i}}" placeholder="Specialization">
+                      <div *ngIf="isFieldInvalid('specialization')" class="error-message">Specialization is required</div>
+                    </div>
+   
+                    <!-- Education Board Field (conditional) -->
+                    <div class="col-md-5 mb-3" *ngIf="educationForm.get('level')?.value === 'SSC' || educationForm.get('level')?.value === 'Intermediate'">
+                      <label for="educationBoardInput{{i}}" class="form-label">Education Board</label>
+                      <input type="text" class="form-control" formControlName="educationBoard" id="educationBoardInput{{i}}" placeholder="Education Board">
+                      <div *ngIf="isFieldInvalid('educationBoard')" class="error-message">Education Board is required</div>
+                    </div>
+ 
+                    <!-- pursuing class -->
+                    <div class="col-md-5 mb-3" *ngIf="showPursuingClass(educationForm)">
+                      <label for="pursuingClassInput{{i}}" class="form-label">pursuingClass</label>
+                      <input type="text" class="form-control" formControlName="pursuingClass" id="pursuingClassInput{{i}}"
+                        placeholder="pursuingClass">
+                        <div *ngIf="isFieldInvalid('pursuingClass')" class="error-message">pursuingClass is required</div>
+                    </div>
+   
+                    <!-- Percentage Field -->
+                    <div class="col-md-5 mb-3">
+                      <label for="percentageInput{{i}}" class="form-label">Percentage/CGPA</label>
+                      <input type="number" class="form-control" formControlName="percentage" id="percentageInput{{i}}" placeholder="Percentage">
+                      <div *ngIf="isFieldInvalid('percentage')" class="error-message">Percentage is required</div>
+                    </div>
+   
+                    <!-- Year of Joining Field -->
+                    <div class="col-md-5 mb-3">
+                      <label for="yearOfJoining{{i}}" class="form-label">Year of Joining</label>
+                      <input type="number" class="form-control" formControlName="yearOfJoining" id="yearOfJoining{{i}}" placeholder="Year of Joining">
+                      <div *ngIf="isFieldInvalid('yearOfJoining')" class="error-message">Year of Joining is required</div>
+                    </div>
+   
+                    <!-- Year of Passing Field (conditional) -->
+                    <div class="col-md-5 mb-3" *ngIf="showYearOfPassout(educationForm)">
+                      <label for="yearOfPassout{{i}}" class="form-label">Year of Passing</label>
+                      <input type="number" class="form-control" formControlName="yearOfPassout" id="yearOfPassout{{i}}" placeholder="Year of Passing">
+                      <div *ngIf="isFieldInvalid('yearOfPassout')" class="error-message">Year of Passing is required</div>
+                    </div>
+   
+                    <!-- Expected Year of Passing Field (conditional) -->
+                    <div class="col-md-5 mb-3" *ngIf="showExpectedPassout(educationForm)">
+                      <label for="expectedYearOfPassout{{i}}" class="form-label">Expected Year of Passing</label>
+                      <input type="number" class="form-control" formControlName="yearOfPassout" id="expectedYearOfPassout{{i}}" placeholder="Expected Year of Passing">
+                      <div *ngIf="isFieldInvalid('yearOfPassout')" class="error-message">Expected Year of Passing is required</div>
+                    </div>
+   
+                    <!-- Level - Intermediate/Diploma (conditional, shown if SSC) -->
+                    <div class="col-md-5 mb-3" *ngIf="educationForm.get('level')?.value == 'SSC'">
+                      <label>Level<span class="star">*</span></label>
+                      <select formControlName="intermediateDiploma" class="form-control">
+                        <option value="">Select level</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Diploma">Diploma</option>
+                      </select>
+                      <div *ngIf="isFieldInvalid('intermediateDiploma')" class="error-message">Field is required</div>
+                    </div>
+
+                    <div class="col-12 text-end mt-3" *ngIf="showAddButton(i)">
+                      <button type="button" class="btn btn-primary" *ngIf="showAddButton(i)"  (click)="addNextCard(i)"><i class="fas fa-plus"></i> Add Next Education</button>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+   
+      <!-- Save/Update/Cancel Buttons -->
+      <div class="submit-button">
+        <button *ngIf="!educationId" class="btn btn-success mt-3" (click)="submitAllEducations()">Save</button>
+        <button *ngIf="educationId && !isEditing" class="btn btn-primary mt-3" (click)="enableEditing()">Edit</button>
+        <button *ngIf="educationId && isEditing" class="btn btn-success mt-3" (click)="updateAllEducations()">Update</button>
+        <button *ngIf="educationId && isEditing" class="btn btn-secondary mt-3" (click)="cancelEditing()">Cancel</button>
+      </div>
+    </div>
+ 
+    <div class="Experience-label" *ngIf="currentTab === 'Experience'&& isGraduationCompleted()">
+      <h3 class="basicInfo">Experience Information</h3>
+      <div class="experience-form">
+        <ng-container *ngFor="let exp of experience; let i = index">
+          <div class="card mb-3 ">
+            <div class="card-body">
+              <h5 class="card-title">Experience {{ i + 1 }}</h5>
+              <div  class="d-flex flex-wrap" style="gap: 15px;">
+                <div class="col-md-5 mb-3">
+                  <label for="companyNameInput{{i}}" class="form-label">Company Name</label>
+                  <input type="text" class="form-control" [(ngModel)]="exp.workCompanyName" id="companyNameInput{{i}}"
+                    placeholder="Company Name" [disabled]="!experienceStates.get(i)?.isEditing">
+                </div>
+                <div class="col-md-5 mb-3">
+                  <label for="roleInput{{i}}" class="form-label">Role</label>
+                  <input type="text" class="form-control" [(ngModel)]="exp.workRole" id="roleInput{{i}}"
+                    placeholder="Role" [disabled]="!experienceStates.get(i)?.isEditing">
+                </div>
+                <div class="col-md-5 mb-3">
+                  <label for="descriptionInput{{i}}" class="form-label">Description</label>
+                  <textarea class="form-control" [(ngModel)]="exp.workDescription" id="descriptionInput{{i}}" rows="3"
+                    placeholder="Description" [disabled]="!experienceStates.get(i)?.isEditing"></textarea>
+                </div>
+                <div class="col-md-5 mb-3">
+                  <label for="startDateInput{{i}}" class="form-label">Start Date</label>
+                  <input type="date" class="form-control" [(ngModel)]="exp.workStartDate" id="startDateInput{{i}}"
+                    [disabled]="!experienceStates.get(i)?.isEditing">
+                </div>
+                <div class="col-md-5 mb-3">
+                  <label for="endDateInput{{i}}" class="form-label">End Date</label>
+                  <input type="date" class="form-control" [(ngModel)]="exp.workEndDate" id="endDateInput{{i}}"
+                    [disabled]="!experienceStates.get(i)?.isEditing || exp.currentlyWorking">
+                </div>
+ 
+                <div class="col-md-5 mb-3 form-check">
+                  <input type="checkbox" class="form-check-input" [(ngModel)]="exp.currentlyWorking"
+                    [id]="'currentWorkingCheck' + i"
+                    [disabled]="!experienceStates.get(i)?.isEditing || !isCurrentlyWorkingAvailable(i)"
+                    (change)="toggleEndDate(i)">
+                  <label [for]="'currentWorkingCheck' + i" class="form-check-label">Currently Working</label>
+                </div>
+              </div>
+              <button class="btn btn-secondary mt-auto" (click)="saveDetails2(i)"
+                *ngIf="experienceStates.get(i)?.isEditing" [disabled]="!isDetailsFilledExperience(i)">Save</button>
+              <button class="btn btn-secondary mt-2" (click)="toggleEditExperience(i)"
+                *ngIf="!experienceStates.get(i)?.isEditing">Edit</button>
+              <button class="btn btn-secondary mt-2" (click)="toggleCanceleditExperience(i)"
+                *ngIf="experienceStates.get(i)?.isEditing">Cancel</button>
+            </div>
+          </div>
+        </ng-container>
+ 
+        <div class="add-button" *ngIf="visibleCardCount < 3">
+          <button class="btn btn-primary mt-3" (click)="addExperienceCard()"><i class="fa-solid fa-plus"></i></button>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="ChangePassword" *ngIf="currentTab === 'Change Password'">
+      <h2 class="schools">Change Password</h2>
+      <form [formGroup]="changePasswordForm" class="form-grid2" (ngSubmit)="savePassword(this.cadidateDetails.email)">
+        <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('currentPassword') }">
+          <label>Current Password<span class="star">*</span></label>
+          <div class="input-group">
+            <input [type]="showCurrentPassword ? 'text' : 'password'" formControlName="currentPassword"
+              class="small-input" />
+            <i class="eye-icon increase" [ngClass]="showCurrentPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"
+              (click)="toggleShowCurrentPassword()"></i>
+          </div>
+          <div *ngIf="isFieldInvalid('currentPassword')" class="error-message">Current password is required</div>
+        </div>
+        <div class="password-row">
+          <div class="form-group" [ngClass]="{ 'has-error': isFieldInvalid('newPassword') }">
+            <label class="newconf">New Password<span class="star">*</span></label>
+            <div class="input-group">
+              <input [type]="showNewPassword ? 'text' : 'password'" formControlName="newPassword" />
+              <i class="eye-icon increase" [ngClass]="showNewPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"
+                (click)="toggleShowNewPassword()"></i>
+            </div>
+            <div *ngIf="isFieldInvalid('newPassword')" class="error-message">
+              <div *ngIf="changePasswordForm.get('newPassword')?.errors?.['required']">New password is required</div>
+              <div *ngIf="changePasswordForm.get('newPassword')?.errors?.['pattern']">
+                New password must be at least 8 characters long, contain at least one lowercase letter, one uppercase
+                letter, one digit, and one special character
+              </div>
+            </div>
+          </div>
+          <div class="form-group"
+            [ngClass]="{ 'has-error': isFieldInvalid('confirmPassword') || changePasswordForm.errors?.['passwordsMismatch'] }">
+            <label class="newconf">Re-enter New Password<span class="star">*</span></label>
+            <div class="input-group">
+              <input [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirmPassword" />
+              <i class="eye-icon increase" [ngClass]="showConfirmPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"
+                (click)="toggleShowConfirmPassword()"></i>
+            </div>
+            <div *ngIf="isFieldInvalid('confirmPassword')" class="error-message">Confirm password is required</div>
+            <div *ngIf="changePasswordForm.errors?.['passwordsMismatch']" class="error-message">New password and confirm
+              password do not match</div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="form-actions">
+ 
+      <button class="btn btn-success" *ngIf="currentTab == 'Change Password'"
+        (click)="savePassword(this.cadidateDetails.email)">Save Password</button>
+ 
+    </div>
+ 
+ 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMp0r2Qjtu60NDl5u9OER6i5f0Jp4hYxrI5GiDP" crossorigin="anonymous">
+ 
+ 

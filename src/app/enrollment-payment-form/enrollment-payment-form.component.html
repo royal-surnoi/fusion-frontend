@@ -1,0 +1,49 @@
+
+<div class="card">
+    <div class="content">
+      <form [formGroup]="otpForm" (ngSubmit)="generateOtp()" class="">
+        <div class="input-fields">
+          <label for="otpEmail">Email</label>
+          <input type="email" id="otpEmail" formControlName="email" required />
+        </div>
+        <button type="submit" class="btn-container">Generate OTP</button>
+      </form>
+    </div>
+ 
+    <div class="content">
+      <form [formGroup]="verifyForm" (submit)="onSubmit()">
+        <div class="input-fields">
+          <label  class="dis-none" for="verifyEmail">Email</label>
+          <!-- <div class="card flex justify-content-center"> -->
+           
+             
+               
+          <!-- </div> -->
+          <input  class="dis-none"type="String" id="verifyEmail" formControlName="email" required />
+         
+          <label  for="otp">OTP</label>
+          <!-- <p-inputOtp [length]="6" style="gap:0px">
+            <ng-template pTemplate="input" let-token let-events="events" let-index="index">
+                <input
+                    pInputText
+                    type="text"
+                    [maxLength]="1"
+                    (input)="events.input($event)"
+                    (keydown)="events.keydown($event)"
+                    [attr.value]="token"
+                    id="otp" formControlName="otp" required
+                    class="custom-otp-input" />
+            </ng-template>
+        </p-inputOtp> -->
+          <input type="String" id="otp" formControlName="otp" required />
+          <label  class="dis-none" for="id">User</label>
+          <input  class="dis-none" type="number" id="id" formControlName="id" required />
+          <label  class="dis-none" for="courseId">Course ID</label>
+          <input  class="dis-none" type="number" id="courseId" formControlName="courseId" required />
+        </div>
+        <button type="submit">Verify OTP</button>
+      </form>
+    </div>
+  </div>
+ 
+ 

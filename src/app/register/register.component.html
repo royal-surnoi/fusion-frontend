@@ -1,0 +1,89 @@
+<div class="content-wrapper" >
+    <!-- Left Side Content -->
+   
+    <!-- Registration Form -->
+    <div class="main-body" >
+      <div class="container"  >
+          <div class="leftsideContent">
+            <h1>Welcome to <span>FusionIQ AI</span></h1>
+            <p>"Empowering Developers to Spark the <br/>
+                Next Tech Revolution 💻✨ #FUSIONIQ AI"</p>
+          </div>
+            <div class="account-wall">
+                <div class="welcome-message">
+                    <h1>REGISTER HERE</h1>
+                </div>
+                <form class="form-signin" [formGroup]="registrationForm">
+                    <!-- Full Name Input -->
+                    <div class="input-card">
+                        <div class="input">
+                            <input type="text" id="name" class="form-control" placeholder="Full Name" formControlName="name" required>
+                        </div>
+                        <div class="error-card" *ngIf="registrationForm.get('name')?.invalid && (registrationForm.get('name')?.touched || registrationForm.get('name')?.dirty)">
+                            <div class="red" *ngIf="registrationForm.get('name')?.hasError('required')">*Full name is required.</div>
+                            <div class="red" *ngIf="registrationForm.get('name')?.hasError('invalidFullName')">*IUse Only letters, spaces, max 30 characters.</div>
+                        </div>
+                    </div>
+   
+                    <!-- Email Input -->
+                    <div class="input-card">
+                        <div class="input">
+                            <input type="email" id="email" class="form-control" placeholder="Email" formControlName="email" required>
+                        </div>
+                        <div class="error-card" *ngIf="registrationForm.get('email')?.invalid && (registrationForm.get('email')?.touched || registrationForm.get('email')?.dirty)">
+                            <div *ngIf="registrationForm.get('email')?.hasError('required')">*Email is required.</div>
+                            <div *ngIf="registrationForm.get('email')?.hasError('missingAtSymbol')">*Email must be valid.</div>
+                            <div *ngIf="registrationForm.get('email')?.hasError('invalidDomain')">*Email must have a valid domain.</div>
+                            <div *ngIf="registrationForm.get('email')?.hasError('invalidTld')">*Email must have a valid domain.</div>
+                        </div>
+                    </div>
+   
+                    <!-- Password Input -->
+                    <div class="input-card">
+                        <div class="eye-toggle" (click)="togglePasswordVisibility()">
+                            <i [class]="showPassword ? 'far fa-eye-slash' : 'far fa-eye'"></i>
+                        </div>
+                        <div class="password-input">
+                            <input type="{{ showPassword ? 'text' : 'password' }}" id="password" class="form-control" placeholder="Password" formControlName="password" required />
+                        </div>
+                        <div class="error-card" *ngIf="registrationForm.get('password')?.invalid && (registrationForm.get('password')?.touched || registrationForm.get('password')?.dirty)">
+                            <div *ngIf="registrationForm.get('password')?.hasError('required')">*Password is required.</div>
+                            <div *ngIf="registrationForm.get('password')?.hasError('minlength')">*Password must be at least 8 characters long.</div>
+                            <div *ngIf="registrationForm.get('password')?.hasError('invalidPassword')">*Invalid password.Include atleast 1 lowercase,<br/>uppercase, digit, and special character</div>
+                        </div>
+                    </div>
+   
+                    <!-- Confirm Password Input -->
+                    <div class="input-card">
+                        <div class="input">
+                          <input  type="{{ showConfirmPassword ? 'text' : 'password' }}" id="confirmPassword" class="form-control" placeholder="Confirm Password" formControlName="confirmPassword" required />
+                        </div>
+                        <div class="error-card spl">
+                          <div *ngIf="registrationForm.get('confirmPassword')?.hasError('required') && (registrationForm.get('confirmPassword')?.touched || registrationForm.get('confirmPassword')?.dirty)">*Confirm Password is required.</div>
+                          <div *ngIf="registrationForm.hasError('passwordMismatch') && registrationForm.get('confirmPassword')?.touched">*Passwords do not match.</div>
+                        </div>
+                    </div>
+   
+                    <!-- Register Button -->
+                    <button class="btn btn-lg btn-success btn-block register-button" (click)="register()">Register</button>
+                </form>
+                <!-- <p>Already have an account? <a  class="new-account" onclick="navigateToHrRegister($event)">
+                  <br>Login Now!
+                </a></p> -->
+            </div>
+        </div>
+    </div>
+  </div>
+   
+  <!-- Popup for Registration Feedback -->
+  <div *ngIf="showPopup" class="popup-overlay">
+    <div class="popup-content">
+        <h2>Welcome Aboard!</h2>
+        <p *ngIf="registrationStatus === 'success'">*You've successfully registered. Dive in and explore all that we offer.</p>
+        <button *ngIf="registrationStatus === 'success'" (click)="redirectToLogin()" class="login-button">*Click here to Login</button>
+        <button *ngIf="registrationStatus !== 'success'" (click)="closePopup()" class="close-button">*Click Here</button>
+    </div>
+  </div>
+   
+   
+   

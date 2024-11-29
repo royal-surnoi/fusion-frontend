@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>Select Course</h2>
+<mat-dialog-content>
+<mat-form-field appearance="fill">
+<mat-label>Course</mat-label>
+<mat-select [(value)]="selectedCourse">
+<mat-option *ngFor="let course of courses" [value]="course.name">
+            {{ course.name }}
+</mat-option>
+</mat-select>
+</mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+<button mat-button (click)="onCancel()">Cancel</button>
+<button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!selectedCourse">
+        Enroll
+</button>
+</mat-dialog-actions>

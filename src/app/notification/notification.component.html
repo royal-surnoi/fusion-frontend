@@ -1,0 +1,25 @@
+<div class="notification-container">
+  <div class="notification-icon" (click)="toggleDropdown()">
+    <i class="fa-solid fa-bell" [class.fa-bounce]="unreadCount > 0" style="padding-left: 25px;"></i>
+    <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+  </div>
+
+  <div class="notification-dropdown" *ngIf="isOpen">
+    <h3>Notifications</h3>
+    <ul class="notification-list" *ngIf="notifications.length > 0; else noNotifications">
+      <li *ngFor="let notification of notifications" 
+          class="notification-item"
+          [class.read]="notification.read"
+          (click)="onNotificationClick(notification)">
+          <img *ngIf="notification.actionUserImageBase64" [src]="'data:image/png;base64,' + notification.actionUserImageBase64" alt="User Image" class="notification-user-image"/>
+        <div class="notification-details">
+          <span class="notification-content" [innerHTML]="formatNotificationContent(notification.content)"></span>
+          <span class="notification-timestamp">{{ formatTimestamp(notification.timestamp) }}</span>
+        </div>
+      </li>
+    </ul>
+    <ng-template #noNotifications>
+      <p class="no-notifications">No new notifications</p>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<div class="mockfeed">
+  <div class="back-button-container">
+    <button class="back-button" (click)="goback()">Back</button>
+</div>
+  <div class="mockfeed1">
+    <!-- <button class="back-button" (click)="goback()">Back</button> -->
+
+    <!-- Heading for student answers -->
+    <h2 class="mockfeed1-heading">Student Answers</h2>
+
+    <div *ngIf="documentSubmissions.length > 0; else noDocuments">
+        <div *ngFor="let submission of documentSubmissions" class="submission-item">
+            <!-- Document details (commented out in the example) -->
+            <!--
+            <h3>{{ submission.title || 'Untitled Document' }}</h3>
+            <p><strong>Submitted by:</strong> {{ submission.studentName || 'Unknown Student' }}</p>
+            <p><strong>Submission Date:</strong> {{ submission.formattedDate }}</p>
+            <p><strong>Description:</strong> {{ submission.description || 'No Description Available' }}</p>
+            -->
+
+            <!-- Button to preview the document -->
+            <button class="preview-button" (click)="previewDocument(submission)" >Preview Document</button>
+
+            <!-- Button to download the document -->
+            <a [href]="getDocumentUrl(submission.submitAssignment)" class="download-link" download="document.pdf">
+                <!-- SVG icon for download -->
+                <i class="fa-sharp fa-solid fa-circle-down"></i>
+               
+            </a>
+        </div>
+    </div>
+
+    <ng-template #noDocuments>
+        <p>No documents found.</p>
+    </ng-template>
+
+    <!-- Modal or preview section -->
+    <div *ngIf="previewUrl" class="preview-modal">
+        <button (click)="clearPreview()">Close Preview</button>
+        <iframe [src]="previewUrl" width="1000" height="700" frameborder="0"></iframe>
+    </div>
+</div>
+
+  <div class="mockfeed2">
+      <h2>Submit Feedback</h2>
+      <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()">
+          <div class="form-group">
+              <label for="feedback">Feedback:</label>
+              <textarea id="feedback" formControlName="feedback" rows="4" cols="50"></textarea>
+          </div>
+          <div class="form-group">
+              <label for="grade">Grade:</label>
+              <input id="grade" formControlName="grade" type="text">
+          </div>
+          <button type="submit" [disabled]="feedbackForm.invalid">Submit Feedback</button>
+      </form>
+  </div>
+</div>
+
+ 
+  

@@ -1,0 +1,59 @@
+
+
+ 
+<div>
+ 
+    <div class="main"  >
+        <div class="video-background-container">
+            <!-- <video autoplay muted loop id="background-video">
+                <source src="../../assets/172156-846731269_medium 1.mp4" type="video/mp4">
+                Your browser does not support HTML5 video.
+            </video> -->
+        </div>
+   
+        <div class="container">
+            <div class="info-card">
+                <!-- <div class="logo"> -->
+                    <!-- Placeholder for logo -->
+                    <!-- <img src="../../assets/fusion8.png" alt="">
+                </div> -->
+                <h1>Welcome to <span>FusionIQ AI</span></h1>
+                <h1><span>Mentor</span></h1>
+                <!-- <button class="learn-more-btn">Learn More</button> -->
+            </div>
+            <div class="login-card">
+                <h2>Mentor Login</h2>
+                <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+                    <div class="input-wrapper">
+                        <input class="passinput" [(ngModel)]="loginData.username" id="username" name="username" type="text" placeholder="Enter email/Username" required autofocus>
+                    </div>
+                    <div class="input-wrapper">
+                        <input class="passinput" [(ngModel)]="loginData.password" id="password" name="password" [type]="showPassword ? 'text' : 'password'" placeholder="Password" required>
+                        <i class="password-toggle fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility()"></i>
+                    </div>
+                    <div class="error-message">{{ errorMessage }}</div>
+                    <button type="submit">Login</button>
+                </form>
+                <p>Don't have an account? <a href="#" class="new-account" (click)="navigateToHrRegister($event)">
+                    <br>Create an account
+                </a></p>
+            </div>
+           
+        </div>
+       
+        <div *ngIf="showPopup" class="popup-overlay">
+            <div class="popup-content">
+              <h2>Welcome to Mentor Perspective</h2>
+              <p *ngIf="loginStatus === 'success'">Your journey continues here. Log in to access your account.</p>
+              <p *ngIf="loginStatus === 'failed'">{{ errorMessage }}</p>
+              <button (click)="closePopup()" class="close-button">Click Here</button>
+            </div>
+          </div>
+   
+       
+    </div>
+    </div>
+ 
+ 
+ 
+ 

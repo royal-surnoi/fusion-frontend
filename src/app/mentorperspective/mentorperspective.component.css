@@ -1,0 +1,9 @@
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+  }
+   
+  .dashboard-section {
+    flex: 1;
+    margin: 0 10px;
+  }

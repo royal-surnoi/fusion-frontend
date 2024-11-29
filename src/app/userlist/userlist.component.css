@@ -1,0 +1,78 @@
+.user-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.user-item {
+  background-color: #f2f2f2;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-details {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.user-stats {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.stat-label {
+  color: #666;
+}
+
+.stat-value {
+  color: #333;
+}
+
+.follow-actions {
+  margin-top: 10px;
+  text-align: right;
+}
+
+button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.request-sent {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.unfollow-btn {
+  background-color: #dc3545;
+  color: #fff;
+}

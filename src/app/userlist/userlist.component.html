@@ -1,0 +1,17 @@
+<div class="user-list">
+    <div *ngFor="let user of users$ | async" class="user-item">
+      <span>{{ user.name }}</span>
+      <!-- <button *ngIf="!user.followRequested && !user.isFollowed" (click)="followUser(user.id)">
+        Follow
+      </button>
+      <button *ngIf="user.followRequested">
+        Request Sent
+      </button> -->
+      <!-- <button *ngIf="user.isFollowed" (click)="unfollowUser(user.id)">
+        Unfollow
+      </button> -->
+    </div>
+  </div>
+
+
+  

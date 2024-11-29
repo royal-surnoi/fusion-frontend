@@ -1,0 +1,27 @@
+/* follow-requests.component.css */
+.follow-requests {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .request-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+  }
+  
+  button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  
+  button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  

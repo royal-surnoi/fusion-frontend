@@ -1,0 +1,404 @@
+<div class="dashboard-container" [class.dark-mode]="darkMode">
+  <mat-sidenav-container>
+    <mat-sidenav mode="side" opened class="course-sidebar">
+      <div class="course-info">
+        <h2>{{ CourseDetails.courseTitle }}</h2>
+        <mat-progress-bar mode="determinate" [value]="CourseDetails.progress"></mat-progress-bar>
+        <p>{{ CourseDetails.progress }}% Complete</p>
+      </div>
+      <!-- course-dashboard.component.html -->
+      <div class="course-dashboard">
+        <!-- Long-term course: Display modules with lessons -->
+        <ng-container *ngIf="CourseDetails?.courseTerm === 'long'">
+          <div class="modules-container">
+            <div *ngFor="let module of lessonModules" class="module-box" [class.locked]="!isModuleUnlocked(module)">
+              <div class="module-header" (click)="toggleModule(module.id)">
+                <p class="module-name">
+                  <i class="fa-solid"
+                    [ngClass]="{'fa-lock': !isModuleUnlocked(module), 'fa-unlock': isModuleUnlocked(module)}"></i>
+                  {{ module.moduleName }}
+                </p>
+                <span class="toggle-icon">{{ isModuleOpen(module.id) ? '▼' : '▶' }}</span>
+              </div>
+              <div *ngIf="isModuleOpen(module.id) && isModuleUnlocked(module)" class="module-content" (click)="generateTranscript()">
+                <ul *ngIf="lessonsByModule[module.id] && lessonsByModule[module.id].length > 0; else noLessons">
+                  <li *ngFor="let lesson of lessonsByModule[module.id]" (click)="onLessonClick(lesson)"
+                    [class.active]="selectedLesson && selectedLesson.id === lesson.id"
+                    [class.locked]="!isLessonUnlocked(lesson)">
+                    <span class="lesson-icon">
+                      <i class="fa-solid"
+                        [ngClass]="{'fa-lock': !isLessonUnlocked(lesson), 'fa-book-open-reader': isLessonUnlocked(lesson)}"></i>
+                    </span>
+                    {{ lesson.lessonTitle }}
+                    <div *ngIf="selectedLesson && selectedLesson.id === lesson.id && isLessonUnlocked(lesson) " (click)="generateTranscript()">
+                      <div class="videocontainer"
+                        *ngIf="videosByLesson[lesson.id] && videosByLesson[lesson.id].length > 0">
+                        <div class="video-item" *ngFor="let video of videosByLesson[lesson.id]"
+                          (click)="onVideoSelect(video)" [class.locked]="!isVideoUnlocked(video, lesson)">
+                          <span class="video-icon">
+                            <i class="fa-solid"
+                              [ngClass]="{'fa-lock': !isVideoUnlocked(video, lesson), 'fa-circle-play': isVideoUnlocked(video, lesson)}"></i>
+                          </span>
+                          <span class="video-title" [title]="video.videoTitle">{{ video.videoTitle }}</span>
+                        </div>
+                      </div>
+                      <p *ngIf="!videosByLesson[lesson.id] || videosByLesson[lesson.id].length === 0" class="no-content">
+                        No videos available for this lesson. You can proceed to the next lesson.
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+                <ng-template #noLessons>
+                  <p class="no-content">No lessons available for this module.</p>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      
+        <!-- Short-term course: Direct lessons display without modules -->
+        <ng-container *ngIf="CourseDetails?.courseTerm === 'short'">
+          <ul *ngIf="lessonsByCourseId && lessonsByCourseId.length > 0">
+            <li *ngFor="let lesson of lessonsByCourseId" (click)="onLessonClick(lesson)"
+              [class.active]="selectedLesson && selectedLesson.id === lesson.id"
+              [class.locked]="!isLessonUnlocked(lesson)">
+              <span class="lesson-icon">
+                <i class="fa-solid"
+                  [ngClass]="{'fa-lock': !isLessonUnlocked(lesson), 'fa-book-open-reader': isLessonUnlocked(lesson)}"></i>
+              </span>
+              {{ lesson.lessonTitle }}
+              <div *ngIf="selectedLesson && selectedLesson.id === lesson.id && isLessonUnlocked(lesson)">
+                <div class="videocontainer"
+                  *ngIf="videosByLesson[lesson.id] && videosByLesson[lesson.id].length > 0">
+                  <div class="video-item" *ngFor="let video of videosByLesson[lesson.id]"
+                    (click)="onVideoSelect(video)" [class.locked]="!isVideoUnlocked(video, lesson)">
+                    <span class="video-icon">
+                      <i class="fa-solid"
+                        [ngClass]="{'fa-lock': !isVideoUnlocked(video, lesson), 'fa-circle-play': isVideoUnlocked(video, lesson)}"></i>
+                    </span>
+                    <span class="video-title" [title]="video.videoTitle">{{ video.videoTitle }}</span>
+                  </div>
+                </div>
+                <p *ngIf="!videosByLesson[lesson.id] || videosByLesson[lesson.id].length === 0" class="no-content">
+                  No videos available for this lesson. You can proceed to the next lesson.
+                </p>
+              </div>
+            </li>
+          </ul>
+          <p *ngIf="!lessonsByCourseId || lessonsByCourseId.length === 0">No lessons available for this course.</p>
+        </ng-container>
+      </div>
+      
+      
+
+    </mat-sidenav>
+
+    
+   <!--  <mat-sidenav mode="side" *ngIf="isVideoContainerExpanded" opened class="course-sidebar">
+      <div class="sidenav-content">
+        <div class="additional-box box-visible">
+          <button class="close-button" (click)="closeChatBox()">X</button>
+    
+          <div class="response-box">
+            <div class="message-container">
+              <div *ngIf="response" class="message response-message">
+                <p class="responseWidth">{{ response }}</p>
+              </div>
+            </div>
+          </div>
+        </div> -->
+    
+        <!-- <div class="input-container">
+          <input type="text" class="additional-input" [(ngModel)]="userQuery2" (keydown.enter)="sendQuery2()" placeholder="Type here...">
+          <button class="send-button" (click)="sendQuery2()">
+            <h3 alt="Send" class="sendchatBotImg arrowSend">&#8594;</h3>
+          </button>
+        </div>
+      </div>
+    </mat-sidenav>  -->
+    
+     
+    <mat-sidenav-content class="main-content" >
+
+
+ 
+    <div class="video-container" *ngIf="showVideoPlayer"
+      [ngClass]="{'expanded': isVideoContainerExpanded, 'normal': !isVideoContainerExpanded}">
+      <h6 style="color: snow;">concept: {{ currentVideo?.videoTitle }}</h6>
+      <video #videoPlayer width="100%" height="auto" controlsList="nodownload"
+        (timeupdate)="updateVideoProgress($event)" (ended)="currentVideo && onVideoEnded(currentVideo?.id)" controls>
+        <source [src]="currentVideo?.s3Url" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <!-- <main class="boxmessagetest">
+
+      </main> -->
+
+      <button mat-icon-button (click)="addBookmark()" matTooltip="Add bookmark">
+        <mat-icon>bookmark_add</mat-icon>
+      </button>
+      <div (click)="toggleVideoContainer()" *ngIf="!isVideoContainerExpanded" class="chat-bot-name">
+        <!-- <img src="../../assets/chatbot 1.png" alt="Chat Bot" class="chatBotImg" [class.blink]="shouldBlink"> -->
+        <img src="../../assets/chatbot 1.png" alt="Chat Bot" class="chatBotImg" >
+        
+      </div>
+ 
+      <mat-progress-bar mode="determinate" [value]="videoProgress"></mat-progress-bar>
+    </div>
+ 
+   
+    <div class="vlDescription">
+      <p *ngIf="currentVideo?.videoDescription" class="videoDiscription">Description: {{ currentVideo?.videoDescription
+        }}</p>
+      <p *ngIf="currentVideo?.language" class="videoLanguage">Language: {{ currentVideo?.language }}</p>
+    </div>
+ 
+ 
+ 
+ 
+    <div *ngIf="isVideoContainerExpanded" class="parent-container">
+      <div class="additional-box box-visible">
+        <button class="close-button" (click)="closeChatBox()">X</button>
+ 
+        <div class="response-box">
+          <div class="message-container">
+ 
+            <div *ngIf="userQueryDisplay" class="message user-message">
+              <p class="responseWidth2">{{ userQueryDisplay }}</p>
+            </div>
+            <div *ngIf="response" class="message response-message">
+              <!-- <p class="responseWidth">{{ response }}</p> -->
+              <p class="responseWidth" [innerHTML]="response"></p>
+            </div>
+          </div>
+        </div>
+        <div class="input-container1">
+          <input type="text" class="additional-input" [(ngModel)]="userQuery2" (keydown.enter)="sendQuery2()"
+            placeholder="Type here...">
+          <button class="send-button1" (click)="sendQuery2() ">
+ 
+            <h3 alt="Send" class="sendchatBotImg arrowSend">&#8594;</h3>
+          </button>
+        </div>
+      </div>
+    </div>
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+    <mat-tab-group>
+      <mat-tab label="Lesson Details">
+        <div class="lesson-details">
+          <p>{{ currentLesson?.lessonDescription }}</p>
+          <div class="action-buttons">
+            <button mat-raised-button color="primary">
+              <mat-icon>forum</mat-icon> Discussion
+            </button>
+            <!-- <button mat-raised-button color="accent">
+                <mat-icon>assignment</mat-icon> Resources
+              </button> -->
+            <button mat-raised-button color="warn">
+              <mat-icon>help</mat-icon> Get Help
+            </button>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Transcript">
+        <div class="transcript">
+          <p>{{ course.currentLesson?.transcript }}</p>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Resources">
+        <div class="resources">
+          <a *ngIf="CourseDetails?.courseDocument" (click)="previewFile(CourseDetails.courseDocument)"
+            mat-raised-button>
+            <mat-icon>visibility</mat-icon> Preview Document
+          </a>
+          <a *ngIf="CourseDetails?.courseDocument"
+            (click)="downloadFile(CourseDetails.courseDocument, CourseDetails.courseTitle)" mat-raised-button>
+            <mat-icon>file_download</mat-icon> Download Document
+          </a>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Quiz">
+        <div class="quiz">
+          <button class="navigatetoAIQuizbutton" (click)="navigatetoAIQuiz()">Start AI quiz</button>
+          <div *ngFor="let question of course.currentLesson?.quiz">
+            <h3>{{ question.question }}</h3>
+            <div *ngFor="let option of question.options; let i = index">
+              <mat-radio-button [value]="i">{{ option }}</mat-radio-button>
+            </div>
+          </div>
+          <!-- <button mat-raised-button color="primary">Submit Quiz</button> -->
+          <!-- ////////////////get quiz 2//////////////// -->
+          <div class="quiz-container">
+            <!-- Quiz Selection -->
+            <div *ngFor="let quiz of quizzes" class="quiz-selection">
+              <span class="quiz-name">{{ quiz.quizName }}</span>
+              <button *ngIf="quizStart" class="start-btn" (click)="startQuiz(quiz.id)">Start</button>
+            </div>
+
+            <div class="quiz-content-wrapper">
+              <!-- Quiz Questions -->
+              <div *ngIf="quizStarted && questions.length > 0" class="quiz-questions">
+                <h3 class="quiz-title">Quiz: {{ selectedQuizName }}</h3>
+                <div *ngFor="let question of questions" class="question-item">
+                  <p class="question-text">{{ question.id }}. {{ question.text }}</p>
+                  <ul class="options-list">
+                    <li>
+                      <label>
+                        <input type="radio" name="question-{{ question.id }}" value="optionA">
+                        {{ question.optionA }}
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="question-{{ question.id }}" value="optionB">
+                        {{ question.optionB }}
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="question-{{ question.id }}" value="optionC">
+                        {{ question.optionC }}
+                      </label>
+                    </li>
+                    <li>
+                      <label>
+                        <input type="radio" name="question-{{ question.id }}" value="optionD">
+                        {{ question.optionD }}
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+                <button class="submit-btn" (click)="submitQuiz()">Submit Quiz</button>
+              </div>
+
+              <!-- Quiz Results -->
+              <div *ngIf="correctAnswerPercentage !== null" class="quiz-results">
+                <h3>Quiz Result</h3>
+                <p>Correct Answer Percentage: {{ correctAnswerPercentage }}%</p>
+                <p>Correct Answer Ratio: {{ correctAnswerRatio }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Popup Overlay -->
+          <div class="popup-overlay" *ngIf="isPopupVisible">
+            <div class="popup-content">
+              <h2>Quiz Submitted Successfully!</h2>
+              <button class="close-btn" (click)="closePopup()">Close</button>
+            </div>
+          </div>
+
+
+          <!-- //////////////////////////////////////////// -->
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Comments">
+        <div class="comments">
+          <div *ngFor="let comment of comments">
+            <div class="comment">
+              <strong>{{ comment.user }}</strong>
+              <p>{{ comment.text }}</p>
+              <small>{{ comment.timestamp | date: 'medium' }}</small>
+            </div>
+          </div>
+          <mat-form-field>
+            <textarea matInput [(ngModel)]="newComment" placeholder="Add a comment..."></textarea>
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)="addComment()">Post Comment</button>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Assignments">
+        <div class="assignments">
+          <div *ngIf="assignments.length > 0; else noAssignments">
+            <div *ngFor="let assignment of assignments" class="assignment">
+              <h6>{{ assignment.assignmentTitle }}</h6>
+              <table class="simple-table">
+                <tr>
+                  <td>Title:</td>
+                  <td>{{ assignment.assignmentTitle }}</td>
+                </tr>
+                <tr>
+                <tr>
+                  <td>Topic:</td>
+                  <td>{{ assignment.assignmentTopicName }}</td>
+                </tr>
+                <tr>
+                  <td>Start Date:</td>
+                  <td>{{ assignment.startDate | date: 'medium' }}</td>
+                </tr>
+                <tr>
+                  <td>End Date:</td>
+                  <td>{{ assignment.endDate| date: 'medium' }}</td>
+                </tr>
+                <tr>
+                  <td>Review Meet Date:</td>
+                  <td>{{ assignment.reviewMeetDate | date: 'medium' }}</td>
+                </tr>
+                <tr>
+                  <td>Max Score:</td>
+                  <td>{{ assignment.maxScore }}</td>
+                </tr>
+              </table>
+              <!-- ///////////////////////////////////assignmentPost////////////////////// -->
+
+
+              <div class="dbuttons">
+                <input class="dfile-input" type="file" (change)="onFileSelected2($event)" accept=".pdf" /> <br>
+                <button class="dsubmit-button" (click)="submitAssignment()">Submit Assignment</button>
+              </div>
+
+              <!-- /////////////////////////////////////////////////////////////// -->
+              <button (click)="downloadFile(assignment.assignmentDocument, assignment.assignmentTitle)"
+                mat-raised-button>
+                <mat-icon>file_download</mat-icon> Download Assignment
+              </button>
+              <button (click)="previewFile(assignment.assignmentDocument)" mat-raised-button>
+                <mat-icon>visibility</mat-icon> Preview Assignment
+              </button>
+            </div>
+          </div>
+          <ng-template #noAssignments>
+            <p>No assignments available for this lesson.</p>
+          </ng-template>
+        </div>
+        <div class="AI-assignments">
+          <P>AI Assignmnet</P>
+          <button (click)="startAssignment(userId,courseId, lessonId)">Start</button>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+
+
+    <div class="notes-section">
+      <h3>My Notes</h3>
+      <textarea [(ngModel)]="myNotes" placeholder="Take notes for this lesson..."></textarea>
+      <button class="notesSubmit" (click)="submitNotes()" [disabled]="!currentVideo">Submit</button>
+    </div>
+
+
+    </mat-sidenav-content>
+
+
+  </mat-sidenav-container>
+ <mat-slide-toggle [checked]="darkMode" (change)="toggleDarkMode()">Dark Mode</mat-slide-toggle>
+</div>

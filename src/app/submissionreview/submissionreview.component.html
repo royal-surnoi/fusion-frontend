@@ -1,0 +1,62 @@
+<table class="submission-table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Submitted Date</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let submission of submissions" [ngClass]="{'pending': isPending(submission)}">
+      <td>{{ submission.title }}</td>
+      <td>{{ submission.submittedDate | date:'short' }}</td>
+      <td>{{ submission.status }}</td>
+      <td>
+        <button *ngIf="isPending(submission)" (click)="openPopup(submission)">Review</button>
+        <span *ngIf="!isPending(submission)">{{ submission.status }}</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="selectedSubmission" class="popup-overlay" (click)="closePopup()">
+  <div class="popup-content" (click)="$event.stopPropagation()">
+    <div>
+      
+
+    </div>
+    <div>
+      <h2>Review Submission</h2>
+      <p><strong>Title:</strong> {{ selectedSubmission.title }}</p>
+      <p><strong>Candidate ID:</strong> {{ selectedSubmission.candidateId }}</p>
+      <p><strong>Content:</strong> {{ selectedSubmission.content }}</p>
+    </div>
+    <div>
+      <h3>Candidate Status</h3>
+      <div *ngIf="candidateStatus">
+        <h4>Assignments</h4>
+        <ul>
+          <li *ngFor="let assignment of candidateStatus.assignments">
+            {{ assignment.title }}: {{ assignment.status }}
+          </li>
+        </ul>
+
+        <h4>Projects</h4>
+        <ul>
+          <li *ngFor="let project of candidateStatus.projects">
+            {{ project.title }}: {{ project.status }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <textarea [(ngModel)]="feedback" placeholder="Enter feedback..."></textarea>
+      <div class="button-group">
+        <button (click)="approveSubmission()">Approve</button>
+        <button (click)="rejectSubmission()">Reject</button>
+        <button (click)="closePopup()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

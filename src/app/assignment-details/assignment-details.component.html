@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content>
+<p><strong>Due Date:</strong> {{ data.dueDate | date:'mediumDate' }}</p>
+<p><strong>Status:</strong> <span [ngClass]="data.status.toLowerCase().replace(' ', '-')">{{ data.status }}</span></p>
+<p><strong>Description:</strong> {{ data.description }}</p>
+<h3>Resources:</h3>
+<ul>
+<li *ngFor="let resource of data.resources">
+<a [href]="resource.url" target="_blank">{{ resource.name }}</a>
+</li>
+</ul>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+<button mat-button mat-dialog-close>Close</button>
+<button mat-raised-button color="primary" [disabled]="data.status === 'Submitted'" (click)="submitAssignment()">
+        {{ data.status === 'Submitted' ? 'Submitted' : 'Submit Assignment' }}
+</button>
+</mat-dialog-actions>

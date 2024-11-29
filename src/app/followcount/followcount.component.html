@@ -1,0 +1,67 @@
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+  integrity="sha512-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  crossorigin="anonymous" />
+
+
+<div class="body">
+  <div class="user-profile" style="display:flex">
+    <div class="profile">
+      <!-- <i class="fas fa-user-circle fa-5x"></i> -->
+      <!-- <i class="fa-solid fa-user"></i> -->
+      <img src="../../assets/user.png" alt="">
+      <!-- <h2>{{user.name}}</h2> -->
+    </div>
+    <div class="user-details">
+      <div class="user-name">
+        <h2>{{user.name}}</h2>
+      </div>
+      <div class="following-buttons">
+        <div class="follower">
+          <p>{{ followerCount }}</p>
+          <button>Followers</button>
+        </div>
+        <div class="following">
+          <p>{{ followingCount }}</p>
+          <button>Following</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="follow-list">
+    <div class="user-list">
+      <h4>Suggestions</h4>
+      <div *ngFor="let user of users$ | async" class="user-item">
+        <span>{{ user.name }}</span>
+        <!-- <button *ngIf="!user.followRequested && !user.isFollowed" (click)="followUser(user.id)">
+          Follow
+        </button>
+        <button *ngIf="user.followRequested">
+          Request Sent
+        </button> -->
+        <!-- <button *ngIf="user.isFollowed" (click)="unfollowUser(user.id)">
+          Unfollow
+        </button> -->
+      </div>
+    </div>
+    <!-- <div *ngIf="followRequests$ | async as followRequests">
+        <h3>Follow Requests</h3>
+        <ul>
+          <li *ngFor="let user of followRequests">
+            {{ user.name }}
+            <button (click)="acceptRequest(user.id)">Accept</button>
+            <button (click)="ignoreRequest(user.id)">Ignore</button>
+          </li>
+        </ul>
+      </div> -->
+    <div class="follow-requests">
+      <h4>Follow Requests</h4>
+      <ng-container *ngFor="let user of users$ | async">
+        <!-- <div *ngIf="user.followRequested" class="request-item">
+          <span>{{ user.name }}</span>
+          <button (click)="acceptFollowRequest(user.id)">Accept</button>
+          <button (click)="ignoreFollowRequest(user.id)" class="ignore-button">Ignore</button>
+        </div> -->
+      </ng-container>
+    </div>
+  </div>
+</div>

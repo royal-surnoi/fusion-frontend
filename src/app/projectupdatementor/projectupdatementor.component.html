@@ -1,0 +1,63 @@
+<form [formGroup]="projectForm" (ngSubmit)="onSubmitProject()">
+    <label for="courseSelect">Course:</label>
+      <select id="courseSelect" name="course" [(ngModel)]="selectedCourseId" (change)="onCourseChange($event)" required>
+        <option *ngFor="let course of courses" [value]="course.id">{{ course.courseTitle }}</option>
+      </select>
+    
+
+    <div>
+      <label for="courseType">Course Type:</label>
+      <input id="courseType" formControlName="courseType" type="text" readonly>
+    </div>
+    <div *ngIf="enrollments.length > 0">
+      <label>User Enrollments:</label>
+      <input type="text" placeholder="Search users..." [(ngModel)]="searchText" (ngModelChange)="filterEnrollments()" [ngModelOptions]="{standalone: true}">
+      <ul class="enrollment-list">
+        <li *ngFor="let enrollment of filteredEnrollments">
+          <label>
+            <input type="checkbox" [value]="enrollment.user.id" (change)="onUserSelectionChange($event)" [checked]="selectedUserIds.includes(enrollment.user.id)">
+            {{ enrollment.user.name }}
+          </label>
+        </li>
+      </ul>
+    </div>
+    
+  
+    <div>
+      <label for="projectTitle">Project Title:</label>
+      <input id="projectTitle" formControlName="projectTitle" type="text" required />
+    </div>
+  
+    <div>
+      <label for="projectDescription">Project Description:</label>
+      <textarea id="projectDescription" formControlName="projectDescription" required></textarea>
+    </div>
+  
+    <div>
+      <label for="gitUrl">Git URL:</label>
+      <input id="gitUrl" formControlName="gitUrl" type="text" required />
+    </div>
+  
+    <div>
+      <label for="projectDeadline">Project Deadline:</label>
+      <input id="projectDeadline" formControlName="projectDeadline" type="datetime-local" required />
+    </div>
+  
+    <div>
+      <label for="startDate">Start Date:</label>
+      <input id="startDate" formControlName="startDate" type="datetime-local" required />
+    </div>
+  
+    <div>
+      <label for="reviewMeetDate">Review Meeting Date:</label>
+      <input id="reviewMeetDate" formControlName="reviewMeetDate" type="datetime-local" required />
+    </div>
+    <div class="custom-file-wrapper">
+      <label for="projectDocument" class="custom-file-label">Choose File</label>
+      <span class="custom-file-text">{{ selectedFileName }}</span>
+      <input id="projectDocument" type="file" (change)="onFileChange($event)" required />
+  </div>
+  
+  
+    <button type="submit" [disabled]="!projectForm.valid">Submit</button>
+  </form>

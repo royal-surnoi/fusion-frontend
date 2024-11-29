@@ -1,0 +1,171 @@
+/* Center the container and apply card-like styling */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+ 
+/* Card style for each form */
+.card {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background: linear-gradient(110deg, rgb(88, 175, 241), rgb(251, 250, 250));
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);  
+}
+ 
+.card:hover {
+  box-shadow: 0 4px 7px black; /* Increase shadow on hover */
+}
+ 
+/* Headings for the forms */
+h3 {
+  font-size: 35px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+  font-family: 'Mulish', Helvetica, Arial, sans-serif;
+}
+ 
+/* Labels */
+label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: black;
+}
+ 
+/* Input and textarea fields */
+input[type="text"],
+input[type="file"],
+input[type="datetime-local"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  margin-bottom: 15px;
+  /* border: 0px solid black; */
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+ 
+/* File input label styling */
+input[type="file"] {
+  padding: 3px;
+}
+ 
+/* Button styling */
+button[type="submit"] {
+  width:52%;
+  height: 30px;
+  padding: 0px 20px;
+  font-size: 16px;
+  background-color: rgb(207, 206, 206);;
+  color: black;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: 1px solid black;
+  margin-left: 172px;
+}
+ 
+/* Disabled button style */
+button[type="submit"]:disabled {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+ 
+/* Hover effect for the disabled button */
+button[type="submit"]:disabled:hover {
+  background-color: black; /* Slightly change background on hover */
+  color: white; /* Change text color on hover */
+}
+ 
+ 
+/* Button hover effect */
+button[type="submit"]:hover:not(:disabled) {
+  background-color:black;
+  color: white;
+}
+ 
+/* Message when no mock tests are available */
+p {
+  font-size: 18px;
+  color: black;
+  text-align: center;
+  margin-top: 30px;
+  font-family: 'Mulish', Helvetica, Arial, sans-serif;
+}
+ 
+ 
+.btn{
+  margin-left: 10px;
+  text-align: center;
+  font-family: 'Mulish', Helvetica, Arial, sans-serif;
+  border-radius: 15px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  -ms-border-radius: 15px;
+  -o-border-radius: 15px;
+}
+ 
+.btn:hover{
+  color: white;
+  background-color: black;
+}
+ 
+input[type=file]::file-selector-button {
+  border: 2px #2E3944;
+  padding: 8.45px 16px;
+  border-radius: 23px;
+  background-color: rgb(207, 206, 206);
+  color: black;
+  font-weight: 700;
+  margin-right: 8px;
+}
+ 
+input[type=file]::file-selector-button:hover {
+  background-color: black;
+  /* border: 2px solid #00cec9; */
+  color: white;
+ 
+}
+a{
+  text-decoration: none;
+}
+a:hover{
+  color: black;
+  text-decoration: solid;  
+}
+ 
+.document-viewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+}
+ 
+.viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #f0f0f0;
+}
+ 
+.document-viewer iframe {
+  border: none;
+}
+ 
+ 
+ 

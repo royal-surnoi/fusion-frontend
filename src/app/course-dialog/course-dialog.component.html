@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>{{ data.id ? 'Edit Course' : 'Create New Course' }}</h2>
+
+<mat-dialog-content>
+
+  <form [formGroup]="courseForm">
+
+    <mat-form-field appearance="fill">
+
+      <mat-label>Course Name</mat-label>
+
+      <input matInput formControlName="name" required>
+
+      <mat-error *ngIf="courseForm.get('name')?.hasError('required')">
+
+        Course name is required
+
+      </mat-error>
+
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+
+      <mat-label>Description</mat-label>
+
+      <textarea matInput formControlName="description" rows="4" required></textarea>
+
+      <mat-error *ngIf="courseForm.get('description')?.hasError('required')">
+
+        Course description is required
+
+      </mat-error>
+
+    </mat-form-field>
+
+    <!-- Add more form fields as needed -->
+
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+
+  <button mat-button (click)="onCancel()">Cancel</button>
+
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!courseForm.valid">
+
+    {{ data.id ? 'Update' : 'Create' }}
+
+  </button>
+
+</mat-dialog-actions>

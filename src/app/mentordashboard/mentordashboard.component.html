@@ -1,0 +1,216 @@
+<div class="body">
+  <nav>
+    <div class="nav-left">
+      <a href="#" class="nav-link nav-txt">{{ currentTab }}</a>
+    </div>
+    <div class="nav-right">
+      <span>{{ name }}</span>
+      <img *ngIf="imageUrl" [src]="imageUrl" alt="Profile Picture" class="profile-picture">
+    </div>
+  </nav>
+  <div>
+    <div class="content">
+      <div class="left-content">
+        <div class="wrapper" style="height: auto;">
+          <div class="sidnav">
+            <ul class="ulList">
+              <button (click)="setCurrentTab('Dashboard')" [class.active]="currentTab === 'Dashboard'" class="profileList profileList1 abdev" style="padding-left: 59px;">
+                <span class="Inspan">Dashboard</span>
+              </button>
+              <button (click)="setCurrentTab('Contentmanagement')" [class.active]="currentTab === 'Contentmanagement'" class="profileList profileList2 abdev" style="padding-left: 59px;">
+                <span class="Inspan">Content Management</span>
+              </button>
+              <button (click)="setCurrentTab('StudentAnalytics')" [class.active]="currentTab === 'StudentAnalytics'" class="profileList profileList3 abdev" style="padding-left: 59px;">
+                <span class="Inspan">Student Analytics</span>
+              </button>
+              <button (click)="setCurrentTab('Reports')" [class.active]="currentTab === 'Reports'" class="profileList profileList3 abdev" style="padding-left: 59px;">
+                <span class="Inspan">Reports</span>
+              </button>
+              <button (click)="setCurrentTab('Announcements')" [class.active]="currentTab === 'Announcements'" class="profileList profileList3 abdev" style="padding-left: 59px;">
+                <span class="Inspan">Announcements</span>
+              </button>
+              <button (click)="setCurrentTab('Shorts')" [class.active]="currentTab === 'Shorts'" class="profileList profileList3 abdev" style="padding-left: 59px;">
+                <span class="Inspan">Shorts</span>
+              </button>
+              <button (click)="setCurrentTab('AccountSettings')" [class.active]="currentTab === 'AccountSettings'" class="profileList profileList3 abdev" style="padding-left: 59px;">
+                <span class="Inspan">Account Settings</span>
+              </button>
+              <button (click)="setCurrentTab('ProfileSettings')" [class.active]="currentTab === 'ProfileSettings'" class="profileList profileList3 abdev" style="padding-left: 59px;">
+                <span class="Inspan">Profile Settings</span>
+              </button>
+              <button (click)="setCurrentTab('Logout')" [class.active]="currentTab === 'Logout'" class="profileList profileList3 abdev" style="padding-left: 59px;">
+                <span class="Inspan">Logout</span>
+              </button>
+            </ul>
+            
+          </div>
+        </div>
+      </div>
+  
+      <div class="right-content">
+ <!-- /////////////////////////////////dashbpard content start ////////////////////////////  -->
+ <div *ngIf="currentTab === 'Dashboard'" class="profilebox">
+  <div class="profile-container">
+    <div class="profile-header">
+      <img *ngIf="imageUrl" [src]="imageUrl" alt="Profile Picture" style="border-radius:50%;height:100%;">
+      <div>
+        <div class="profile-details">
+          <h2>Welcome! {{ name }}</h2>
+          <table>
+            <tr class="up">
+              <td>id</td>
+              <td>phone</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr class="below">
+              <td>{{Id}}</td>
+              <td>{{number}}</td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- New Flex Container -->
+  <div class="header-container">
+    <input type="text" id="search-bar" placeholder="Search...">
+    <div class="radio-buttons">
+      <label><input type="radio" name="course-type" value="old-course"> Old Course</label>
+      <label><input type="radio" name="course-type" value="new-course"> New Course</label>
+    </div>
+    <button class="button btn8" (click)="togglePopup()">Add Course content</button>
+  </div>
+  
+  <!-- Popup Modal -->
+  <div *ngIf="showPopup" class="popup-overlay">
+    <div class="popup-content">
+      <button class="close-button" (click)="togglePopup()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="cards123 addcontentcourse">
+        <div class="card234 red" >
+          <p class="tip">Add Course</p>
+          <p class="second-text">Click to add a new course</p>
+        </div>
+        <div class="card234 blue" >
+          <p class="tip">Add Quiz</p>
+          <p class="second-text">Click to add a new quiz</p>
+        </div>
+        <div class="card234 green" >
+          <p class="tip">Add Mock Test</p>
+          <p class="second-text">Click to add a new mock test</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+   <!-- /////////////////////////////////dashbpard content end ////////////////////////////  -->
+        <div *ngIf="currentTab === 'myCourse'" class="courses-container">
+          <div class="card" *ngFor="let course of courses">
+            <img [src]="course.imageUrl" [alt]="course.title" class="card-img">
+            <div class="card-body">
+              <h2 class="card-title">{{ course.title }}</h2>
+              <p class="card-text">{{ course.description }}</p>
+              <button class="mycoursebtn">
+                <span class="button-content">{{ course.buttonText }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+  <!-- ///////////////////////////////////////////////announcement////////////////////////////////  -->
+        <div *ngIf="currentTab === 'announcenments'">
+          <div class="announcements-container">
+            <h2 style="background-color: aquamarine;">Announcements</h2>
+        
+            <form (submit)="addAnnouncement($event)">
+              <div class="form-group">
+                <label for="announcement-content">Content</label>
+                <textarea id="announcement-content" class="input auto-height" [(ngModel)]="newAnnouncement.content" name="content" required placeholder="What's on your mind {{name}}"></textarea>
+              </div>
+        
+              <button type="submit" class="btn announce-button">Post</button>
+            </form>
+        
+            <div *ngFor="let announcement of announcements" class="announcement-card">
+              <p>{{ announcement.content }}</p>
+              <span class="announcement-date">{{ announcement.date }}</span>
+            </div>
+          </div>
+        </div>
+        
+        
+        <!-- ///////////////////////////////////////////////////////////////////////////////////// -->
+        
+        <!-- /////////////////////////add shorts //////////////////////////////  -->
+        <div class="shortvideo">
+          <div *ngIf="currentTab === 'addshorts'" class="shorts-section">
+            <div class="box">
+                <span></span>
+                <div class="content">
+                    <h2>Add Shorts</h2>
+                    <form (submit)="addshort($event)">
+                        <div class="form-group">
+                            <label for="shortTitle">Short Title:</label>
+                            <input type="text" id="shortTitle" [(ngModel)]="newshort.title" class="short-inp" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="shortDescription">Short Description:</label>
+                            <textarea id="shortDescription" [(ngModel)]="newshort.description" class="short-inp" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="shortFile">Upload Short:</label>
+                            <input type="file" id="shortFile" (change)="onFileSelected($event)" accept="video/mp4,video/x-m4v,video/*" class="short-inp" required>
+                        </div>
+                        
+                        <button type="submit" class="btn" style="margin-left: 37px;">Add Short</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        
+          
+          <div *ngIf="currentTab === 'addshorts'" class="shorts-list-section">
+            <h3>My Shorts</h3>
+            <div class="shorts-list">
+              <div class="short-grid">
+                <div *ngFor="let short of shorts" class="short-item">
+                  <div class="card2">
+                    <div class="card2-header"></div>
+                    <div class="card2-body">
+                      <video [src]="short.fileUrl" controls class="short-video" (play)="onVideoPlay($event)"></video>
+                      <h4>{{ short.title }}</h4>
+                      <p>{{ short.description }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        
+
+
+
+
+
+        <!-- /////////////////////////add shorts //////////////////////////////  -->
+
+      </div>
+    </div>
+  </div>
+
+</div>
+  

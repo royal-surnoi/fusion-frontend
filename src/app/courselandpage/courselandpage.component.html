@@ -1,0 +1,550 @@
+
+<div class="course-landing-page" *ngIf="course">
+  <header class="course-header">
+    <div class="container">
+      <h1 class="course-title">{{ courseDetails.courseTitle }}</h1>
+      <p class="course-tagline">{{ courseDetails.courseDescription }}</p>
+      <div class="course-meta">
+        <span class="course-instructor">
+          <i class="fas fa-chalkboard-teacher"></i> {{ MentorDetails.name }}
+        </span>
+        <span class="course-rating">
+          <i class="fas fa-star"></i> {{ averageRating }} ({{
+            enrollmentCount.length
+          }}
+          students)
+        </span>
+        <span class="course-level">
+          <i class="fas fa-signal"></i> {{ courseDetails.level }}
+        </span>
+        <span class="course-duration">
+          <i class="fas fa-clock"></i> {{ courseDetails.courseDuration }}
+        </span>
+      </div>
+    </div>
+  </header>
+ 
+  <main class="course-content container">
+    <div class="course-details">
+      <section class="course-description">
+        <h2>Description</h2>
+        <p>{{ courseDetails.courseDescription }}</p>
+      </section>
+ 
+      <section class="course-topics">
+        <!-- -------------------------------------------bottom section----------------------- -->
+ 
+        <div class="bottom-section">
+          <div class="bottom-section-btn">
+            <button
+              (click)="toggleSection('skills')"
+              [class.active]="displaySection === 'skills'"
+            >
+              Skills
+              <span
+                *ngIf="displaySection === 'skills'"
+                class="skill-child"
+              ></span>
+              <span
+                *ngIf="displaySection === 'skills'"
+                class="skill-child1"
+              ></span>
+            </button>
+            <button
+              (click)="toggleSection('tools-required')"
+              [class.active]="displaySection === 'tools-required'"
+            >
+              Tools
+              <span
+                *ngIf="displaySection === 'tools-required'"
+                class="skill-child"
+              ></span>
+              <span
+                *ngIf="displaySection === 'tools-required'"
+                class="skill-child1"
+              ></span>
+            </button>
+            <button
+              (click)="toggleSection('Prerequesties')"
+              [class.active]="displaySection === 'Prerequesties'"
+            >
+              Prerequesties
+              <span
+                *ngIf="displaySection === 'Prerequesties'"
+                class="skill-child"
+              ></span>
+              <span
+                *ngIf="displaySection === 'Prerequesties'"
+                class="skill-child1"
+              ></span>
+            </button>
+            <button
+              (click)="toggleSection('learn')"
+              [class.active]="displaySection === 'learn'"
+            >
+              Learn
+              <span
+                *ngIf="displaySection === 'learn'"
+                class="skill-child"
+              ></span>
+              <span
+                *ngIf="displaySection === 'learn'"
+                class="skill-child1"
+              ></span>
+            </button>
+ 
+            <button
+              (click)="toggleSection('mentor')"
+              [class.active]="displaySection === 'mentor'"
+            >
+              Mentor
+              <span
+                *ngIf="displaySection === 'mentor'"
+                class="skill-child"
+              ></span>
+              <span
+                *ngIf="displaySection === 'mentor'"
+                class="skill-child1"
+              ></span>
+            </button>
+          </div>
+        </div>
+ 
+        <div class="content-section">
+          <div
+            id="skills"
+            class="slide-in-blurred-bottom skills"
+            [style.display]="displaySection === 'skills' ? 'block' : 'none'"
+          >
+            <!-- <div>
+        <h1 class="skills-title">skills</h1>
+      </div>
+     
+        <div class="">
+          <div class="whatYouLearn" *whatYouLearnInfoBarngFor="let item of tools">
+            <div class="card-tools-required">
+              <img [src]="image(item.skillImage)" alt="" class="insideCheckmark">
+              <p class="Topic1">{{ item.skillName }}</p>
+            </div>
+          </div>
+        </div> -->
+            <div>
+              <!-- <h1 class="skills-title">Skills </h1> -->
+            </div>
+            <div class="skill-container">
+              <div class="skill" *ngFor="let item of tools">
+                <div class="skill-card">
+                  <img
+                    [src]="image(item.skillImage)"
+                    alt=""
+                    class="insideCheckmark"
+                  />
+                  <p class="Topic1">{{ item.skillName }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+ 
+          <div
+            id="tools-required"
+            class="slide-in-blurred-bottom"
+            [style.display]="
+              displaySection === 'tools-required' ? 'block' : 'none'
+            "
+          >
+            <!-- <div>
+      <h1 class="tools-required-title">Tools Required</h1>
+    </div>
+ 
+    <div class="whatYouLearnInfoBar">
+      <div class="whatYouLearn" *ngFor="let item of tools">
+        <div class="card-tools-required">
+          <img [src]="image(item.toolImage)" alt="" class="insideCheckmark">
+          <p class="Topic1">{{ item.toolName }}</p>
+        </div>
+      </div>
+    </div>
+    <div> -->
+            <div>
+              <!-- <h1 class="skills-title">Tools Required</h1> -->
+            </div>
+            <div class="skill-container">
+              <div class="skill" *ngFor="let item of tools">
+                <div class="skill-card">
+                  <img
+                    [src]="image(item.toolImage)"
+                    alt=""
+                    class="insideCheckmark"
+                  />
+                  <p class="Topic1">{{ item.toolName }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+ 
+          <div
+            id="Prerequesties"
+            class="slide-in-blurred-bottom Prerequesties"
+            [style.display]="
+              displaySection === 'Prerequesties' ? 'block' : 'none'
+            "
+          >
+            <!-- <div>
+      <h1 class="Prerequesties-title">Prerequesties</h1>
+    </div>
+    <div class="whatYouLearn1">
+      <div class="whatYouLearnInfoBar">
+        <div class="whatYouLearn" *ngFor="let item of tools">
+          <div class="card-tools-required">
+         
+            <p class="Topic1">{{ item.coursePrerequisites}}</p>
+          </div>
+        </div>
+      </div>
+    </div> -->
+            <!-- ---------------- -->
+            <div>
+              <!-- <h1 class="skills-title">Prequesties</h1> -->
+            </div>
+            <div class="pre-container">
+              <div *ngFor="let item of splitArray">
+                <div class="pre-card">
+                  <!-- <img [src]="image(item.toolImage)" alt="" class="insideCheckmark"> -->
+                  <p class="Topic1">{{ item }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          id="learn"
+          class="slide-in-blurred-bottom learn"
+          [style.display]="displaySection === 'learn' ? 'block' : 'none'"
+        >
+          <!-- <div>
+      <h1 class="learn-title">What You'll LLearn</h1>
+    </div>
+    <div class="learn-center">
+    <div class="whatYouLearn">
+      <div class="whatYouLearnInfoBar">
+       
+          <div class="whatYouLearn" *ngFor="let item of levelKeys">
+            <div class="card-tools-required" *ngIf="item">
+              <p class="Topic1">{{ learn[item] }}</p>
+            </div>
+          </div>
+     
+      </div>
+  </div>
+    </div> -->
+          <!-- ---------------- -->
+          <div>
+            <!-- <h1 class="skills-title">What You'll LLearn</h1> -->
+          </div>
+          <div class="learn">
+            <div *ngFor="let item of levelKeys">
+              <div class="learn-card" *ngIf="learn[item]">
+                <img src="../../assets/checkmark.png" alt="" />
+                <!-- <img [src]="image(item.toolImage)" alt="" class="insideCheckmark"> -->
+                <p class="Topic1">{{ learn[item] }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+ 
+        <div
+          id="mentor"
+          class="slide-in-blurred-bottom mentor"
+          [style.display]="displaySection === 'mentor' ? 'block' : 'none'"
+        >
+          <!-- <div>
+      <h1 class="mentor-title">Mentor</h1>
+    </div>
+    <div class="whatYouLearn">
+      <div class="mentor-card">
+        <div class="mentor-card-cont">
+            <div class="image-contanier">
+              <img [src]="image(MentorDetails.userImage)" alt="" class="insdeCheckmark">
+              <p class="Menotr">{{ MentorDetails.name }}</p>
+            </div>
+            <div class="Mentor-Desc">
+              <p >{{ MentorDetails.userDescription }}hiiiiiiiiiiiiiiiii</p>
+            </div>
+      </div>
+    </div>
+    </div> -->
+          <!-- ----------------------------- -->
+          <div>
+            <!-- <h1 class="skills-title">What You'll LLearn</h1> -->
+          </div>
+          <div class="mentor-container">
+            <div class="mentor">
+              <div class="mentorDetails-card">
+                <img
+                  *ngIf="MentorDetails.userImage !== null"
+                  [src]="image(MentorDetails.userImage)"
+                  alt=""
+                  class="insdeCheckmark"
+                />
+ 
+                <img
+                  *ngIf="MentorDetails.userImage === null"
+                  src="../../assets/download.png"
+                  alt=""
+                  class="insdeCheckmark"
+                />
+                <!-- <p>kk</p> -->
+                <p class="Menotr">{{ MentorDetails.name }}</p>
+              </div>
+              <div class="Mentor-Desc">
+                <p>{{ MentorDetails.userDescription }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- -------------------roadMap---------------------------- -->
+ 
+      <section class="road-map">
+        <div class="road-map-container">
+          <h2>RoadMap</h2>
+ 
+          <div class="box-control">
+            <div class="modal-dialog modal-dialog-fullscreen">
+              <div
+                class="modal fade"
+                id="exampleModalToggle"
+                aria-hidden="true"
+                aria-labelledby="exampleModalToggleLabel"
+                tabindex="-1"
+              >
+                <div class="modal-dialog modal-fullscreen">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalToggleLabel">
+                        Road Map
+                      </h1>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="timeline-container">
+                        <div class="timeline" *ngIf="courseTerm === 'long'">
+                          <div
+                            *ngFor="
+                              let module of courseModules;
+                              let index = index
+                            "
+                            class="module"
+                          >
+                            <div
+                              class="timeline-bubble"
+                              (click)="showLessons2(module, module.id)"
+                              [style.backgroundColor]="
+                                selectedModule2 === module.id
+                                  ? '#2980b9'
+                                  : '#3498db'
+                              "
+                            >
+                              Module {{ index + 1 }}
+                            </div>
+                            <div
+                              class="content"
+                              *ngIf="selectedModule2 === module.id"
+                            >
+                              <div class="module-content">
+                                {{ module.moduleName }}
+                                <ul>
+                                  <li
+                                    *ngFor="
+                                      let lesson of lessonList2;
+                                      let i = index
+                                    "
+                                  >
+                                    Lesson {{ i + 1 }}: {{ lesson.lessonTitle }}
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button
+              class="btn btn-primary"
+              data-bs-target="#exampleModalToggle"
+              data-bs-toggle="modal"
+              *ngIf="courseDetails.courseTerm === 'long'"
+            >
+              View Your RoadMap
+            </button>
+          </div>
+        </div>
+      </section>
+ 
+      <!-- -------------------roadMap end---------------------------- -->
+      <!-- ------------------------------------skill tree------------ -->
+ 
+      <section class="course-syllabus">
+        <h2>Course syllabus</h2>
+        <div *ngIf="courseTerm === 'long'">
+          <div
+            class="syllabus-week"
+            *ngFor="let module of courseModules; let i = index"
+          >
+            <h3
+              (click)="showLessons(module, module.id)"
+              [class.active]="selectedModule === module.id"
+            >
+              {{ module.moduleName }}
+            </h3>
+            <div
+              *ngIf="selectedModule === module.id && openlesson"
+              class="dropdown-content-module"
+            >
+              <div class="module-content">
+                <!-- <h1>{{ module.moduleName }}</h1> -->
+                <ul>
+                  <li *ngFor="let lesson of lessonList; let i = index">
+                    Lesson {{ i + 1 }}: {{ lesson.lessonTitle }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="courseTerm === 'short'">
+          <ul>
+            <li *ngFor="let video of videos; let i = index">
+              Video {{ i + 1 }}: {{ video.videoTitle }}
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
+ 
+    <aside class="course-sidebar">
+      <div class="course_trailer">
+        <h1 class="course-trailer">Course Trailers</h1>
+        <div class="course-levels">
+          <div class="level-1" *ngFor="let video of coursesDemo; let i = index">
+            <p>{{ video.videoTrailerDescription}}</p>
+            <!-- <img src="../../assets/play.png" alt=""  class="vedio-cont"/> -->
+            <i (click)="showVideo(i)" class="vedio-cont" class="fa-solid fa-play"></i>
+ 
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Modal for video playback -->
+      <div *ngIf="selectedVideo" class="video-modal">
+        <div class="modal-content2">
+          <span class="close" (click)="closeVideo()">&times;</span>
+          <iframe
+            [src]="sanitizeUrl(selectedVideo.s3Url)"
+            width="560"
+            height="315"
+            allowfullscreen
+            allow="encrypted-media"
+          >
+          </iframe>
+        </div>
+      </div>
+ 
+      <!-- ------------------------above is video trailer--------------------- ------------------------------------>
+ 
+      <div *ngIf="isEnrolled" class="backdrop">
+        <button
+          (click)="hideCard()"
+          style="background-color: transparent; border: none"
+        >
+          <i class="fa fa-window-close" aria-hidden="true"></i>
+        </button>
+        <video
+          #videoPlayer
+          width="50%"
+          height="50%"
+          controlsList="nodownload"
+          autoplay
+          controls
+          [src]="videoUrl"
+          style="border: 5px solid #ad88c6; border-radius: 20px"
+        >
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <!-- -----------------------above for back blur and visible video ------------------------------------->
+ 
+      <div class="course-card">
+        <img
+          [src]="image(courseDetails.courseImage)"
+          [alt]="course.title"
+          class="course-image"
+        />
+        <div class="course-div">
+          <div class="course-price" *ngIf="!isEnrolled">
+            {{ courseDetails.courseFee | currency }}
+          </div>
+          <div class="enrolled-badge" *ngIf="isEnrolled">Enrolled</div>
+          <button
+            *ngIf="!lockOn"
+            class="action-button"
+            [disabled]="enrolling"
+            [routerLink]="['/enrollpaymentform']"
+            [queryParams]="{ courseId: courseDetails.id }"
+            [skipLocationChange]="enrolling"
+          >
+            <span>Enroll Now</span>
+          </button>
+        </div>
+ 
+        <button
+          *ngIf="lockOn"
+          class="action-button"
+          [disabled]="enrolling"
+          [routerLink]="['/coursedashboard']"
+          [queryParams]="{ courseId: courseDetails.id }"
+          [skipLocationChange]="enrolling"
+        >
+          <span>Enrolled</span>
+        </button>
+ 
+        <a
+          class="action-button go-to-course -button"
+          *ngIf="isEnrolled"
+          [routerLink]="'/learn/' + course.id"
+        >
+          Go to Course
+        </a>
+ 
+        <!-- Add this line separator -->
+        <div class="line-separator"></div>
+ 
+        <ul class="course-features">
+          <li>
+            <i class="fas fa-play-circle"></i>
+            {{ courseDetails.courseDuration }}+ hours of video
+          </li>
+          <!-- <i class="fa-solid fa-circle fa-2xs"></i> -->
+          <li *ngFor="let item of levelKeys">
+            {{ learn[item] }}
+          </li>
+        </ul>
+      </div>
+      <!-- ---------------- BELOW CODE IS FOR COURSE WHEEL-------------------------- -->
+ 
+      <!-- ---------------------------------------------------- -->
+    </aside>
+  </main>
+</div>
+ 
+ 
+ 

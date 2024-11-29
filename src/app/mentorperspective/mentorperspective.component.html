@@ -1,0 +1,19 @@
+<div class="dashboard">
+  <div class="dashboard-section" *ngIf="!selectedCandidateId">
+    <h2>Candidates</h2>
+    <app-candidatelist 
+      [candidates]="candidates" 
+      (candidateSelected)="onCandidateSelected($event)">
+    </app-candidatelist>
+  </div>
+  
+  <div class="dashboard-section" *ngIf="selectedCandidateId">
+    <h2>Pending Submissions for Candidate #{{selectedCandidateId}}</h2>
+    <app-submissionreview 
+      [submissions]="getFilteredSubmissions()" 
+      [candidateId]="selectedCandidateId">
+    </app-submissionreview>
+    
+    <button (click)="selectedCandidateId = null">Back to Candidates</button>
+  </div>
+</div>

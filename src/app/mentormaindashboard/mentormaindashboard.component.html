@@ -1,0 +1,148 @@
+<!-- <div class="profile-container">
+  <div class="card-client">
+    <div class="user-picture1">
+      <img [src]="userImage || '../../assets/download.png'" alt="" (click)="navigateToProfile()"
+        style="width:80px; height:80px; border-radius: 50%;" />
+    </div>
+    <p class="name-client">{{ name }}
+    <p class="designation">{{ role }}</p>
+  </div>
+  <div class="card-next">
+    <p class="userdata"> &nbsp; &nbsp; &nbsp; {{ name }} <span>{{userDescription}}</span></p>
+  </div>
+</div> -->
+ 
+ 
+<!-- New Flex Container -->
+ 
+<div class="header-container">
+  <input type="text" id="search-bar" class="inp-dash-search" style="width:250px; margin-right:10px; margin-left:10px;"
+  placeholder="Search..." [(ngModel)]="searchQuery" (input)="filterCourses()">
+ 
+  <div class="radio-buttons">
+    <label><input type="radio" name="course-type" value="in-progress" [(ngModel)]="selectedCourseType"
+        (change)="onCourseTypeChange()"> In Progress</label>
+    <label><input type="radio" name="course-type" value="completed" [(ngModel)]="selectedCourseType"
+        (change)="onCourseTypeChange()"> Completed</label>
+  </div>
+  <button class="button btn8" (click)="togglePopup()">Add Content</button>
+</div>
+ 
+<div *ngIf="filteredCoursesList && filteredCoursesList.length > 0">
+  <h3>Courses:</h3>
+  <!-- <ul>
+    <li *ngFor="let course of filteredCoursesList">
+      Display course details here
+      {{ course.courseTitle }} - {{ course.coursePercentage }}%
+    </li>
+  </ul> -->
+</div>
+<div *ngIf="filteredCoursesList && filteredCoursesList.length === 0">
+  <p>No courses found.</p>
+</div>
+ 
+<hr>
+ 
+ 
+ 
+<div class="course-card coursecompleyeprogress" *ngFor="let item of filteredCoursesList; let i = index">
+
+  <div class="course-image" [style.background-image]="getCourseBackgroundImage(item)">
+    <span *ngIf="!item || !item.courseImage">{{ item ? item.courseTitle[0].toUpperCase() : 'C' }}</span>
+  </div>
+  
+  <!-- <img [src]="image(item.courseImage)" alt="{{ item.courseTitle }} Image" class="course-image"> -->
+  <div class="course-details">
+    <div class="course-info">
+      <div>
+        <h2 class="course-title">{{ item.courseTitle }}</h2>
+        <p class="last-updated">Last updated: {{ item.updatedAt | date:'medium' }}</p>
+      </div>
+      <div class="course-actions">
+        <button class="icon-button edit-button" (click)="navigateToUpdateCoursID(item.id)">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button (click)="confirmDeleteCourse(item.id)" class="icon-button delete-button">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
+    </div>
+    <div class="course-progress">
+      <progress [value]="item.coursePercentage" max="100"></progress>
+      <span>{{ item.coursePercentage }}%</span>
+    </div>
+  </div>
+</div>
+ 
+ 
+<!-- Popup Modal -->
+<div *ngIf="showPopup" class="popup-overlay">
+  <div class="popup-content">
+    <button class="close-button" (click)="togglePopup()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+    <div class="cards123">
+
+      
+    <!-- Add Course Button -->
+<div class="card456 red" (click)="showPrivacyPopup()">
+  <p class="tip" (click)="showPrivacyPopup()">Add Course</p>
+</div>
+      <div class="card456 blue" (click)="navigateToScheduleClass()">
+        <p class="tip" (click)="navigateToScheduleClass()">schedule a class</p>
+      </div>
+     
+      <div class="card456 green" (click)="navigateToMockInterview()">
+        <p class="tip" (click)="navigateToMockInterview()"> Add Mock Interview</p>
+      </div>
+    </div>
+ 
+   <!-- Privacy Acceptance Popup -->
+<div class="popup-overlay" *ngIf="isPrivacyPopupVisible">
+  <div class="popup-container">
+    <h3>Privacy Policy</h3>
+    <p>Please accept our privacy policy before creating a course.</p>
+   
+    <!-- Checkbox for privacy policy agreement -->
+    <label>
+      <input type="checkbox" [(ngModel)]="isCheckboxChecked" />
+      I agree to the privacy policy.
+    </label>
+   
+    <div style="margin-top: 10px;">
+      <!-- Accept button enabled only if the checkbox is checked -->
+      <button
+        (click)="acceptPrivacyPolicy()"
+        [disabled]="!isCheckboxChecked"
+        style="background-color: green; margin-right: 10px;">
+        Accept
+      </button>
+     
+      <!-- Decline button -->
+      <button
+        (click)="closePrivacyPopup()"
+        style="background-color: red;">
+        Decline
+      </button>
+    </div>
+  </div>
+</div>
+ 
+   
+    <!-- Unique Popup -->
+ <!-- Course Creation Popup -->
+<div class="popup-overlay2" *ngIf="isCoursePopupVisible">
+  <div class="popup-container">
+    <form class="popup-form" (ngSubmit)="onSubmit2()">
+      <input type="text" [(ngModel)]="courseTitle" name="courseTitle" placeholder="Enter course name" required>
+      <button type="submit" class="createcourse">Create the course</button>
+      <button (click)="closeCoursePopup()" style="background-color: red;">Close</button>
+    </form>
+  </div>
+</div>
+  </div>
+</div>
+ 

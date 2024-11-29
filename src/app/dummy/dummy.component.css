@@ -1,0 +1,105 @@
+.display {
+    display: flex;
+    position: relative;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px;
+    padding-left: 30px;
+    padding-bottom: 10px;
+}
+
+.sidebar {
+    width: 250px;
+    transition: transform 0.3s ease;
+}
+
+.sidebar.closed {
+    transform: translateX(-250px);
+}
+
+.content {
+    flex-grow: 1;
+    transition: margin-left 0.3s ease;
+    margin-left: 250px;
+}
+
+.sidebar.closed + .content {
+    margin-left: 0;
+}
+
+.hambergerIconRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #444;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    margin: 10px 0;
+}
+
+.dropDownListItems {
+    display: flex;
+    justify-content: space-between;
+}
+
+.fa-bars {
+    font-size: 24px;
+}
+
+.video-container {
+    padding: 100px;
+    box-sizing: border-box;
+    transition: width 0.3s ease;
+    width: calc(100% - 250px);
+}
+
+.video-container.expanded {
+    width: 70%;
+}
+
+.video-player {
+    width: 100%;
+    height: auto;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background: #dbb2f0;
+    color: #fff;
+    transition: transform 0.3s ease;
+}
+
+.sidebar.closed {
+    transform: translateX(-100%);
+}
+.sidebar-toggle-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #dee0df;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: left 0.3s ease;
+}
+
+.sidebar-toggle-button.closed {
+    left: 20px;
+}
+
+.sidebar-toggle-button.open {
+    left: 200px; /* Adjust this value based on the width of your sidebar */
+}
+

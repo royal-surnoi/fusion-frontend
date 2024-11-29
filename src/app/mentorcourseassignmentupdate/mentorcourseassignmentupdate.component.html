@@ -1,0 +1,44 @@
+<nav class="heading">
+  <button (click)="navigateToDashboard()">Back to Dashboard</button>
+  <h4 style="margin-right:500px;margin-top:15px;">Update Assignment</h4>
+</nav>
+
+<form [formGroup]="assignmentForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+  <div>
+    <label for="assignmentTitle">Assignment Title:</label>
+    <input id="assignmentTitle" formControlName="assignmentTitle" type="text" required />
+  </div>
+  <div>
+    <label for="assignmentTopicName">Assignment Topic Name:</label>
+    <input id="assignmentTopicName" formControlName="assignmentTopicName" type="text" required />
+  </div>
+  <div>
+    <label for="assignmentDescription">Assignment Description:</label>
+    <textarea id="assignmentDescription" formControlName="assignmentDescription" required></textarea>
+  </div>
+  <div>
+    <label for="maxScore">Max Score:</label>
+    <input id="maxScore" formControlName="maxScore" type="number" required />
+  </div>
+  <div>
+    <label for="startDate">Start Date:</label>
+    <input id="startDate" formControlName="startDate" type="datetime-local" required />
+  </div>
+  <div>
+    <label for="endDate">End Date:</label>
+    <input id="endDate" formControlName="endDate" type="datetime-local" required />
+  </div>
+  <div>
+    <label for="reviewMeetDate">Review Meet Date:</label>
+    <input id="reviewMeetDate" formControlName="reviewMeetDate" type="datetime-local" required />
+  </div>
+  <div>
+    <label for="assignmentAnswer">Assignment Answer:</label>
+    <textarea id="assignmentAnswer" formControlName="assignmentAnswer" required></textarea>
+  </div>
+  <div>
+    <label for="assignmentDocument">Assignment Document:</label>
+    <input id="assignmentDocument" type="file" (change)="onFileSelected($event)" />
+  </div>
+  <button type="submit">Update Assignment</button>
+</form>

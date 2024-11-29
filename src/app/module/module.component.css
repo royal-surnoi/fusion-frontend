@@ -1,0 +1,698 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+ 
+font-family: 'Mulish';
+ 
+}
+ 
+body {
+ 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  height:500px;
+  overflow: hidden; /* Prevent body scroll */
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+ 
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.course-landing {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+  backdrop-filter: blur(10px); /* Blur effect for the glass effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari support for blur effect */
+  border-radius: 10px; /* Rounded corners */
+  margin-bottom: 20px;
+  width: 400px;
+  margin-left: 150px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for better visibility */
+  transition: background 0.3s;
+}
+ 
+.course-landing:hover {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.2), rgba(18, 78, 102, 0.2));
+}
+ 
+.headding {
+height: 100px;
+width:100%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+ 
+background-size: 600% 600%;
+/* animation: gradientBG 30s ease infinite; */
+padding: 0 20px;
+background-color: #000;
+ 
+color: black;
+ 
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+ 
+.container {
+  display: flex;
+  width: 100%;
+  max-width: 1000px;
+  gap: 20px;
+  padding: 20px;
+  height: 80vh; /* Adjust height as needed */
+  overflow: hidden;
+  background: linear-gradient(to right,#D3D9D4);
+}
+ 
+.right-content {
+  list-style: none;
+  overflow-y: auto;
+  padding-right: 10px;
+  flex: 3;
+  width: 400px;
+  border-radius: 5px;
+  background-color: linear-gradient(to bottom, #D3D9D4);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adjust shadow color and size as needed */
+}
+/* General styles for the left-content */
+.left-content {
+  border-radius: 5px;
+  width: 250px; /* Adjust width as needed */
+  background-color: #D3D9D4; /* Light gray background */
+  border-right: 1px solid #dee2e6; /* Border on the right side */
+  padding: 15px; /* Padding inside the content */
+}
+ 
+/* Wrapper styling */
+.left-content .wrapper {
+  padding: 10px;
+}
+ 
+/* Sidenav styles */
+.left-content .sidnav {
+  margin-top: 20px; /* Space at the top */
+}
+ 
+/* Unordered list styles */
+.left-content .ulList {
+  list-style-type: none; /* Remove default list styles */
+  padding: 0; /* Remove default padding */
+}
+ 
+/* List item styles */
+.left-content .ulList .navcourse {
+  margin-bottom: 10px; /* Space between list items */
+  padding: 10px 15px; /* Padding inside list items */
+  background: linear-gradient(to right,#D3D9D4);; /* White background */
+  border: 1px solid #dee2e6; /* Light border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition on hover */
+}
+ 
+/* Hover effect for list items */
+.left-content .ulList .navcourse:hover {
+  background-color: #e9ecef; /* Light hover background */
+}
+ 
+/* Active list item styles */
+.left-content .ulList .navcourse.active {
+  background-color: #2E3944; /* Blue background for active item */
+  color: #ffffff; /* White text for active item */
+  border-color: green 2px; /* Border color for active item */
+}
+ 
+/* Span inside list items */
+.left-content .ulList .navcourse .Inspan {
+  font-size: 16px; /* Font size for span */
+  font-weight: 500; /* Font weight for span */
+}
+.mat-card {
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+border-radius: 8px;
+}
+ 
+.mat-checkbox {
+margin: 10px 0;
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .left-content {
+      width: 100%; /* Full width on small screens */
+      border-right: none; /* Remove right border */
+  }
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.planning-inputs {
+  border-radius: 8px;
+  padding: 20px;
+  width: 400px;
+  margin-bottom: 20px;
+  background: linear-gradient(to right, #D3D9D4);
+  margin-left: 150px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Optional: Add a shadow for depth */
+  transition: background 0.3s; /* Smooth transition for background change */
+}
+ 
+.planning-inputs:hover {
+  background: linear-gradient(to right, #e9ecef, #ced4da); /* Adjust colors for hover effect */
+}
+ 
+ 
+.input-group {
+  margin-bottom: 15px;
+  background: linear-gradient(to right,#D3D9D4 );
+  border-radius: 23px;
+ 
+}
+ 
+label {
+  font-weight: bold;
+ 
+}
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+ 
+input[type="text"],
+textarea,
+input[type="date"],
+input[type="number"],select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background: linear-gradient(to right,#D3D9D4 );
+ 
+}
+ 
+input[type="text"]:focus,
+textarea:focus,
+input[type="date"]:focus,
+input[type="number"]:focus {
+  /* border-color: #; */
+  outline: none;
+  background: linear-gradient(to right,#D3D9D4 );
+}
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+video {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+button {
+  background-color: #000; /* Black background color */
+  color: white;
+   /* Green border */
+  padding: 2px 8px; /* Adjust padding for a better capsule shape */
+  border-radius: 50px; /* Capsule shape */
+  margin: 2px;
+  width: fit-content;
+ 
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+ 
+button:hover {
+  background-color:#e5ecef; /* Change background color on hover */
+  color: black; /* Change text color on hover */
+}
+ 
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+ 
+ 
+ 
+/* edit buttton styling */
+ 
+/* .edit-button {
+  padding: 10px 20px;
+ 
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+} */
+ 
+ 
+ 
+ 
+/* choose file styling */
+ 
+input[type=file]::file-selector-button {
+  border: 2px #2E3944;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background-color: #edeeee;
+  color: rgb(16, 12, 12);
+  font-weight: 600;
+  font-size: 14px;
+  margin-right: 6px;
+ 
+}
+ 
+input[type=file]::file-selector-button:hover {
+  background-color: #f3f4f5;
+  /* border: 2px solid #00cec9; */
+  box-shadow: 5px 5px 5px #2E3944;
+ 
+}
+ 
+/* Container for the pricing section */
+.pricing-section {
+  background: linear-gradient(to right, #D3D9D4);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 400px;
+  margin-left: 150px;
+  transition: background 0.3s; /* Smooth transition for background change */
+}
+ 
+.pricing-section:hover {
+  background: linear-gradient(to right, #e9ecef, #ced4da); /* Adjust colors for hover effect */
+}
+ 
+.form-group span {
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 150px;
+  color: #312b21;
+}
+.form-group h2{
+  font-size: 26px;
+}
+/* General styling */
+.curriculum {
+  width: 400px;
+  margin-left: 150px;
+}
+ 
+.curriculum-section {
+  margin-bottom: 20px;
+}
+ 
+.lesson-container {
+  margin-left: 150px;
+  width: 400px;
+  padding: 20px;
+  background: linear-gradient(to right, #D3D9D4);
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Optional: Add a shadow for depth */
+  transition: background 0.3s; /* Smooth transition for background change */
+}
+ 
+.lesson-container:hover {
+  background: linear-gradient(to right, #e9ecef, #ced4da); /* Adjust colors for hover effect */
+}
+ 
+ 
+.lesson-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 15px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+}
+ 
+/* .input-group {
+margin-bottom: 10px;
+} */
+ 
+/* .input-group label {
+display: block;
+margin-bottom: 5px;
+font-weight: bold;
+} */
+ 
+.input-group {
+  margin-bottom: 20px;
+}
+ 
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+ 
+.input-group input[type="text"],
+.input-group textarea,
+.input-group select {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+ 
+.input-group button {
+  margin-left: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #2E3944;
+  color: #fff;
+  transition: background-color 0.3s;
+}
+ 
+.input-group button:hover {
+  background-color: #748D92;
+}
+ 
+.file-upload input[type="file"] {
+  margin-top: 5px;
+  background: linear-gradient(to right, #D3D9D4);
+}
+ 
+.file-item {
+  margin-bottom: 5px;
+  background: linear-gradient(to right, #D3D9D4);
+}
+ 
+.courses {
+  width: 400px;
+  margin-left: 100px;
+}
+ 
+.project-section {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-top: 20px;
+  background: linear-gradient(to right, #D3D9D4);
+  width: 400px;
+  margin-left: 150px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Optional: Add a shadow for depth */
+  transition: background 0.3s; /* Smooth transition for background change */
+}
+ 
+.project-section:hover {
+  background: linear-gradient(to right, #e9ecef, #ced4da); /* Adjust colors for hover effect */
+}
+ 
+ 
+.project-item {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+}
+ 
+.project-item h4 {
+  margin-bottom: 5px;
+ 
+}
+.project-section h3 {
+  font-size: 24px;
+  font-weight: 100PX;
+}
+ 
+ 
+.project-item button {
+  margin-left: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #2E3944;
+  color: #fff;
+  transition: background-color 0.3s;
+}
+ 
+.project-item button:hover {
+  background-color: #748D92;
+}
+.online-section {
+  margin-left: 10px;
+  width: 400px;
+  padding: 20px;
+  background: linear-gradient(to right, #D3D9D4);
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+ 
+ 
+ 
+ 
+.alert {
+padding: 15px;
+margin-bottom: 20px;
+border: 1px solid transparent;
+border-radius: 4px;
+}
+ 
+.alert-success {
+color: #2E3944;
+background-color: #dff0d8;
+border-color: #d6e9c6;
+}
+ 
+.alert-error {
+color: #a94442;
+background-color: #f2dede;
+border-color: #ebccd1;
+}
+ 
+/* styles.css */
+ 
+/* Container styling */
+.add-content-container {
+max-width: 800px;
+margin: 0 auto;
+padding: 20px;
+border: 1px solid #ccc; /* Add border around the container */
+border-radius: 4px;
+}
+ 
+/* Form styling */
+.add-content-form {
+margin-bottom: 20px;
+}
+ 
+/* Header styling */
+.add-content-header {
+font-size: 1.2em;
+margin-bottom: 10px;
+}
+ 
+.add-content-subheader {
+font-size: 1em;
+margin-bottom: 5px;
+}
+ 
+/* Label styling */
+.add-content-label {
+display: block;
+margin-bottom: 5px;
+font-weight: bold;
+}
+ 
+/* Input styling */
+.add-content-input-file {
+margin-bottom: 10px;
+}
+ 
+.add-content-input-text {
+width: 100%;
+padding: 8px;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+margin-bottom: 10px;
+}
+ 
+/* Button styling */
+.add-content-button {
+padding: 10px 20px;
+background-color: #124E66;
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+ 
+.add-content-button:disabled {
+background-color: #ccc;
+cursor: not-allowed;
+}
+ 
+.add-content-button-secondary {
+padding: 10px 20px;
+background: linear-gradient(to right,#D3D9D4, #124E66 );
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+margin-top: 10px;
+}
+ 
+.add-content-button-submit {
+padding: 10px 20px;
+background-color: #2E3944;
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+margin-top: 10px;
+}
+ 
+/* Add border around upload sets */
+.upload-set {
+border: 1px solid #ddd;
+padding: 10px;
+margin-bottom: 15px;
+border-radius: 4px;
+}
+ 
+/* Responsive adjustments */
+@media (max-width: 600px) {
+/* Adjustments for smaller screens */
+.add-content-container {
+  padding: 10px;
+}
+.add-content-input-text {
+  width: calc(100% - 16px); /* Adjust for padding and borders */
+}
+}
+.checkbox-container {
+display: flex;
+gap: 20px;
+align-items: center;
+margin: 20px auto;
+justify-content: center;
+}
+ 
+.checkbox-container label {
+display: flex;
+align-items: center;
+gap: 5px;
+font-weight: 500;
+cursor: pointer;
+}
+ 
+.checkbox-container input[type="checkbox"] {
+accent-color: #D3D9D4; /* Change to your preferred color */
+}
+ 
+.form-container {
+max-width: 600px;
+margin: 0 auto;
+padding: 20px;
+border: 1px solid #ddd;
+border-radius: 8px;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+ 
+.form-container div {
+margin-bottom: 15px;
+}
+ 
+.form-container label {
+display: block;
+margin-bottom: 5px;
+font-weight: 600;
+}
+ 
+.form-container input[type="text"],
+.form-container input[type="date"] {
+width: calc(100% - 20px);
+padding: 8px 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+}
+ 
+.form-container input[type="text"]:focus,
+.form-container input[type="date"]:focus {
+border-color: #CCC; /* Change to your preferred color */
+outline: none;
+box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+ 
+.form-container button {
+  background: linear-gradient(to right,#D3D9D4);/* Change to your preferred color */
+color: #fff;
+border: none;
+padding: 10px 20px;
+border-radius: 4px;
+cursor: pointer;
+font-size: 16px;
+}
+.form-container button:hover {
+background-color: #2E3944; /* Change to your preferred color */
+}
+.update-save-btn:hover{
+  box-shadow: 5px 5px 5px #2E3944;
+}
+ 
+/* .update-btn{
+  background-color: #edeeee;
+  color: #000;
+ 
+} */
+ 
+#update-save-btn:hover{
+  box-shadow: 5px 5px 5px #2E3944;
+}
+ 
+#update-btn:hover{
+  box-shadow: 5px 5px 5px #2E3944;
+}
+ 
+#update-btn1{
+  border-radius: 23px;
+  background-color: #000;
+ 
+}
+ 
+#update-btn1:hover{
+  background-color: #2E3944;
+  color: white;
+}
+ 
+ 
+ 
+ 

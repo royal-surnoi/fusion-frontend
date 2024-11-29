@@ -1,0 +1,433 @@
+
+<div class="dashboard">
+  <button (click)="navigateToback()">back</button>
+  <h1>Candidate Dashboard </h1>
+  <div class="courses-grid">
+    <div *ngIf="courseDetails" class="course-card">
+      <h2>{{ courseDetails.courseTitle }}</h2>
+      <div class="course-progress">
+        <progress [value]="courseProgress" max="100"></progress>
+        <span>{{ courseProgress }}%</span>
+      </div>
+      <div class="activities" (click)="navigate(courseDetails.id)">
+        <div class="activities-header">
+          <h3>Activities.</h3>
+          <div class="dropdown-container">
+            <select [(ngModel)]="activityView" (change)="onActivityViewChange()" class="styled-dropdown"  style="background-color: #f2f2f2; border: 1px solid #888; padding: 10px; :hover { background-color: #ff0000; }" >
+              <option onfocus="" value="course">As Course</option>
+              <option value="individual">Individual</option>
+            </select>
+          </div>      
+        </div>
+ 
+        <ng-container *ngIf="activityView === 'course'">
+          <div class="course-navigation">
+            <!-- Module/Lesson Selection -->
+            <div class="selection-container">
+              <!-- Show modules if they exist -->
+              <ng-container *ngIf="lessonModules.length > 0">
+                <div class="module-selection">
+                  <h3>Modules</h3>
+                  <div class="module-list">
+                    <button *ngFor="let module of lessonModules"
+                            (click)="selectModule(module.id)"
+                            [class.selected]="module.id === selectedModuleId">
+                      {{ module.moduleName }}
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+       
+              <!-- Lessons (shown for both scenarios) -->
+              <div class="lesson-selection">
+                <h3>Lessons</h3>
+                <div class="lesson-list">
+                  <button *ngFor="let lesson of lessons"
+                          (click)="selectLesson(lesson.id)"
+                          [class.selected]="lesson.id === selectedLessonId">
+                    {{ lesson.lessonTitle }}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <hr style="color: red;">
+       
+            <!-- Quiz Section -->
+            <div *ngIf="selectedLessonId" class="activity-section">
+             <div class="activity">
+               <div class="activity-icon">
+                 <i class="fas" [ngClass]="getActivityIcon('quiz')"></i>
+               </div>
+               <div class="activity-details">
+                 <h4>Quiz</h4>
+                 <div class="activity-progress">
+                   <div class="progress-bar">
+                     <div class="progress" [style.width.%]="quizProgressDetails.progressPercentage || 0"></div>
+                   </div>
+                   <span class="status" [style.color]="getStatusColor('in_progress')">
+                     {{ quizProgressDetails.progressPercentage | number:'1.0-0' }}%
+                   </span>
+                 </div>
+                 <p class="activity-status" [ngClass]="getStatusClass(quizProgressDetails.progressPercentage)">
+                   {{ getActivityStatus(quizProgressDetails.progressPercentage) }}
+                 </p>
+               </div>
+               <button class="btn-activity" [ngClass]="getStatusClass(quizProgressDetails.progressPercentage)"
+                       (click)="startActivity(courseDetails.id, 'quiz')"
+                       [disabled]="quizProgressDetails.quizzes.length === 0">
+                 {{ getButtonText(quizProgressDetails.progressPercentage) }}
+               </button>
+             </div>
+          
+             <!-- Quiz details table -->
+             <div class="quiz-details" *ngIf="quizProgressDetails.quizzes.length > 0">
+               <table>
+                 <thead>
+                   <tr>
+                     <th>Course Title</th>
+                     <th>Lesson Title</th>
+                     <th>Quiz Title</th>
+                     <th>Status</th>
+                     <th>Action</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   <tr *ngFor="let quiz of quizProgressDetails.quizzes">
+                     <td>{{ quiz.courseTitle }}</td>
+                     <td>{{ quiz.lessonTitle }}</td>
+                     <td>{{ quiz.quizTitle }}</td>
+                     <td>{{ quiz.status }}</td>
+                     <td>
+                       <button (click)="goToQuizDetails(+quiz.quizId, courseId)" [disabled]="quiz.status === 'Completed'">
+                         {{ quiz.status === 'Completed' ? 'Completed' : 'Go' }}
+                       </button>
+                     </td>
+                   </tr>
+                 </tbody>
+               </table>
+             </div>
+             <div *ngIf="quizProgressDetails.quizzes.length === 0" class="no-quizzes-message">
+               No quizzes available for this lesson.
+             </div>
+           </div>
+
+       
+            <!-- Assignment Section -->
+            <div *ngIf="selectedLessonId" class="activity-section">
+             <div class="activity">
+               <div class="activity-icon">
+                 <i class="fas" [ngClass]="getActivityIcon('assignment')"></i>
+               </div>
+               <div class="activity-details">
+                 <h4>Assignment</h4>
+                 <div class="activity-progress">
+                   <div class="progress-bar">
+                     <div class="progress" [style.width.%]="progressDetails.progressPercentage"></div>
+                   </div>
+                   <span class="status" [style.color]="getStatusColor('in_progress')">
+                     {{ progressDetails.progressPercentage | number: '1.0-0' }}%
+                   </span>
+                 </div>
+                 <p class="activity-status" [ngClass]="getStatusClass(progressDetails.progressPercentage)">
+                   {{ getActivityStatus(progressDetails.progressPercentage) }}
+                 </p>
+               </div>
+               <button class="btn-activity" [ngClass]="getStatusClass(progressDetails.progressPercentage)"
+                       (click)="startActivity(progressDetails.progressPercentage, 'assignment')">
+                 {{ getButtonText(progressDetails.progressPercentage) }}
+               </button>
+             </div>
+          
+             <!-- Assignment details table -->
+             <div class="assignment-details" *ngIf="progressDetails.assignments.length > 0">
+               <table>
+                 <thead>
+                   <tr>
+                     <!-- <th>Course Title</th>
+                     <th>Lesson Title</th> -->
+                     <th>Assignment Title</th>
+                     <th>Status</th>
+                     <th>Action</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+                   <tr *ngFor="let assignment of progressDetails.assignments">
+                     <!-- <td>{{ progressDetails.courseTitle }}</td>
+                     <td>{{ progressDetails.lessonTitle }}</td> -->
+                     <td>{{ assignment.title }}</td>
+                     <td>{{ assignment.status }}</td>
+                     <!-- <td>{{ assignment.id }}</td> -->
+                     <td>
+                       <button *ngIf="assignment.status === 'Incomplete'"
+                               (click)="goToAssignmentDetails(assignment, courseId,progressDetails)" class="btn-pending">
+                         Go to Assignment
+                       </button>
+                       <span *ngIf="assignment.status === 'Completed'" class="status-completed">
+                         Completed
+                       </span>
+                     </td>
+                   </tr>
+                 </tbody>
+               </table>
+             </div>
+             <div *ngIf="progressDetails.assignments.length === 0">
+               No assignments available for this lesson.
+             </div>
+           </div>
+
+       
+            <!-- Project Section -->
+           
+<div *ngIf="projectProgressDetails">
+              <div class="activity">
+                <div class="activity-icon">
+                  <i class="fas" [ngClass]="getActivityIcon('project')"></i>
+                </div>
+                <div class="activity-details">
+                  <h4>Project</h4>
+                  <div class="activity-progress">
+                    <div class="progress-bar">
+                      <div class="progress" [style.width]="(projectProgressDetails.progress ) + '%'"></div>
+                    </div>
+                    <span class="status" [style.color]="getStatusColor('in_progress')">
+                      {{ (projectProgressDetails.progress ) | number:'1.0-0' }}%
+                    </span>
+                  </div>
+                  <p class="activity-status" [ngClass]="getStatusClass(projectProgressDetails.progress)">
+                    {{ getActivityStatus(projectProgressDetails.progress) }}
+                  </p>
+                </div>
+                <button class="btn-activity" [ngClass]="getStatusClass(projectProgressDetails.progress)"
+                        (click)="startActivity(courseDetails.id, 'project')" aria-label="Start Project Activity">
+                  {{ getButtonText(projectProgressDetails.progress) }}
+                </button>
+              </div>
+     
+              <p>Course Title: {{ projectProgressDetails.courseTitle }}</p>
+              <p>Completed Projects: {{ projectProgressDetails.completedProjectsCount }} / {{ projectProgressDetails.totalProjectsCount }}</p>
+     
+              <!-- Project details table -->
+              <div class="project-details">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Course Title</th>
+                      <th>Project Title</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let project of projectProgressDetails.projects">
+                      <td>{{ project.courseTitle }}</td>
+                      <td>{{ project.projectTitle }}</td>
+                      <td>{{ project.status }}</td>
+                      <td>
+                        <button (click)="goToProjectDetails(project.projectId, courseId)"
+                                [disabled]="project.status === 'completed'">
+                          {{ project.status === 'completed' ? 'Completed' : 'Go' }}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+ 
+          </div>
+        </ng-container>
+ 
+        <ng-container *ngIf="activityView === 'individual'">
+          <!-- Quizzes -->
+          <div class="activity-section">
+            <div class="activity">
+              <div class="activity-icon">
+                <i class="fas" [ngClass]="getActivityIcon('quiz')"></i>
+              </div>
+              <div class="activity-details">
+                <h4>Quiz</h4>
+                <div class="activity-progress">
+                  <div class="progress-bar">
+                    <div class="progress" [style.width.%]="individualQuizProgress || 0"></div>
+                  </div>
+                  <span class="status" [style.color]="getStatusColor('in_progress')">
+                    {{ individualQuizProgress | number:'1.0-0' }}%
+                  </span>
+                </div>
+                <p class="activity-status" [ngClass]="getStatusClass(individualQuizProgress)">
+                  {{ getActivityStatus(individualQuizProgress) }}
+                </p>
+              </div>
+              <button class="btn-activity" [ngClass]="getStatusClass(individualQuizProgress)"
+                (click)="startIndividualActivity('quiz')">
+                {{ getButtonText(individualQuizProgress) }}
+              </button>
+            </div>
+            <!-- Quiz details table -->
+            <div class="quiz-details">
+              <table>
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Course Title</th>
+                    <th>Quiz Title</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- <tr *ngFor="let quiz of individualQuizzes">
+                    <td>{{ quiz.sno }}</td>
+                    <td>{{ quiz.courseTitle }}</td>
+                    <td>{{ quiz.quizTitle }}</td>
+                    <td>
+                      <button (click)="goToIndividualQuizDetails(quiz.sno,courseId)">Go</button>
+                    </td>
+                  </tr> -->
+                  <tr *ngFor="let quiz of individualQuizzes">
+                   <td>{{ quiz.sno }}</td>
+                   <td>{{ quiz.courseTitle }}</td>
+                   <td>{{ quiz.quizTitle }}</td>
+                   <td>{{ quiz.quizStatus }}</td>
+                   <td>
+                     <button 
+                       [class.completed]="quiz.quizStatus === 'Submitted'" 
+                       [disabled]="quiz.quizStatus === 'Submitted'" 
+                       (click)="goToIndividualQuizDetails(quiz.quizId, quiz.courseId)">
+                       {{ quiz.quizStatus === 'Submitted' ? 'Completed' : 'Go' }}
+                     </button>
+                   </td>
+                 </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+ 
+          <!-- Assignments -->
+          <!-- Assignments -->
+          <div class="activity-section">
+           <div class="activity">
+             <div class="activity-icon">
+               <i class="fas" [ngClass]="getActivityIcon('assignment')"></i>
+             </div>
+             <div class="activity-details">
+               <h4>Assignment</h4>
+               <div class="activity-progress">
+                 <div class="progress-bar">
+                   <div class="progress" [style.width.%]="individualAssignmentProgress"></div>
+                 </div>
+                 <span class="status" [style.color]="getStatusColor('in_progress')">
+                   {{ individualAssignmentProgress | number:'1.0-2' }}%
+                 </span>
+               </div>
+               <p class="activity-status" [ngClass]="getStatusClass(individualAssignmentProgress)">
+                 {{ getActivityStatus(individualAssignmentProgress) }}
+               </p>
+             </div>
+             <button class="btn-activity" [ngClass]="getStatusClass(individualAssignmentProgress)"
+               (click)="startIndividualActivity('assignment')">
+               {{ getButtonText(individualAssignmentProgress) }}
+             </button>
+           </div>
+           <div class="assignment-details">
+             <p>Number of assignments: {{ individualAssignments.length }}</p>
+             <table *ngIf="individualAssignments.length > 0">
+               <thead>
+                 <tr>
+                   <th>S.No</th>
+                   <th>Course Title</th>
+                   <th>Assignment Title</th>
+                   <th>Status</th>
+                   <th>Action</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr *ngFor="let assignment of individualAssignments">
+                   <td>{{ assignment.sno }}</td>
+                   <td>{{ assignment.courseTitle }}</td>
+                   <td>{{ assignment.assignmentTitle }}</td>
+                   <td>{{ assignment.status }}</td>
+                   <td>
+                     <button 
+                       (click)="goToAssignmentDetailsind(assignment.id, courseId)"
+                       [disabled]="assignment.status === 'Completed'"
+                       [ngClass]="{'disabled': assignment.status === 'Completed'}"
+                     >
+                       {{ assignment.status === 'Completed' ? 'Completed' : 'Go' }}
+                     </button>
+                   </td>
+                 </tr>
+               </tbody>
+             </table>
+             <p *ngIf="individualAssignments.length === 0">No assignments found.</p>
+           </div>
+         </div>
+ 
+ 
+          <!-- Projects -->
+          <div class="activity-section">
+           <div class="activity">
+             <div class="activity-icon">
+               <i class="fas" [ngClass]="getActivityIcon('project')"></i>
+             </div>
+             <div class="activity-details">
+               <h4>Project</h4>
+               <div class="activity-progress">
+                 <div class="progress-bar">
+                   <div class="progress" [style.width.%]="individualProjectProgress"></div>
+                 </div>
+                 <span class="status" [style.color]="getStatusColor('in_progress')">
+                   {{ individualProjectProgress | number:'1.0-2' }}%
+                 </span>
+               </div>
+               <p class="activity-status" [ngClass]="getStatusClass(individualProjectProgress)">
+                 {{ getActivityStatus(individualProjectProgress) }}
+               </p>
+             </div>
+             <button class="btn-activity" [ngClass]="getStatusClass(individualProjectProgress)"
+               (click)="startIndividualActivity('project')">
+               {{ getButtonText(individualProjectProgress) }}
+             </button>
+           </div>
+           <div class="project-details">
+             <p>Number of projects: {{ individualProjects.length }}</p>
+             <table *ngIf="individualProjects.length > 0">
+               <thead>
+                 <tr>
+                   <th>S.No</th>
+                   <th>Course Title</th>
+                   <th>Project Title</th>
+                   <th>Status</th>
+                   <th>Action</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr *ngFor="let project of individualProjects">
+                   <td>{{ project.sno }}</td>
+                   <td>{{ project.courseTitle }}</td>
+                   <td>{{ project.projectTitle }}</td>
+                   <td>{{ project.status }}</td>
+                   <td>
+                     <button 
+                       (click)="goToIndividualProjectDetails(project.id, courseId)"
+                       [disabled]="project.status === 'Completed'"
+                       [ngClass]="{'disabled': project.status === 'Completed'}"
+                     >
+                       {{ project.status === 'Completed' ? 'Completed' : 'Go' }}
+                     </button>
+                   </td>
+                 </tr>
+               </tbody>
+             </table>
+             <p *ngIf="individualProjects.length === 0">No projects found.</p>
+           </div>
+         </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+ 
+ 
+ 

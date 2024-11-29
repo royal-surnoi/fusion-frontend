@@ -1,0 +1,245 @@
+/* Main container with gradient background */
+.main {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #e0f7ff, #f2faff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Centered container for positioning */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Info card styling */
+.info-card {
+  width: 350px;
+  height: 40vh;
+  background: linear-gradient(135deg, #0066ff, #00c6ff);
+  color: white;
+  margin-right: -50px; /* Adjusted for overlapping effect */
+  z-index: 1000;
+  text-align: left;
+  padding: 40px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Placeholder for logo inside info card */
+.info-card .logo {
+  margin-bottom: 20px;
+}
+
+/* Heading inside info card */
+.info-card h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: normal;
+}
+
+.info-card h1 span {
+  font-weight: bold;
+}
+
+/* Paragraph inside info card */
+.info-card p {
+  font-size: 14px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* Button inside info card */
+.learn-more-btn {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 14px;
+}
+
+.learn-more-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Login card styling */
+.login-card {
+  width: 30vw;
+  background-color: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  padding: 40px;
+  text-align: left;
+  z-index: 2;
+  position: relative;
+  padding-left: 6%;
+}
+
+/* Heading inside login card */
+.login-card h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #34495e;
+}
+
+/* Paragraph inside login card */
+.login-card p {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #7f8c8d;
+}
+
+/* Form inside login card */
+.login-card form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Input fields inside login card */
+.login-card input {
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+}
+
+/* Password input wrapper */
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Font Awesome icon for password visibility */
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px; /* Adjust icon size */
+  cursor: pointer;
+  color: #333; /* Adjust icon color */
+}
+
+/* Error message styling */
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+}
+
+/* Button inside login card */
+.login-card button {
+  background: linear-gradient(135deg, #007BFF, #00c6ff);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 20px;
+  width: 100%;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.login-card button:hover {
+  background-color: #0050ef;
+}
+
+/* Link styling inside login card */
+.login-card a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.login-card a:hover {
+  text-decoration: underline;
+}
+
+/* Paragraph inside login card for account creation */
+.login-card p {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 12px;
+  color: #7f8c8d;
+}
+
+/* Logo image styling */
+.logo img {
+  height: 20%;
+  width: 40%;
+}
+
+/* Overlay that covers the whole screen */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+/* Popup content box */
+.popup-content {
+  background-color: white;
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  z-index: 1001;
+}
+
+/* Headline inside the popup */
+.popup-content h2 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+/* Paragraph text inside the popup */
+.popup-content p {
+  color: #555;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+/* Close button styling */
+.close-button {
+  background-color: #007BFF; /* Primary color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+/* Change background on hover */
+.close-button:hover {
+  background-color: #0056b3; /* Darker shade of primary color */
+}
+

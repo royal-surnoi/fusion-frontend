@@ -1,0 +1,111 @@
+ 
+<nav class="navbarContainer1" >
+  <div class="nav-left">
+    <div class="logo">
+      <img [routerLink]="isLoggedIn ? '/feed' : null" [class.disabled]="!isLoggedIn" class="fusionLogo" src="../../assets/fusion8.png" alt="" style="cursor: pointer;">
+    </div>
+ 
+    <div class="search-bar">
+      <input id="query"
+             type="search"
+             placeholder="Search..."
+             [(ngModel)]="query"
+             (input)="search(query)"
+             (focus)="showSuggestions = true"
+             autocomplete="off"
+             [disabled]="!isLoggedIn" />
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <div class="suggestions-card" [class.show-suggestions]="showSuggestions && query.trim() !== '' && isLoggedIn">
+        <div *ngIf="isLoading" class="suggestion-message">Loading...</div>
+        <ul *ngIf="!isLoading && filteredUsers.length > 0 && isLoggedIn">
+          <li *ngFor="let user of filteredUsers"
+              (click)="onUserSelect(user)"
+              class="suggestion-item">
+            <img [src]="getSafeImageUrl(user.userImage)" alt="User" class="suggestion-image">
+            <div class="suggestion-details">
+              <span class="suggestion-name">{{ user.name }}</span>
+              <span class="suggestion-profession">{{ user.profession }}</span>
+            </div>
+          </li>
+        </ul>
+        <div *ngIf="!isLoading && filteredUsers.length === 0 && query.trim() !== '' && isLoggedIn" class="suggestion-message">No users found</div>
+      </div>
+    </div>
+ 
+    </div>
+ 
+ 
+  <ul class="nav-links">
+    <div class="all">
+      <li>
+        <a [routerLink]="isLoggedIn ? '/feed' : null" [class.disabled]="!isLoggedIn" (click)="hideAsUserOption()">
+          <div class="head">
+            <i class="fa-solid fa-house" style="margin-left: 10px; margin-top: 20px;"></i>
+            <div class="fontdown">Home</div>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="isLoggedIn ? '/candidateview' : null" [class.disabled]="!isLoggedIn" (click)="toggleAsUserOption()">
+          <div class="head">
+            <i class="fa-solid fa-book-open" style="margin-left: 20px; margin-top: 20px;"></i>
+            <div class="fontdown">Education</div>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a [class.disabled]="!isLoggedIn" (click)="toggleNotifications()">
+          <div class="head">
+          <!-- <i style=" margin-top: 20px; margin-right: 20px;"></i> -->
+            <app-notification [isOpen]="isNotificationOpen"></app-notification>   
+         <div class="fontdown">Notifications</div>
+        </div>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="null" [class.disabled]="!isLoggedIn" (click)="navigateToChat()">
+         <div class="head">
+           <i class="fa-solid fa-message" style="margin-top: 20px; margin-left: 5px;"></i>
+           <span class="message-badge" *ngIf="unreadMessageCount > 0">*</span>            <div class="fontdown">Chat</div>
+          </div>
+        </a>
+      </li>
+     
+      <li class="nav-item user-view-dropdown" *ngIf="showAsUserOption">
+        <div class="head">
+          <i class="fa-solid fa-user" style="margin-top: 50px; margin-left: 30px; padding: 0%;"></i>
+          <div class="user-view-text">
+            <span [ngClass]="{'blink': blink}">{{ selectedView }}</span>
+            <i class="fa-solid fa-caret-down"></i>
+          </div>
+        </div>
+        <ul class="user-view-menu" style="width: 150px; position: absolute; top: calc(83%); left: 0; z-index: 1000;">
+          <li><a (click)="onSelectView('As a user')">As a user</a></li>
+          <li><a (click)="onSelectView('As a mentor')">As a mentor</a></li>
+        </ul>
+      </li>
+    </div>
+ 
+    <li class="nav-item dropdown nav-username" *ngIf="isLoggedIn" style="gap: 5;">
+      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+        routerLinkActive="active" style="margin-top: 10px; padding: 0;">
+        <div class="pick">
+          <img [src]="userImage || '../../assets/download.png'" alt="" class="profile-circle"
+            style="width: 40px; height: 40px; border-radius: 50%; margin-top: 5px;" />
+        </div>
+      </a>
+   
+<ul class="dropdown-menu mt-2">
+        <li><a class="dropdown-item" (click)="goToProfile()">Profile</a></li>
+        <li><a class="dropdown-item" (click)="goTosettings()">User Settings</a></li>
+        <li *ngIf="showDashboard"><a class="dropdown-item" (click)="goToDashboard()">Dashboard</a></li>
+        <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+      </ul>
+    </li>
+   
+   
+  </ul>
+ 
+</nav>
+ 
+ 

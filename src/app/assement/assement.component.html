@@ -1,0 +1,182 @@
+<div class="assessments-container">
+  <h2>Course Management</h2>
+ 
+  <!-- Buttons for Assignment and Project -->
+  <!-- <div class="button-container">
+    <button (click)="showAssignmentSection()">Assignment</button>
+    <button (click)="showProjectSection()">Project</button>
+  </div> -->
+ 
+  <div class="box-container">
+    <label for="activity-course-select">Select Course:</label>
+    <select id="activity-course-select" (change)="onActivityCourseChange($event)">
+      <option value="">--Select Course--</option>
+      <option *ngFor="let activityCourse of activityCourses" [value]="activityCourse.id">
+        {{ activityCourse.courseTitle }}
+      </option>
+    </select>
+  </div>
+ 
+  <!-- Module Selection for Long Term Course -->
+  <div class="box-container" *ngIf="selectedActivityCourse && selectedActivityCourse.courseTerm === 'long'">
+    <label for="activity-module-select">Select Module:</label>
+    <select id="activity-module-select" [(ngModel)]="selectedModuleId" (change)="onActivityModuleChange($event)">
+      <option value="">--Select Module--</option>
+      <option *ngFor="let activityModule of activityModules" [value]="activityModule.id">
+        {{ activityModule.moduleName }}
+      </option>
+    </select>
+ 
+    <!-- Lessons Dropdown for Selected Module -->
+    <div class="lesson-container" *ngIf="selectedModuleId && lessons.length > 0">
+      <label for="lessonDropdown">Select Lesson:</label>
+      <select id="lessonDropdown" (change)="onLessonChange($event)">
+        <option value="">--Select Lesson--</option>
+        <option *ngFor="let lesson of lessons" [value]="lesson.lessonId">
+          {{ lesson.lessonTitle }} {{ lesson.lessonId }}
+        </option>
+      </select>
+    </div>
+  </div>
+ 
+  <!-- Lesson Selection for Short Term Course -->
+  <div class="box-container" *ngIf="selectedActivityCourse && selectedActivityCourse.courseTerm === 'short'">
+    <label for="activity-lesson-select">Select Lesson:</label>
+    <select id="activity-lesson-select" [(ngModel)]="selectedLessonId" (change)="onActivityLessonChange($event)">
+      <option value="">--Select Lesson--</option>
+      <option *ngFor="let activityLesson of activityLessons" [value]="activityLesson.id">
+        {{ activityLesson.lessonTitle }}
+      </option>
+    </select>
+  </div>
+ 
+  <!-- Task Selection Dropdown -->
+  <div class="task-container" *ngIf="selectedLessonId">
+    <label for="task-select">Select Task:</label>
+    <select id="task-select" [(ngModel)]="selectedTaskType" (change)="onTaskChange($event)">
+      <option value="">--Select Task--</option>
+      <option value="quiz">Quiz</option>
+      <option value="assessment">Assessment</option>
+    </select>
+  </div>
+ 
+  <!-- Quiz Selection Dropdown, shown only if 'quiz' is selected -->
+  <div class="box-container" *ngIf="selectedTaskType === 'quiz' && selectedLessonId">
+    <label for="activity-quiz-select">Select Quiz:</label>
+    <select id="activity-quiz-select" [(ngModel)]="selectedQuizId" (change)="onActivityQuizChange($event)">
+      <option value="">--Select Quiz--</option>
+      <option *ngFor="let quiz of quizzes" [value]="quiz.id">
+        {{ quiz.quizName }}
+      </option>
+    </select>
+  </div>
+ 
+  <!-- Assessment Selection Dropdown, shown only if 'assessment' is selected -->
+  <div class="box-container" *ngIf="selectedTaskType === 'assessment' && selectedLessonId">
+    <label for="activity-assessment-select">Select Assessment:</label>
+    <select id="activity-assessment-select" [(ngModel)]="selectedAssessmentId" (change)="onActivityAssessmentChange($event)">
+      <option value="">--Select Assessment--</option>
+      <option *ngFor="let assessment of assessments" [value]="assessment.id">
+        {{ assessment.assignmentTitle }}
+      </option>
+    </select>
+  </div>
+ 
+  <!-- Dropdown to Select Enrollers for Assessment -->
+  <div class="box-container" *ngIf="selectedAssessmentId">
+    <label for="enrollers-select">Enrollers:</label>
+    <select id="enrollers-select" (change)="onEnrollerChange($event)">
+      <option value="">--Select Enroller--</option>
+      <option *ngFor="let enroller of enrollers" [value]="enroller.id">
+        {{ enroller.name }}
+      </option>
+    </select>
+  </div>
+ 
+  <!-- Enroller Details Container -->
+<div class="container" *ngIf="enrollers.length > 0">
+  <table>
+    <tr>
+      <th>S.No</th>
+      <th>Name</th>
+      <th>Email</th>
+      <!-- <th>Progress</th> -->
+      <th>View</th>
+    </tr>
+    <tr *ngFor="let enroller of enrollers; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ enroller.name || 'N/A' }}</td>
+      <td>{{ enroller.email || 'N/A' }}</td>
+      <!-- <td>{{ formatProgress(enroller.progress) }}</td> -->
+      <td>
+        <button (click)="openModal(enroller.id)">View</button>
+      </td>
+    </tr>
+  </table>
+</div>
+ 
+ 
+ 
+ 
+ 
+  <!-- Modal for displaying quiz questions and enroller details -->
+  <div class="modal" *ngIf="isModalOpen">
+    <div class="modal-content">
+      <span class="close-button" (click)="closeModal()">&times;</span>
+      <div class="modal-body">
+       
+        <!-- Left Side: Quiz or Assignment Content -->
+        <div class="left-side">
+          <h3 *ngIf="!isAssignment">Quiz Questions for {{ selectedEnrollerResponses[0]?.user?.name || 'N/A' }}</h3>
+          <h3 *ngIf="isAssignment">Assignment Content</h3>
+ 
+          <div *ngIf="!isAssignment" class="questions-content">
+            <div class="question-item" *ngFor="let question of questions">
+              <p><strong>Question:</strong> {{ question?.text || 'N/A' }}</p>
+              <ul>
+                <li><strong>A:</strong> {{ question?.optionA || 'N/A' }}</li>
+                <li><strong>B:</strong> {{ question?.optionB || 'N/A' }}</li>
+                <li><strong>C:</strong> {{ question?.optionC || 'N/A' }}</li>
+                <li><strong>D:</strong> {{ question?.optionD || 'N/A' }}</li>
+              </ul>
+              <p><strong>Correct Answer:</strong> {{ question?.correctAnswer || 'N/A' }}</p>
+              <p><strong>Selected Answer:</strong> {{ question?.selectedAnswer || 'N/A' }}</p>
+              <p><strong>Correct:</strong> {{ question?.correct ? 'Yes' : 'No' }}</p>
+            </div>
+          </div>
+ 
+          <div *ngIf="isAssignment" class="assignment-content">
+            <p>{{ assignmentContent || '.' }}</p>
+            <button (click)="downloadAssignment()">Download Assignment</button>
+            <button (click)="previewAssignment()">Preview</button>
+          </div>
+        </div>
+ 
+        <div class="right-side">
+          <h3>Feedback</h3>
+          <div class="info-item" *ngIf="!isAssignment">
+            <strong>Score:</strong> {{ score || 'N/A' }}
+          </div>
+          <div class="info-item" *ngIf="isAssignment">
+            <strong>Grade:</strong>
+            <input type="text" [(ngModel)]="grade" placeholder="Enter grade" />
+          </div>
+          <div class="info-item">
+            <strong>Description:</strong>
+            <textarea [(ngModel)]="comments" rows="4" placeholder="Write your comments here..."></textarea>
+          </div>
+          <button class="submit-button" (click)="submitFeedback()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- Document Viewer -->
+<div *ngIf="showDocumentViewer" class="document-viewer">
+  <div class="viewer-header">
+    <h3>Document Viewer</h3>
+    <button (click)="closeViewer()">Close</button>
+  </div>
+  <iframe [src]="viewerUrl" width="100%" height="600px"></iframe>
+</div>
+ 

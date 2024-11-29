@@ -1,0 +1,745 @@
+ 
+ 
+    .icon-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+     
+    .notification-badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 12px;
+      min-width: 18px;
+      text-align: center;
+    }
+    .navbarContainer1 {
+      font-family: 'Mulish';
+      background-color: #124E66;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      height: 56px;
+    }
+ 
+    .nav-left {
+      display: flex;
+      align-items: center;
+    }
+ 
+    .logo {
+      font-weight: none;
+      font-size: 1.5em;
+      font-family: 'Mulish';
+      text-decoration: underline;
+      margin-right: 20px;
+    }
+ 
+    .fusionLogo {
+      height: 55px;
+      margin-left: 10px;
+    }
+ 
+   
+ 
+   
+ 
+ 
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      font-size: 12px;
+    }
+ 
+    .nav-links li {
+      margin-left: 20px;
+    }
+ 
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+      font-weight: none;
+      cursor: pointer;
+    }
+ 
+    .nav-links a:hover {
+      text-decoration: none;
+    }
+ 
+    .nav-username .dropdown-menu {
+      background-color: #124E66;
+     
+      border: none;
+    }
+ 
+    .nav-username .dropdown-menu li{
+      margin-left: 0px
+    }
+   
+ 
+    .nav-username .dropdown-item {
+      color:  #f0f0f0;
+    }
+ 
+    .nav-username .dropdown-item:hover {
+      background-color: #124E66;
+    }
+ 
+    .nav-username .caret {
+      margin-left: 5px;
+    }
+ 
+    .all {
+      display: flex;
+      margin-right: 160px;
+    }
+ 
+    .head {
+      margin-right: 30px;
+    }
+ 
+    .pick {
+      margin-left: 10px;
+      border-radius: 50%;
+    }
+ 
+    .profile-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+ 
+    .profile-image {
+      width: 20px;
+      height: 20px;
+      margin-left: 10px;
+    }
+ 
+    .disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+ 
+    .blink {
+      animation: blinker 1s linear infinite;
+    }
+ 
+    @keyframes blinker {
+      50% {
+        opacity: 0.5;
+      }
+    }
+ 
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      background-color: #124E66;
+      border-radius: 5px;
+      padding: 10px;
+      margin-top: 5px;
+      z-index: 1000;
+    }
+ 
+    .dropdown-menu.show {
+      display: block;
+      margin-bottom: 10%;
+    }
+ 
+    .dropdown-item {
+      color: white;
+      padding: 5px 0px;
+    }
+ 
+    .dropdown-item:hover {
+      background-color: #0e3e52;
+    }
+ 
+    .header-dropdown {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+ 
+    .header-dropdown .dropdown-menu {
+      left: 0;
+      top: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+ 
+    .header-dropdown .dropdown-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+    }
+ 
+    .header-dropdown .dropdown-item a {
+      width: 100%;
+    }
+ 
+    .head .selected-option {
+      display: flex;
+      align-items: center;
+    }
+ 
+    .head .selected-option .caret {
+      margin-left: 5px;
+    }
+ 
+    .head .dropdown-toggle {
+      cursor: pointer;
+    }
+ 
+    .user-view-text {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+ 
+    .user-view-text i {
+      margin-left: 5px;
+    }
+ 
+    .fontdown {
+      margin-top: 5px;
+    }
+ 
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .navbarContainer1 {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+      }
+ 
+      .nav-left {
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+ 
+      .search-bar {
+        margin-left: 0;
+        width: 100%;
+      }
+ 
+      .search-bar input {
+        width: 100%;
+      }
+ 
+      .nav-links {
+        flex-direction: column;
+        width: 100%;
+      }
+ 
+      .all {
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-right: 0;
+      }
+ 
+      .head {
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+    }
+    .blink {
+      animation: blink-animation 1s steps(5, start) infinite;
+      -webkit-animation: blink-animation 1s steps(5, start) infinite;
+    }
+ 
+    @keyframes blink-animation {
+      to {
+        visibility: hidden;
+      }
+    }
+ 
+    @-webkit-keyframes blink-animation {
+      to {
+        visibility: hidden;
+      }
+    }
+ 
+    .navbarContainer1 {
+      font-family: 'Mulish';
+      background-color: #f87777;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      height: 56px;
+    }
+ 
+ 
+ 
+    .nav-left {
+      display: flex;
+      align-items: center;
+    }
+ 
+    .logo {
+      font-weight: none;
+      font-size: 1.5em;
+      font-family: 'Mulish';
+      text-decoration: underline;
+      margin-right: 20px;
+    }
+ 
+    .fusionLogo {
+      height: 55px;
+      margin-left: 10px;
+    }
+ 
+    .search-bar {
+      position: relative;
+      margin-left: 80px;
+    }
+ 
+    .search-bar input {
+      padding: 20px 30px;
+      border-radius: 20px;
+      height: 10px;
+      width: 200px;
+      border: none;
+      font-size: 11px;
+    }
+ 
+    .fa-magnifying-glass {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      color: #124E66;
+      opacity: 0.5;
+    }
+ 
+    .suggestions-card {
+      position: absolute;
+      top: 35px;
+      left: 0;
+      width: 160px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      display: none;
+    }
+ 
+    .suggestions-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+ 
+    .suggestions-card ul li {
+      padding: 10px;
+      cursor: pointer;
+    }
+ 
+    .nav-links {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      font-size: 12px;
+    }
+ 
+    .nav-links li {
+      margin-left: 20px;
+    }
+ 
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 10px;
+      font-weight: none;
+      cursor: pointer;
+    }
+ 
+    .nav-links a:hover {
+      text-decoration: none;
+    }
+ 
+    .nav-username .dropdown-menu {
+      background-color:  #f87777;
+     
+      border: none;
+    }
+ 
+   
+ 
+    .nav-username .dropdown-item {
+      color: black;
+      height: auto;
+      width: auto;
+    }
+ 
+    .nav-username .dropdown-item:hover {
+      background-color: white ;
+    }
+ 
+    .nav-username .caret {
+      margin-left: 5px;
+    }
+ 
+    .all {
+      display: flex;
+      margin-right: 160px;
+    }
+ 
+    .head {
+      margin-right: 30px;
+    }
+ 
+    .pick {
+      margin-left: 10px;
+      border-radius: 50%;
+    }
+ 
+    .profile-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+ 
+    .profile-image {
+      width: 20px;
+      height: 20px;
+      margin-left: 10px;
+    }
+ 
+    .disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+ 
+    .blink {
+      animation: blinker 1s linear infinite;
+    }
+ 
+    @keyframes blinker {
+      50% {
+        opacity: 0.5;
+      }
+    }
+ 
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      background-color:  #f87777;
+      border-radius: 5px;
+      padding: 10px;
+      margin-top: 5px;
+      z-index: 1000;
+    }
+ 
+    .dropdown-menu.show {
+      display: block;
+    }
+ 
+    .dropdown-item {
+      color: black;
+      padding: 5px 10px;
+    }
+ 
+    .dropdown-item:hover {
+      background-color: white;
+    }
+ 
+    .header-dropdown {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+ 
+    .header-dropdown .dropdown-menu {
+      left: 0;
+      top: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+ 
+    .header-dropdown .dropdown-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+    }
+ 
+    .header-dropdown .dropdown-item a {
+      width: 100%;
+    }
+ 
+    .head .selected-option {
+      display: flex;
+      align-items: center;
+    }
+ 
+    .head .selected-option .caret {
+      margin-left: 5px;
+    }
+ 
+    .head .dropdown-toggle {
+      cursor: pointer;
+    }
+ 
+    .user-view-text {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+ 
+    .user-view-text i {
+      margin-left: 5px;
+    }
+ 
+    .fontdown {
+      margin-top: 5px;
+    }
+ 
+ 
+    /* ----------------------------->searchbar<--------------------------------- */
+ 
+   
+/* --------------------------------------------------------- */
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .navbarContainer1 {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+      }
+ 
+      .nav-left {
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+ 
+      .search-bar {
+        margin-left: 0;
+        width: 100%;
+      }
+ 
+      .search-bar input {
+        width: 100%;
+      }
+ 
+      .nav-links {
+        flex-direction: column;
+        width: 100%;
+      }
+ 
+      .all {
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-right: 0;
+      }
+ 
+      .head {
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+    }
+    .blink {
+      animation: blink-animation 1s steps(5, start) infinite;
+      -webkit-animation: blink-animation 1s steps(5, start) infinite;
+    }
+ 
+    @keyframes blink-animation {
+      to {
+        visibility: hidden;
+      }
+    }
+ 
+    @-webkit-keyframes blink-animation {
+      to {
+        visibility: hidden;
+      }
+    }
+ 
+    /* ========================================================================== */
+ 
+    .user-view-dropdown {
+      position: relative;
+    }
+ 
+    .user-view-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #f87777;
+      border-radius: 5px;
+      padding: 10px;
+      z-index: 1000;
+    }
+ 
+    .user-view-dropdown:hover .user-view-menu {
+      display: block;
+    }
+ 
+    .user-view-menu li {
+      list-style-type: none;
+      padding: 5px 0;
+      margin-left: 0px;
+    }
+ 
+    .user-view-menu a {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+ 
+    .user-view-menu li:hover {
+      background-color: white;
+ 
+    }
+ 
+ 
+ 
+    /* ... other existing styles ... */
+  /* ======================================================================= */
+ 
+ 
+  .search-bar {
+    position: relative;
+    margin-left: 80px;
+  }
+ 
+ 
+ 
+.search-bar input {
+ 
+    padding: 5px 30px 5px 10px;
+ 
+    border-radius: 20px;
+ 
+    height: 40px;
+ 
+    width: 200px;
+ 
+    border: none;
+ 
+    font-size: 14px;
+ 
+  }
+ 
+ 
+  .fa-magnifying-glass {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #124E66;
+    opacity: 0.5;
+  }
+ 
+  .suggestions-card {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+  }
+ 
+  .suggestions-card.show-suggestions {
+    display: block;
+  }
+ 
+  .suggestions-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+ 
+  .suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+  }
+ 
+  .suggestion-item:hover {
+    background-color: #f0f0f0;
+  }
+ 
+  .suggestion-name {
+    font-size: 14px;
+    color: #333;
+  }
+ 
+  .suggestion-message {
+    padding: 10px;
+    text-align: center;
+    color: #666;
+  }
+  .suggestion-profession {
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
+  }
+  .suggestion-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+  .suggestion-details {
+    display: flex;
+    flex-direction: column;
+  }
+ 
+ /* smbkchat css */
+.icon-wrapper {
+  position: relative;
+  display: inline-block;
+}
+ 
+.message-badge {
+  /* background-color: red; */
+  border-radius: 50%;
+  /* padding: 2px 6px; */
+  font-size:x-large;
+  font-weight: bold;
+  /* min-width: 18px; */
+  text-align: center;
+  /* height: 1px; */
+  margin-left: 3px;
+  color: red;
+  position: absolute;
+  top:3px;
+}
+ 
+ 
+.nav-link.dropdown-toggle::after {
+  display: none;
+}
+ 
+ 
+ 
+ 

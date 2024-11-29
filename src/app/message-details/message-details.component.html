@@ -1,0 +1,17 @@
+
+<h2 mat-dialog-title>Message Details</h2>
+ 
+<mat-dialog-content>
+  <p><strong>From:</strong> {{ data.from }}</p>
+  <p><strong>Subject:</strong> {{ data.subject }}</p>
+  <p><strong>Date:</strong> {{ data.date | date:'medium' }}</p>
+  <p><strong>Message:</strong></p>
+  <p>{{ data.content }}</p>
+</mat-dialog-content>
+ 
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onReply()">Reply</button>
+  <button mat-button (click)="onClose()">Close</button>
+</mat-dialog-actions>
+ 
+ 

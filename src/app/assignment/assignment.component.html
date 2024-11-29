@@ -1,0 +1,25 @@
+
+<div class="container">
+  <div class="assignmentTitle ">
+    <label for="title-input" class="Title">Title:</label><br>
+    <input id="assignmentTitle" [(ngModel)]="assignementTitle" 
+    placeholder=" " class="inputBox inputBox1" />
+  </div>
+  <div class="topic1 ">
+    <label for="topic-input Title" class="Title">Topic:</label><br>
+    <input id="topicName" [(ngModel)]="assignmentTopicName" 
+    placeholder=" " class="inputBox inputBox2" /> <br>
+    <p class="pTag">Please upload the related document.</p>
+  </div>
+  <div class="upload-section">
+    <label for="file-upload" class="custom-file-upload ">
+      Choose File
+    </label>
+    <input id="file-upload" type="file" accept=".pdf" (change)="onFileSelected($event)" />
+    <div *ngIf="fileName !== 'No file chosen'" class="file-info">
+      <p>{{ fileName }}</p>
+      <span class="remove-file" (click)="removeFile()">&#10060;</span>
+    </div>
+    <button (click)="onUpload()">Upload</button>
+  </div>
+</div>

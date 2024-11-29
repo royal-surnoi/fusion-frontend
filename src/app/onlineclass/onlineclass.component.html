@@ -1,0 +1,61 @@
+<nav class="headding">
+  <button (click)="navigateToDashboard()">
+    <i class="fas fa-arrow-left"></i> Back to Dashboard
+  </button>
+ 
+  <h4 style="margin-right:450px;margin-top:15px;">schedule online class</h4>
+</nav>
+ 
+ 
+ 
+<form (ngSubmit)="onSubmit()">
+  <div>
+    <label for="roomName">Room Name:</label>
+    <input type="text" id="roomName" name="roomName" [(ngModel)]="roomName" required>
+  </div>
+  <div>
+    <label for="scheduledTime">Scheduled Time:</label>
+    <input type="datetime-local" id="scheduledTime" name="scheduledTime" [(ngModel)]="scheduledTime" required>
+  </div>
+  <button type="submit">Create Training Room</button>
+</form>
+ 
+ 
+ 
+ 
+ 
+<!-- <div class="onlineclass" style="margin-top:50px;">
+<form [formGroup]="courseForm" (ngSubmit)="onSubmitOnline()">
+  <div formArrayName="courses">
+    <div *ngFor="let course of courses.controls; let i = index" [formGroupName]="i">
+      <div>
+        <label for="courseTopic">Course Topic</label>
+        <input id="courseTopic" formControlName="courseTopic" type="text">
+      </div>
+ 
+      <div>
+        <label for="meetingStarting">date & time</label>
+        <input id="meetingStarting" formControlName="meetingStarting" type="datetime-local">
+      </div>
+ 
+      <div>
+        <button type="submit">
+          <mat-icon>link</mat-icon> Generate link
+        </button>
+      </div>
+ 
+      <button type="button" (click)="removeCourse(i)" class="icon-button">
+        <mat-icon>delete</mat-icon> Remove
+      </button>
+    </div>
+  </div>
+ 
+  <div>
+    <button type="button" (click)="addCourse()" class="icon-button">
+      <mat-icon>add</mat-icon> Add More
+    </button>
+  </div>
+</form>
+</div> -->
+ 
+ 

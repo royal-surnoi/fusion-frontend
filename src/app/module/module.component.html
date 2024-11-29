@@ -1,0 +1,854 @@
+
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+
+<nav class="headding">
+  <button (click)="navigateToDashboard()"> Back to Dashboard</button>
+
+  <h4 style="margin-right:400px;">Add your Course Planning</h4>
+</nav>
+
+<body>
+  <div class="container">
+    <div class="left-content">
+      <div class="wrapper">
+        <div class="sidnav">
+          <ul class="ulList">
+            <li (click)="setCurrentTab('courselanding')" [class.active]="currentTab === 'courselanding'"
+              class="navcourse">
+              <span class="Inspan">Course Landing</span>
+            </li>
+            <li (click)="setCurrentTab('planning')" [class.active]="currentTab === 'planning'" class="navcourse">
+              <span class="Inspan">Course Planning</span>
+            </li>
+            <li (click)="setCurrentTab('lesson')" [class.active]="currentTab === 'lesson'" class="navcourse">
+              <span class="Inspan">Curriculum</span>
+            </li>
+            <!-- <li (click)="setCurrentTab('dummy')" [class.active]="currentTab === 'dummy'" class="navcourse">
+                            <span class="Inspan">dummy</span>
+                        </li> -->
+
+            <li (click)="setCurrentTab('pricing')" [class.active]="currentTab === 'pricing'" class="navcourse">
+              <span class="Inspan">Pricing & Promotions</span>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+      <div class="submit-all-container">
+        <button type="button" style="padding-left:61px;padding-right:61px;" class="update-save-btn" (click)="submitAll()">Save All</button>
+      </div>
+    </div>
+    <div class="right-content">
+
+
+
+      <!-- Course Landing Tab Content -->
+      <div *ngIf="currentTab === 'courselanding'" class="course-landing">
+        <div class="progress-bar" style="top: 95px;">
+          <span>{{ completionPercentage }}% Completed</span>
+        </div>
+        <div class="input-group">
+          <label for="courseTitle">Course Title:</label>
+          <input type="text" id="courseTitle" placeholder="Enter course title" [(ngModel)]="courseTitle"
+            (ngModelChange)="onFieldChange()">
+          <button *ngIf="!editingTitle" style=
+          "border-radius: 25px; height: 28px; width: 60px; padding: 0 10px; border: none; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; background-color: black; color: #edeeee;justify-content: center;"
+          class= "update-btn" (click)="startEditTitle()" >Edit</button>
+          <button *ngIf="editingTitle" (click)="saveEditTitle()" id="update-btn1">Save</button>
+          <button *ngIf="editingTitle" (click)="cancelEditTitle()" id="update-btn1">Cancel</button>
+        </div>
+        <div class="input-group">
+          <label for="level">Course Type:</label> 
+          <select id="level" [(ngModel)]="level" (ngModelChange)="onFieldChange()">
+            <option value="Beginner">Beginner level</option>
+            <option value="Intermediate">Intermediate level</option>
+            <option value="Advanced">Advanced level</option>
+          </select>
+        </div>
+        <!-- <div class="input-group">
+      <label for="courseType">Course Mode:</label>
+      <select id="courseType" [(ngModel)]="courseType" (ngModelChange)="onFieldChange()">
+          <option value="online">Online</option>
+          <option value="offline">Offline</option>
+      </select>
+  </div>
+  <div class="input-group">
+    <label for="courseTerm">Course Term:</label>
+    <select id="courseTerm" [(ngModel)]="courseTerm" (ngModelChange)="onFieldChange()">
+      <option value="short">Short Course</option>
+      <option value="long">Long Course</option>
+      <option value="online">online</option>
+    </select>
+  </div> -->
+        <div class="input-group">
+          <label for="courseType">Course Mode:</label>
+          <select id="courseType" [(ngModel)]="courseType" (ngModelChange)="onFieldChange()">
+            <option value="online">Online</option>
+            <option value="offline">Offline</option>
+          </select>
+        </div>
+
+        <div *ngIf="courseType === 'offline'" class="input-group">
+          <label for="courseTerm">Course Term:</label>
+          <select id="courseTerm" [(ngModel)]="courseTerm" (ngModelChange)="onFieldChange()">
+            <option value="short">Short Course</option>
+            <option value="long">Long Course</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="courseDescription">Course Objective:</label>
+          <div *ngIf="!isEditingDescription">
+            <p>{{courseDescription}}</p>
+            <button (click)="startDescriptionEditing()" >Edit</button>
+          </div>
+          <div *ngIf="isEditingDescription">
+            <textarea id="courseDescription" [(ngModel)]="courseDescription" rows="4"
+              placeholder="Enter course objective" (ngModelChange)="onFieldChange()"></textarea>
+            <button (click)="saveDescription()">Save</button>
+            <button (click)="cancelDescriptionEditing()">Cancel</button>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="courseImage">Course Image:</label>
+          <div class="courseImage-container">
+            <div class="courseImage-input">
+              <input type="file" (change)="onCourseImageSelected($event)" accept="image/*" name="courseImage">
+            </div>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="whyEnroll">Why Enroll in this Course:</label>
+          <div class="why-enroll-container">
+            <div class="why-enroll-input">
+              <input type="text" [(ngModel)]="newWhyEnroll" placeholder="Enter reason">
+              <button (click)="addWhyEnroll()" [disabled]="whyEnrolls.length >= 8 || !newWhyEnroll">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <ul class="why-enroll-list">
+              <li *ngFor="let whyEnroll of whyEnrolls; let i = index" class="why-enroll-item">
+                <input *ngIf="editingWhyEnrollIndex === i" type="text" [(ngModel)]="editingWhyEnroll"
+                  (keyup.enter)="saveWhyEnroll(i)">
+                <span *ngIf="editingWhyEnrollIndex !== i">{{ whyEnroll }}</span>
+                <div class="why-enroll-actions">
+                  <button *ngIf="editingWhyEnrollIndex !== i" (click)="editWhyEnroll(i)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button *ngIf="editingWhyEnrollIndex === i" (click)="saveWhyEnroll(i)">
+                    <i class="fas fa-save"></i>
+                  </button>
+                  <button (click)="removeWhyEnroll(i)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="courseDuration">Duration (in weeks):</label>
+          <input type="number" id="courseDuration" placeholder="Enter duration in weeks" [(ngModel)]="courseDuration"
+            (ngModelChange)="onFieldChange()">
+          <button *ngIf="!editingDuration" (click)="startEditingDuration()" style=
+          "border-radius: 25px; height: 28px; width: 60px; padding: 0 10px; border: none; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; background-color: black; color: #edeeee;justify-content: center;"
+          class=
+          "update-btn">Edit</button>
+          <button *ngIf="editingDuration" (click)="saveEditingDuration()" id= "update-btn1">Save</button>
+          <button *ngIf="editingDuration" (click)="cancelEditingDuration()" id= "update-btn1">Cancel</button>
+        </div>
+        <div class="input-group">
+          <label for="language">Language:</label>
+          <select id="language" [(ngModel)]="language" (ngModelChange)="onFieldChange()">
+            <option value="english">English</option>
+            <option value="telugu">Telugu</option>
+            <option value="hindi">Hindi</option>
+          </select>
+        </div>
+        <button (click)="submitFirstSet()" id="update-save-btn">Submit Course</button>
+      </div>
+      <!-- Course Planning Tab Content -->
+      <li (click)="setCurrentTab('planning')" [class.active]="currentTab === 'planning'" class="course-planning">
+
+        <div class="planning-inputs" *ngIf="currentTab === 'planning'">
+          <div class="progress-bar" style="top: 95px;">
+            <span>{{ completionPercentage }}% Completed</span>
+          </div>
+
+          <form (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="toolName">Tool Name:</label>
+              <input type="text" class="form-control" id="toolName" name="toolName" [(ngModel)]="toolName" required>
+            </div>
+            <div class="form-group">
+              <label for="toolImage">Tool Image:</label>
+              <input type="file" class="form-control-file" id="toolImage" name="toolImage"
+                (change)="onFileSelected($event)" required>
+            </div>
+            <div class="form-group">
+              <label for="skillName">Skill Name:</label>
+              <input type="text" class="form-control" id="skillName" name="skillName" [(ngModel)]="skillName" required>
+            </div>
+            <div class="form-group">
+              <label for="skillImage">Skill Image:</label>
+              <input type="file" class="form-control-file" id="skillImage" name="skillImage"
+                (change)="onFileSelected2($event)" required>
+            </div>
+            <div class="form-group">
+              <label for="coursePrerequisites">Course Prerequisites:</label>
+              <input type="text" class="form-control" id="coursePrerequisites" name="coursePrerequisites"
+                [(ngModel)]="coursePrerequisites" required>
+            </div>
+            <button type="submit" class="btn btn-primary" id="update-save-btn">Submit Tools</button>
+          </form>
+        </div>
+      </li>
+
+      <!-- Curriculum Tab Content -->
+      <div *ngIf="currentTab === 'dummy'" class="curriculum-section">
+        <h2>Course Curriculum</h2>
+        <div *ngFor="let lesson of lessons; let i = index" class="lesson-item">
+          <h3>Lesson {{i + 1}}</h3>
+          <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////                   -->
+
+
+          <button (click)="createLesson()">Create Lesson</button>
+          <div *ngFor="let lesson of lessons; let i = index" class="lesson-item">
+            <h3>Lesson {{i + 1}}</h3>
+
+            <div class="input-group">
+              <label for="lesson-title-{{i}}">Lesson Title:</label>
+              <ng-container *ngIf="!lesson.editingTitle; else editTitleInput">
+                <span>{{ lesson.lessonTitle }}</span>
+                <button (click)="startEditLessonTitle(i)">Edit</button>
+              </ng-container>
+              <ng-template #editTitleInput>
+                <input type="text" id="lesson-title-{{i}}" [(ngModel)]="lesson.lessonTitle"
+                  placeholder="Enter lesson title">
+                <button (click)="saveLessonTitle(i)">Save</button>
+                <button (click)="cancelEditLessonTitle(i)">Cancel</button>
+              </ng-template>
+            </div>
+
+            <div class="input-group">
+              <label for="lesson-content-{{i}}">Lesson Content:</label>
+              <ng-container *ngIf="!lesson.editingContent; else editContentInput">
+                <p>{{ lesson.lessonContent }}</p>
+                <button (click)="startEditLessonContent(i)">Edit</button>
+              </ng-container>
+              <ng-template #editContentInput>
+                <textarea id="lesson-content-{{i}}" [(ngModel)]="lesson.lessonContent"
+                  placeholder="Enter lesson content"></textarea>
+                <button (click)="saveLessonContent(i)">Save</button>
+                <button (click)="cancelEditLessonContent(i)">Cancel</button>
+              </ng-template>
+            </div>
+
+            <div class="input-group">
+              <label for="lesson-description-{{i}}">Lesson Description:</label>
+              <ng-container *ngIf="!lesson.editingDescription; else editDescriptionInput">
+                <p>{{ lesson.lessonDescription }}</p>
+                <button (click)="startEditLessonDescription(i)">Edit</button>
+              </ng-container>
+              <ng-template #editDescriptionInput>
+                <textarea id="lesson-description-{{i}}" [(ngModel)]="lesson.lessonDescription"
+                  placeholder="Enter lesson description"></textarea>
+                <button (click)="saveLessonDescription(i)">Save</button>
+                <button (click)="cancelEditLessonDescription(i)">Cancel</button>
+              </ng-template>
+            </div>
+
+            <div class="input-group">
+              <label for="lesson-duration-{{i}}">Lesson Duration (minutes):</label>
+              <input type="number" id="lesson-duration-{{i}}" [(ngModel)]="lesson.lessonDuration"
+                placeholder="Enter lesson duration">
+            </div>
+          </div>
+          <button>save course f</button>
+          <button (click)="addLesson()">
+            <i class="fas fa-plus"></i>
+            Add New Lesson
+          </button>
+          <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////              -->
+
+          <!-- lesson video -->
+          <div class="input-group">
+            <label>Videos:</label>
+            <div *ngFor="let video of lesson.videos; let v = index" class="file-item">
+              <span>{{video.file.name}}</span>
+              <button (click)="removeVideo(i, v)">
+                <i class="fas fa-trash"></i> <!-- Remove Icon -->
+              </button>
+            </div>
+            <div class="videos">
+              <input type="file" id="videos" (change)="onVideoUpload($event, i)" accept="video/*">
+            </div>
+          </div>
+
+          <!-- PDF -->
+          <div class="input-group">
+            <label>PDFs:</label>
+            <div *ngFor="let pdf of lesson.pdfs; let p = index" class="file-item">
+              <span>{{pdf.file.name}}</span>
+              <button (click)="removePdf(i, p)">
+                <i class="fas fa-trash"></i> <!-- Remove Icon -->
+              </button>
+            </div>
+            <div class="file-upload">
+              <input type="file" (change)="onPdfUpload($event, i)" accept="application/pdf">
+            </div>
+          </div>
+
+          <!-- Objectives -->
+          <div class="input-group">
+            <label>Objective:</label>
+            <input type="text" [(ngModel)]="lesson.objective" placeholder="Enter lesson objective"
+              [disabled]="!lesson.editingObjective">
+            <button *ngIf="!lesson.editingObjective" (click)="startEditObjective(i)">Edit</button>
+            <ng-container *ngIf="lesson.editingObjective">
+              <button (click)="saveObjective(i)">Save</button>
+              <button (click)="cancelEditObjective(i)">Cancel</button>
+            </ng-container>
+          </div>
+
+          <!-- Existing video and PDF sections... -->
+
+          <!-- Quizzes -->
+          <div class="input-group">
+            <label>Quizzes:</label>
+            <ul>
+              <li *ngFor="let quiz of lesson.quizzes; let q = index">
+                {{quiz}}
+                <button (click)="removeQuiz(i, q)">
+                  <i class="fas fa-trash"></i> <!-- Remove Icon -->
+                </button>
+              </li>
+            </ul>
+            <input type="text" [(ngModel)]="newQuiz" placeholder="Enter new quiz">
+            <button (click)="addQuiz(i)">
+              <i class="fas fa-plus"></i> <!-- Add Icon -->
+            </button>
+          </div>
+
+          <!-- Assignments -->
+          <div class="input-group">
+            <label>Assignments:</label>
+            <ul>
+              <li *ngFor="let assignment of lesson.assignments; let a = index">
+                {{assignment}}
+                <button (click)="removeAssignment(i, a)">
+                  <i class="fas fa-trash"></i> <!-- Remove Icon -->
+                </button>
+              </li>
+            </ul>
+            <input type="text" [(ngModel)]="newAssignment" placeholder="Enter new assignment">
+            <button (click)="addAssignment(i)">
+              <i class="fas fa-plus"></i> <!-- Add Icon -->
+            </button>
+          </div>
+
+          <!-- Projects -->
+
+
+          <button (click)="removeLesson(i)">
+            <i class="fas fa-trash"></i> <!-- Remove Icon -->
+            Delete lesson
+          </button>
+
+          <div class="lesson-save">
+            <button (click)="saveLesson(i)">Save Lesson</button>
+          </div>
+        </div>
+        <button (click)="addLesson()">
+          <i class="fas fa-plus"></i>
+          Add New Lesson
+        </button>
+
+        <!-- ////////////////////////////////////////add lesson 2 nd set //////////////////////////////////////////////             -->
+        <div>
+
+
+          <!-- New Project Section -->
+          <div class="project-section">
+            <h3>Project</h3>
+            <div class="input-group">
+              <label for="project-title">Project Title:</label>
+              <input type="text" id="project-title" [(ngModel)]="newProjectTitle" placeholder="Enter project title">
+            </div>
+            <div class="input-group">
+              <label for="project-description">Project Description:</label>
+              <textarea id="project-description" [(ngModel)]="newProjectDescription"
+                placeholder="Enter project description"></textarea>
+            </div>
+            <div class="input-group">
+              <label for="deadline">Deadline:</label>
+              <input type="date" id="deadline" [(ngModel)]="newprojectDeadline">
+            </div>
+            <div class="input-group">
+              <label for="project-document">Project Document:</label>
+              <input type="file" id="project-document" (change)="onNewProjectDocumentSelected($event)"
+                accept=".pdf,.doc,.docx">
+            </div>
+            <button
+              id="update-btn"
+              (click)="addProject(courseId, newProjectTitle, newProjectDescription, newprojectDeadline, document)">
+              Add Project
+            </button>
+            <button (click)="submitProjects()" id="update-save-btn" >Submit Projects</button>
+
+            <!-- Display added projects -->
+            <div *ngFor="let project of projects; let i = index" class="project-item">
+              <ng-container *ngIf="!project.editing; else editProjectTemplate">
+                <h4>{{ project.title }}</h4>
+                <p>{{ project.description }}</p>
+                <p>Deadline: {{ project.deadline | date }}</p>
+                <p>Document: {{ project.documentFileName }}</p>
+                <button (click)="editProject(i)">Edit</button>
+                <button (click)="removeProject(i)">Remove</button>
+              </ng-container>
+              <ng-template #editProjectTemplate>
+                <div class="input-group">
+                  <label>Title:</label>
+                  <input type="text" [(ngModel)]="project.editTitle" placeholder="Enter project title">
+                </div>
+                <div class="input-group">
+                  <label>Description:</label>
+                  <textarea [(ngModel)]="project.editDescription" placeholder="Enter project description"></textarea>
+                </div>
+                <div class="input-group">
+                  <label>Deadline:</label>
+                  <input type="date" [(ngModel)]="project.editDeadline">
+                </div>
+                <div class="input-group">
+                  <label>Document:</label>
+                  <input type="file" (change)="onEditProjectDocumentSelected($event, i)" accept=".pdf,.doc,.docx">
+                </div>
+                <button (click)="saveProjectEdit(i)">Save</button>
+                <button (click)="cancelProjectEdit(i)">Cancel</button>
+              </ng-template>
+            </div>
+          </div>
+
+
+
+
+
+        </div>
+      </div>
+
+
+
+
+
+      <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+      <!-- Pricing Tab Content -->
+      <div *ngIf="currentTab === 'pricing'" class="pricing-section">
+        <div class="progress-bar" style="top: 95px;">
+          <span>{{ completionPercentage }}% Completed</span>
+        </div>
+        <div class="form-group">
+          <h2 style="text-align: center;">Course Fee</h2>
+          <label for="currency">Currency:</label>
+          <select id="currency" [(ngModel)]="currency" [disabled]="!isEditingCurrency">
+            <option value="INR">â‚¹ INR</option>
+            <option value="USD">$ USD</option>
+            <option value="EUR">â‚¬ EUR</option>
+            <!-- Add more currency options as needed -->
+          </select>
+          <button type="button" (click)="toggleEditPricing('currency')">
+            {{ isEditingCurrency ? 'Save' : 'Edit' }}
+          </button>
+        </div>
+        <div class="form-group">
+          <label for="courseFee">Course Fee:</label>
+          <input type="number" id="courseFee" [(ngModel)]="courseFee" (ngModelChange)="calculateDiscount()"
+            [readonly]="!isEditingCourseFee">
+          <button type="button" (click)="toggleEdit('courseFee')">{{ isEditingCourseFee ? 'Save' : 'Edit' }}</button>
+        </div>
+
+        <div class="form-group">
+          <h2 style="text-align: center;">Discount</h2>
+          <label for="discountPercentage">Discount Percentage:</label>
+          <input type="number" id="discountPercentage" [(ngModel)]="discountPercentage"
+            (ngModelChange)="calculateDiscount()" [readonly]="!isEditingDiscountPercentage">
+          <button type="button" (click)="toggleEdit('discountPercentage')">{{ isEditingDiscountPercentage ? 'Save' :
+            'Edit' }}</button>
+        </div>
+        <div class="form-group">
+          <label for="expirationDate">Expiration Date:</label>
+          <input type="date" id="expirationDate" [(ngModel)]="expirationDate">
+        </div>
+
+        <div class="form-group">
+          <button type="button" (click)="createCoupon()">Create Coupon</button>
+          <button type="button" (click)="getPromoCode()">Get Promo Code</button>
+          <div>
+            <h2>Promo Code:</h2>
+            <input type="text" [(ngModel)]="promoCode" readonly>
+
+          </div>
+        </div>
+
+        <div *ngIf="promoCode">
+          <p>Promo Code: {{ promoCode }}</p>
+        </div>
+      </div>
+
+
+
+
+
+      <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+      <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+      <div *ngIf="currentTab === 'lesson'" class="lesson-section">
+        <div class="progress-bar" style="top: 95px;">
+          <span>{{ completionPercentage }}% Completed</span>
+        </div>
+        <div style="display: flex; gap: 20px; align-items: center; margin-left: 270px;">
+          <label>
+            <input type="checkbox" [(ngModel)]="isOffline" (change)="toggleSections('offline')" [checked]="isOffline">
+            Offline
+          </label>
+          <label>
+            <input type="checkbox" [(ngModel)]="isOnline" (change)="toggleSections('online')" [checked]="isOnline">
+            Online
+          </label>
+        </div>
+
+        <div *ngIf="isOffline" class="offline-section">
+          <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+          <!-- course-creator.component.html -->
+          <div class="course-creator">
+            <!-- <h1>Create New Course</h1> -->
+            <div class="course-type">
+              <!-- <h2>Select Course Type</h2> -->
+              <!-- Modal Dialog for Terms and Conditions -->
+              <!-- Modal Dialog for Terms and Conditions -->
+              <!-- <div id="termsModal" class="modal" [ngClass]="{'show': showTermsModal}">
+  <div class="modal-content">
+    <div class="modal-title">
+      <h2>Terms and Conditions</h2>
+      <span class="close" (click)="closeModal()">&times;</span>
+    </div>
+    <div class="terms-content">
+      <div *ngFor="let paragraph of termsContent">
+        <p>{{ paragraph }}</p>
+      </div>
+    </div>
+    <div class="terms-accept">
+      <input type="checkbox" id="acceptTerms" [(ngModel)]="acceptedTerms">
+      <label for="acceptTerms">I accept the terms and conditions</label>
+    </div>
+    <button (click)="acceptTerms()" [disabled]="!acceptedTerms">Accept</button>
+  </div>
+</div>
+
+<div class="toggle-switch" (mouseover)="openModal()">
+  <input type="radio" id="short" name="courseType" value="short" [(ngModel)]="courseType1" [disabled]="!acceptedTerms">
+  <label for="short">Short Course</label>
+  <input type="radio" id="long" name="courseType" value="long" [(ngModel)]="courseType1" [disabled]="!acceptedTerms">
+  <label for="long">Long Course</label>
+</div> -->
+
+
+            </div>
+            <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+            <form (ngSubmit)="onSubmit1()">
+              <!-- <div *ngIf="courseType1 === 'short'" class="short-course">  -->
+              <div *ngIf="courseTerm === 'short'" class="short-course">
+                <div class="add-lesson-section">
+                  <button (click)="addNewLesson()">Add Lesson</button>
+                </div>
+                <div *ngIf="alertMessage"
+                  [ngClass]="{'alert-success': alertType === 'success', 'alert-error': alertType === 'error'}"
+                  class="alert">
+                  {{ alertMessage }}
+                </div>
+
+                <div *ngFor="let lesson of lessons2; let i = index" class="lesson-container">
+                  <div class="lesson-create-section">
+                    <h2>Create Lesson {{ i + 1 }}</h2>
+                    <form (ngSubmit)="generateLesson(i)" #lessonForm="ngForm">
+                      <div>
+                        <label for="lessonTitle{{i}}">Lesson Title:</label>
+                        <input type="text" id="lessonTitle{{i}}" name="lessonTitle" [(ngModel)]="lesson.lessonTitle"
+                          required #lessonTitle="ngModel">
+                        <div *ngIf="lessonTitle.invalid && (lessonTitle.dirty || lessonTitle.touched)"
+                          class="alert alert-danger">
+                          Lesson title is required.
+                        </div>
+                      </div>
+                      <div>
+                        <label for="lessonContent{{i}}">Lesson Content:</label>
+                        <textarea id="lessonContent{{i}}" name="lessonContent"
+                          [(ngModel)]="lesson.lessonContent"></textarea>
+                      </div>
+                      <div>
+                        <label for="lessonDescription{{i}}">Lesson Description:</label>
+                        <textarea id="lessonDescription{{i}}" name="lessonDescription"
+                          [(ngModel)]="lesson.lessonDescription"></textarea>
+                      </div>
+                      <div>
+                        <label for="lessonDuration{{i}}">Lesson Duration (minutes):</label>
+                        <input type="number" id="lessonDuration{{i}}" name="lessonDuration"
+                          [(ngModel)]="lesson.lessonDuration" min="0">
+                      </div>
+                      <button type="submit" [disabled]="lessonForm.form.invalid">Create Lesson</button>
+                    </form>
+
+                    <!-- Add Course Quiz Button -->
+                    <!-- <button (click)="addcourseQuiz()">Go to Course Quiz</button> -->
+
+                    <!-- Add Course Assignments Button -->
+                    <!-- <button (click)="addcourseAssignments(lessonId)">Go to Course Assignments</button> -->
+
+                  </div>
+
+                  <div class="add-content-container">
+                    <h5 class="add-content-header">Add Content</h5>
+                    <form class="add-content-form" (ngSubmit)="onSubmitLessonVideo()" #uploadForm="ngForm">
+                      <div *ngFor="let uploadSet of uploadSets; let setIndex = index" class="upload-set">
+                        <h6 class="add-content-subheader">Video {{setIndex + 1}}</h6>
+                        <div class="video-upload">
+                          <label for="videoUpload-{{setIndex}}" class="add-content-label">Upload Videos:</label>
+                          <input type="file" id="videoUpload-{{setIndex}}" class="add-content-input-file"
+                            (change)="onFileChange($event, setIndex)" multiple accept="video/*" required>
+                        </div>
+                        <div *ngFor="let file of uploadSet.videoFiles; let i = index" class="file-description">
+                          <label for="description-{{setIndex}}-{{i}}" class="add-content-label">Description for
+                            {{file.name}}:</label>
+                          <input type="text" id="description-{{setIndex}}-{{i}}" class="add-content-input-text"
+                            name="description-{{setIndex}}-{{i}}" [(ngModel)]="uploadSet.videoDescriptions[i]" required>
+                          <button type="submit" class="add-content-button">upload video {{setIndex + 1}}</button>
+                        </div>
+                      </div>
+
+                      <button type="button" class="add-content-button-secondary" (click)="addNewUploadSet()">Add More
+                        Videos</button>
+                    </form>
+                  </div>
+                </div>
+
+              </div>
+              <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////              -->
+
+              <!-- <div *ngIf="courseType1 === 'long'" class="long-course"> -->
+                <div *ngIf="courseTerm === 'long'" class="long-course">
+                  <h2>Long Course Modules</h2>
+                  <div *ngFor="let module of modules; let moduleIndex = index" class="module">
+                    <div class="module-header" (click)="toggleLessons(moduleIndex)">
+                      <input type="text" [(ngModel)]="module.name" name="moduleName{{moduleIndex}}"
+                        placeholder="Module Name" required (input)="enableDropdown()">
+                      <button type="button" class="remove" (click)="removeModule(moduleIndex); $event.stopPropagation()"
+                        *ngIf="modules.length > 1">&times;</button>
+                      <span class="toggle-icon">{{ activeModuleIndex === moduleIndex ? 'â–¼' : 'â–º' }}</span>
+                    </div>
+                    <button type="button" (click)="onSubmitModule(moduleIndex)">Save Module</button>
+                    <div *ngIf="activeModuleIndex === moduleIndex" class="module-content">
+                      <!-- Add Lesson Button Section -->
+                      <div class="add-lesson-section">
+                        <button (click)="addNewLesson1(moduleIndex)">Add Lesson</button>
+                      </div>
+                
+                      <!-- Alert Message Section -->
+                      <div *ngIf="alertMessage"
+                        [ngClass]="{'alert-success': alertType === 'success', 'alert-error': alertType === 'error'}"
+                        class="alert">
+                        {{ alertMessage }}
+                      </div>
+                
+                      <!-- Existing Lessons Section -->
+                      <div *ngFor="let lesson of module.lessons; let lessonIndex = index" class="lesson-container">
+                        <div class="lesson-create-section">
+                          <h2>save Lesson {{ lessonIndex + 1 }}</h2>
+                          <form (ngSubmit)="generateLesson2(moduleIndex, lessonIndex)" #lessonForm="ngForm">
+                            <div>
+                              <label for="lessonTitle{{moduleIndex}}{{lessonIndex}}">Lesson Title:</label>
+                              <input type="text" id="lessonTitle{{moduleIndex}}{{lessonIndex}}" name="lessonTitle"
+                                [(ngModel)]="lesson.lessonTitle" required #lessonTitle="ngModel">
+                              <div *ngIf="lessonTitle.invalid && (lessonTitle.dirty || lessonTitle.touched)"
+                                class="alert alert-danger">
+                                Lesson title is required.
+                              </div>
+                            </div>
+                            <div>
+                              <label for="lessonContent{{moduleIndex}}{{lessonIndex}}">Lesson Content:</label>
+                              <textarea id="lessonContent{{moduleIndex}}{{lessonIndex}}" name="lessonContent"
+                                [(ngModel)]="lesson.lessonContent"></textarea>
+                            </div>
+                            <div>
+                              <label for="lessonDescription{{moduleIndex}}{{lessonIndex}}">Lesson Description:</label>
+                              <textarea id="lessonDescription{{moduleIndex}}{{lessonIndex}}" name="lessonDescription"
+                                [(ngModel)]="lesson.lessonDescription"></textarea>
+                            </div>
+                            <div>
+                              <label for="lessonDuration{{moduleIndex}}{{lessonIndex}}">Lesson Duration (minutes):</label>
+                              <input type="number" id="lessonDuration{{moduleIndex}}{{lessonIndex}}" name="lessonDuration"
+                                [(ngModel)]="lesson.lessonDuration" min="0">
+                            </div>
+                            <button type="submit" [disabled]="lessonForm.form.invalid">Create Lesson</button>
+                          </form>
+                          
+                        </div>
+                
+                        <!-- Video Upload Section -->
+                        <div class="add-content-container">
+                          <h5 class="add-content-header">Add Content</h5>
+                          <form class="add-content-form" (ngSubmit)="onSubmitLessonVideo2(moduleIndex, lessonIndex)" #uploadForm="ngForm">
+                            <div *ngFor="let uploadSet of lesson.uploadSets; let setIndex = index" class="upload-set">
+                              <h6 class="add-content-subheader">Video {{ setIndex + 1 }}</h6>
+                              <div class="video-upload">
+                                <label for="videoUpload-{{moduleIndex}}{{lessonIndex}}{{setIndex}}" class="add-content-label">Upload
+                                  Videos:</label>
+                                <input type="file" id="videoUpload-{{moduleIndex}}{{lessonIndex}}{{setIndex}}"
+                                  class="add-content-input-file"
+                                  (change)="onFileChange($event, moduleIndex, lessonIndex, setIndex)" multiple accept="video/*" required>
+                              </div>
+                              <div *ngFor="let file of uploadSet.videoFiles; let i = index" class="file-description">
+                                <label for="description-{{moduleIndex}}{{lessonIndex}}{{setIndex}}-{{i}}"
+                                  class="add-content-label">Description for {{ file.name }}:</label>
+                                <input type="text" id="description-{{moduleIndex}}{{lessonIndex}}{{setIndex}}-{{i}}"
+                                  class="add-content-input-text" name="description-{{moduleIndex}}{{lessonIndex}}{{setIndex}}-{{i}}"
+                                  [(ngModel)]="uploadSet.videoDescriptions[i]" required>
+                                <button type="submit" class="add-content-button">Upload video {{ setIndex + 1 }}</button>
+                              </div>
+                            </div>
+                            <button type="button" class="add-content-button-secondary"
+                              (click)="addNewUploadSet2(moduleIndex, lessonIndex)">Add More Videos</button>
+                          </form>
+                        </div>
+                
+                        <button type="button" class="remove" (click)="removeLesson1(moduleIndex, lessonIndex)"
+                          *ngIf="module.lessons.length > 1">&times;</button>
+                      </div>
+                
+                      <button type="button" class="add" (click)="addLesson3(moduleIndex)">Add Lesson</button>
+                      <button type="button" class="generate" (click)="generateLessons(5)">Generate 5 Lessons</button>
+                    </div>
+                  </div>
+                  <button type="button" class="add" (click)="addModule()">Add Module</button>
+                </div>
+              <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+              <button type="submit" class="submit">Create Course</button>
+            </form>
+          </div>
+
+          
+
+          <div class="project-section">
+            <h3>Project</h3>
+            <div class="input-group">
+              <label for="project-title">Project Title:</label>
+              <input type="text" id="project-title" [(ngModel)]="newProjectTitle" placeholder="Enter project title">
+            </div>
+            <div class="input-group">
+              <label for="project-description">Project Description:</label>
+              <textarea id="project-description" [(ngModel)]="newProjectDescription"
+                placeholder="Enter project description"></textarea>
+            </div>
+            <div class="input-group">
+              <label for="deadline">Deadline:</label>
+              <input type="date" id="deadline" [(ngModel)]="newprojectDeadline">
+            </div>
+            <div class="input-group">
+              <label for="project-document">Project Document:</label>
+              <input type="file" id="project-document" (change)="onNewProjectDocumentSelected($event)"
+                accept=".pdf,.doc,.docx">
+            </div>
+            <button
+              (click)="addProject(courseId, newProjectTitle, newProjectDescription, newprojectDeadline, document)">Add
+              Project</button>
+            <button (click)="submitProjects()">Submit Projects</button>
+
+            <!-- Display added projects -->
+            <div *ngFor="let project of projects; let i = index" class="project-item">
+              <ng-container *ngIf="!project.editing; else editProjectTemplate">
+                <h4>{{ project.title }}</h4>
+                <p>{{ project.description }}</p>
+                <p>Deadline: {{ project.deadline | date }}</p>
+                <p>Document: {{ project.documentFileName }}</p>
+                <button (click)="editProject(i)">Edit</button>
+                <button (click)="removeProject(i)">Remove</button>
+              </ng-container>
+              <ng-template #editProjectTemplate>
+                <div class="input-group">
+                  <label>Title:</label>
+                  <input type="text" [(ngModel)]="project.editTitle" placeholder="Enter project title">
+                </div>
+                <div class="input-group">
+                  <label>Description:</label>
+                  <textarea [(ngModel)]="project.editDescription" placeholder="Enter project description"></textarea>
+                </div>
+                <div class="input-group">
+                  <label>Deadline:</label>
+                  <input type="date" [(ngModel)]="project.editDeadline">
+                </div>
+                <div class="input-group">
+                  <label>Document:</label>
+                  <input type="file" (change)="onEditProjectDocumentSelected($event, i)" accept=".pdf,.doc,.docx">
+                </div>
+                <button (click)="saveProjectEdit(i)">Save</button>
+                <button (click)="cancelProjectEdit(i)">Cancel</button>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+        <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <!-- <div *ngIf="!isOffline" class="online-section"> -->
+        <!-- <div *ngIf=" courseTerm === 'online'" class="online-section"> -->
+        <div *ngIf="courseType === 'online'" class="online-section">
+
+
+          <!-- Online section content -->
+          <form [formGroup]="courseForm" (ngSubmit)="onSubmitOnline()">
+
+            <!-- <div>
+            <label for="courseType">Course Type</label>
+            <input id="courseType" formControlName="courseType" value="online">
+          </div> -->
+            <div formArrayName="courses">
+              <div *ngFor="let course of courses.controls; let i = index" [formGroupName]="i">
+                <div>
+                  <label for="courseTopic">Course Topic</label>
+                  <input id="courseTopic" formControlName="courseTopic" type="text">
+                </div>
+
+                <div>
+                  <label for="meetingStarting">Meeting Starting</label>
+                  <input id="meetingStarting" formControlName="meetingStarting" type="datetime-local">
+                </div>
+
+
+                <div>
+                  <button type="submit">Generate link</button>
+                </div>
+
+                <button type="button" (click)="removeCourse(i)">Remove</button>
+              </div>
+            </div>
+
+            <div>
+              <button type="button" (click)="addCourse()">Add More</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+      <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+
+      <div class="form-actions">
+        <button type="button" id="update-btn" (click)="saveCurrentTab()">Save</button>
+        <button type="button" id="update-btn"  *ngIf="!shouldHidePreviousButton()" (click)="goToPreviousTab()">Previous</button>
+        <button type="button" id="update-btn"  *ngIf="!shouldHideNextButton()" (click)="goToNextTab()">Next</button>
+        <button type="submit" id="update-btn"  *ngIf="shouldShowSecondSubmitButton()" (click)="submitSecondSet()">Submit Second
+          Set</button>
+      </div>
+    </div>
+  </div>
+
+</body>

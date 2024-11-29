@@ -1,0 +1,14 @@
+<div class="popup-overlay" (click)="closePopup()">
+    <div class="popup-content" (click)="$event.stopPropagation()">
+      <h2>Review Submission</h2>
+      <p><strong>Title:</strong> {{ submission.title }}</p>
+      <p><strong>Candidate ID:</strong> {{ submission.candidateId }}</p>
+      <p><strong>Content:</strong> {{ submission.content }}</p>
+      <textarea [(ngModel)]="feedback" placeholder="Enter feedback..."></textarea>
+      <div class="button-group">
+        <button (click)="approveSubmission()">Approve</button>
+        <button (click)="rejectSubmission()">Reject</button>
+        <button (click)="closePopup()">Cancel</button>
+      </div>
+    </div>
+  </div>

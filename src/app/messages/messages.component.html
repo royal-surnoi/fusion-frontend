@@ -1,0 +1,114 @@
+
+<!-- message.component.html -->
+ 
+<div class="message-container">
+ 
+  <mat-card>
+ 
+    <mat-card-title>Messages</mat-card-title>
+ 
+    <mat-card-content>
+ 
+      <mat-form-field>
+ 
+        <input matInput (keyup)="applyFilter($event)" placeholder="Filter messages">
+ 
+      </mat-form-field>
+ 
+      <table mat-table [dataSource]="dataSource" matSort>
+ 
+        <ng-container matColumnDef="from">
+ 
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> From </th>
+ 
+          <td mat-cell *matCellDef="let message"> {{message.from}} </td>
+ 
+        </ng-container>
+ 
+        <ng-container matColumnDef="subject">
+ 
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Subject </th>
+ 
+          <td mat-cell *matCellDef="let message"> {{message.subject}} </td>
+ 
+        </ng-container>
+ 
+        <ng-container matColumnDef="date">
+ 
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+ 
+          <td mat-cell *matCellDef="let message"> {{message.date | date}} </td>
+ 
+        </ng-container>
+ 
+        <ng-container matColumnDef="actions">
+ 
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+ 
+          <td mat-cell *matCellDef="let message">
+ 
+            <button mat-icon-button (click)="openMessageDetail(message)" matTooltip="View">
+ 
+              <mat-icon>visibility</mat-icon>
+ 
+            </button>
+ 
+            <button mat-icon-button (click)="deleteMessage(message.id)" matTooltip="Delete">
+ 
+              <mat-icon>delete</mat-icon>
+ 
+            </button>
+ 
+          </td>
+ 
+        </ng-container>
+ 
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+ 
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+ 
+      </table>
+ 
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+ 
+    </mat-card-content>
+ 
+  </mat-card>
+ 
+  <mat-card class="new-message-card">
+ 
+    <mat-card-title>New Message</mat-card-title>
+ 
+    <mat-card-content>
+ 
+      <form [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+ 
+        <mat-form-field>
+ 
+          <input matInput formControlName="to" placeholder="To">
+ 
+        </mat-form-field>
+ 
+        <mat-form-field>
+ 
+          <input matInput formControlName="subject" placeholder="Subject">
+ 
+        </mat-form-field>
+ 
+        <mat-form-field>
+ 
+          <textarea matInput formControlName="content" placeholder="Message" rows="4"></textarea>
+ 
+        </mat-form-field>
+ 
+        <button mat-raised-button color="primary" type="submit" [disabled]="!messageForm.valid">Send</button>
+ 
+      </form>
+ 
+    </mat-card-content>
+ 
+  </mat-card>
+ 
+</div>
+ 
+ 

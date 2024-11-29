@@ -1,0 +1,37 @@
+<div class="student-layout">
+  <aside class="sidebar">
+    <div class="sidebar-buttons">
+      <button routerLink="/candidateview/learningPage" routerLinkActive="active">All Courses</button>
+      <button routerLink="/candidateview/recomondcourse" routerLinkActive="active">Course Preferences</button>
+      <button routerLink="/candidateview/courses" routerLinkActive="active">Enrolled Courses</button>
+      <button routerLink="/candidateview/studentmock" routerLinkActive="active">Mock Test/Interview</button>
+    </div>
+   
+    <div class="followers">
+      <div class="sidebar-header">
+        <h1>Mentor Connection</h1>
+        <input type="text" [(ngModel)]="searchText" (input)="filterMentors()" placeholder="Search mentors...">
+      </div>
+      <div class="following-list-container">
+        <ul class="following-list">
+          <li *ngFor="let person of filteredMentorList"
+              (click)="togglePerson(person)"
+              [class.active]="person.isActive"
+              [attr.data-person-id]="person.id">
+            <span class="person-name">{{ person.name }}</span>
+            <span class="person-symbol"
+                  [ngClass]="{'active': person.isActive, 'loading': person.isLoading}"
+                  (click)="sendingFollowRequest($event, person.id)"
+                  *ngIf="!person.isActive">
+              {{ person.isLoading ? 'Loading...' : 'Follow' }}
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+ 
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

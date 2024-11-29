@@ -1,0 +1,173 @@
+.mockfeed {
+    display: flex; /* Enables flexbox layout */
+    justify-content: space-between; /* Spaces out children */
+    align-items: flex-start; /* Aligns items at the start */
+    margin: 20px; /* Adds some margin around the container */
+    padding: 15px; /* Padding inside the container */
+    border: 2px solid #F87777; /* Border around the entire container using the new color */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #ffecec; /* Light background color to match the theme */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    margin-top: 138px;
+
+}
+
+.mockfeed1 {
+    flex: 1; /* Takes equal space */
+    margin-right: 20px; /* Space between the two sections */
+    border: 1px solid #F87777; /* Border for mockfeed1 */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* Padding inside */
+    background-color: #fff; /* Background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    margin-top: 120px;
+
+}
+
+.mockfeed2 {
+    flex: 2; /* Takes more space compared to mockfeed1 */
+    border: 1px solid #F87777; /* Border for mockfeed2 */
+    border-radius: 8px; /* Rounded corners */
+    padding: 20px; /* Padding inside */
+    background-color: #fff; /* Background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for effect */
+}
+
+.mockfeed2 h2 {
+    color: #F87777; /* Main theme color */
+    text-align: center;
+    margin-bottom: 20px; /* Space below the heading */
+    border-bottom: 2px solid #F87777; /* Border under heading */
+    padding-bottom: 5px; /* Padding below heading */
+}
+
+.form-group {
+    margin-bottom: 15px;         /* Space between form fields */
+}
+
+.form-group label {
+    font-weight: bold;           /* Bold labels */
+    display: block;              /* Block-level element for better spacing */
+    margin-bottom: 5px;          /* Space below the label */
+}
+
+textarea, input[type="text"] {
+    width: 100%; /* Full width */
+    padding: 10px; /* Padding inside input fields */
+    border: 1px solid #F87777; /* Border around input fields */
+    border-radius: 4px; /* Rounded corners */
+    background-color: #fff; /* White background */
+    transition: border-color 0.3s; /* Smooth transition for focus */
+}
+textarea:focus, input[type="text"]:focus {
+    border-color: #e06666; /* Darker border on focus */
+    outline: none; /* Remove default outline */
+}
+
+button {
+    background-color: #F87777; /* Blue background for button */
+    color: #fff; /* White text color */
+    padding: 10px 15px; /* Padding inside button */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover */
+}
+button:hover {
+    background-color: #e06666; /* Darker shade on hover */
+    transform: translateY(-2px); /* Slightly lift button on hover */
+}
+
+button:disabled {
+    background-color: #ddd;      /* Grey background when disabled */
+    cursor: not-allowed;         /* No action cursor when disabled */
+}
+.preview-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+ 
+.preview-modal iframe {
+    background: #fff;
+    border: 2px solid #F87777; /* Border around iframe */
+    border-radius: 8px; /* Rounded corners */
+}
+ 
+.preview-modal button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #F87777; /* Button color */
+    color: #fff; /* White text */
+    border: none; /* No border */
+    padding: 8px 12px; /* Padding inside */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover */
+}
+.preview-modal button:hover {
+    background-color: #e06666; /* Darker shade on hover */
+}
+  .mockfeed1-heading {
+    font-size: 24px; /* Font size */
+    margin-bottom: 20px; /* Space below the heading */
+    color: #333; /* Dark text color for contrast */
+    text-align: left; /* Align text left */
+    border-bottom: 2px solid #F87777; /* Border under heading for emphasis */
+    padding-bottom: 5px; /* Padding below heading */
+}
+
+.submission-item {
+    margin-bottom: 20px; /* Space between submissions */
+    padding: 15px; /* Padding inside each submission */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #fff; /* White background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+}
+
+.preview-button {
+    background-color: #F87777; /* Button background color */
+    color: #fff; /* White text */
+    border: none; /* No border */
+    padding: 10px 15px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 14px; /* Font size */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover */
+}
+
+.preview-button:hover {
+    background-color: #e06666; /* Darker shade on hover */
+    transform: translateY(-2px); /* Slightly lift button on hover */
+}
+.download-link {
+    display: inline-flex; /* Inline-flex for alignment */
+    align-items: center; /* Vertically center align */
+    color: #F87777; /* Text color matching the theme */
+    text-decoration: none; /* No underline */
+    font-size: 38px; /* Font size */
+    margin-left: 15rem; /* Space from the preview button */
+    transition: color 0.3s, transform 0.3s; /* Smooth transition for hover */
+}
+
+.download-link i {
+    margin-right: 5px; /* Space between icon and text */
+    font-size: 24px; /* Increase icon size */
+}
+
+.download-link:hover {
+    color: #e06666; /* Darker color on hover */
+    transform: translateY(-2px); /* Slightly lift link on hover */
+}
+
+
+ 

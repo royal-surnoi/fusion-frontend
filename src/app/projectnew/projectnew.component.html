@@ -1,0 +1,92 @@
+
+
+
+    <!-- project.component.html -->
+
+<div class="project-container" *ngIf="projectData">
+
+  <h2 class="project-title">{{ projectData.name }}</h2>
+
+  <div class="project-details">
+
+    <p><strong>Description:</strong> {{ projectData.description }}</p>
+
+    <p><strong>Due Date:</strong> {{ projectData.dueDate | date:'medium' }}</p>
+
+    <p><strong>Time Remaining:</strong> {{ remainingTime }}</p>
+
+    <p><strong>Max Team Size:</strong> {{ projectData.maxTeamSize }}</p>
+
+  </div>
+ 
+  <form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="project-form">
+
+    <div class="form-group">
+
+      <label for="projectUrl">GitHub Repository URL:</label>
+
+      <input type="text" id="projectUrl" formControlName="projectUrl">
+
+      <div *ngIf="submitted && projectForm.get('projectUrl')?.errors" class="error-message">
+        <div *ngIf="projectForm.get('projectUrl')?.errors?.['required']">GitHub URL is required.</div>
+        <div *ngIf="projectForm.get('projectUrl')?.errors?.['pattern']">Must be a valid GitHub URL.</div>
+      </div>
+
+    </div>
+ 
+    <div class="form-group">
+
+      <label for="description">Project Description:</label>
+
+      <textarea id="description" formControlName="description" rows="6"></textarea>
+
+      <div *ngIf="submitted && projectForm.get('description')?.errors" class="error-message">
+        <div *ngIf="projectForm.get('description')?.errors?.['required']">Description is required.</div>
+        <div *ngIf="projectForm.get('description')?.errors?.['minlength']">Description must be at least 100 characters long.</div>
+      </div>
+
+    </div>
+ 
+    <div formArrayName="teamMembers" class="team-members">
+
+      <h3>Team Members</h3>
+
+      <div *ngFor="let member of teamMembers.controls; let i = index" [formGroupName]="i" class="team-member">
+
+        <input type="text" formControlName="name" placeholder="Name">
+
+        <input type="text" formControlName="role" placeholder="Role">
+
+        <button type="button" (click)="removeTeamMember(i)" class="remove-btn">Remove</button>
+
+      </div>
+
+      <button type="button" (click)="addTeamMember()" [disabled]="teamMembers.length >= projectData.maxTeamSize" class="add-btn">Add Team Member</button>
+
+    </div>
+ 
+    <div class="form-group file-upload">
+
+      <label for="document">Upload Project Documentation:</label>
+
+      <input type="file" id="document" (change)="onFileChange($event)" accept=".pdf,.doc,.docx,.txt" [style.display]="documentFileName ? 'none' : 'block'">
+
+      <div class="file-info" *ngIf="documentFileName">
+
+        <span>{{ documentFileName }}</span>
+
+        <button type="button" (click)="removeFile()" class="remove-file-btn">Remove</button>
+
+      </div>
+
+      <button type="button" (click)="fileInput.click()" class="upload-btn" *ngIf="!documentFileName">Choose File</button>
+      <input #fileInput type="file" (change)="onFileChange($event)" style="display: none;">
+
+    </div>
+ 
+    <button type="submit" [disabled]="projectForm.invalid" class="submit-btn">Submit Project</button>
+
+  </form>
+
+</div>
+ 

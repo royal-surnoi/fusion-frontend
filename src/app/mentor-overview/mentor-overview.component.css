@@ -1,0 +1,161 @@
+
+ 
+@import url('http://fonts.googleapis.com/css2?family=Creepster&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+ 
+ 
+/* mentor-overview.component.css */
+ 
+.overview-container {
+ 
+  color: #000000;
+  border-radius: 10px;
+  padding: 20px;
+ 
+}
+ 
+mat-card-title{
+  font-family: 'Poppins';
+  text-decoration: underline;
+}
+ 
+.overview-container h2{
+ 
+  text-align: center;
+ 
+  font-family: 'Poppins';
+ 
+  font-size: 35px;
+  font-weight: 500;
+ 
+}
+ 
+.loading-spinner {
+ 
+  display: flex;
+ 
+  justify-content: center;
+ 
+  align-items: center;
+ 
+  height: 200px;
+ 
+}
+ 
+.error-message {
+ 
+  color: #f44336;
+ 
+  text-align: center;
+ 
+  font-size: 18px;
+ 
+  margin-top: 20px;
+ 
+}
+ 
+.overview-content {
+ 
+  margin-top: 20px;
+ 
+}
+ 
+.dashboard-card {
+ 
+  background-color: #d9eefc;
+ 
+  box-shadow: 2px 2px 2px rgb(0, 0, 0);
+ 
+  width:285px;
+ 
+  height: 165px;
+ 
+  display: flex;
+ 
+  flex-direction: column;
+ 
+  justify-content: center;
+ 
+  align-items: center;
+ 
+}
+ 
+.dashboard-card .mat-card-header {
+ 
+ 
+  text-align: center;
+ 
+}
+ 
+.dashboard-card .mat-card-content {
+ 
+  display: flex;
+ 
+  justify-content: center;
+ 
+  align-items: center;
+ 
+  flex-grow: 1;
+ 
+}
+ 
+.dashboard-card .card-value {
+ 
+ 
+ 
+  font-size: 1.5em;
+ 
+  font-weight: bold;
+ 
+  color: #000000;
+ 
+}
+ 
+.additional-info {
+ 
+  display: flex;
+ 
+  margin-top: 20px;
+ 
+  gap: 20px;
+ 
+}
+ 
+.additional-info .recent-activities,
+ 
+.additional-info .top-students {
+ 
+  background-color: rgb(246, 246, 237);
+ 
+ 
+  flex: 1;
+ 
+}
+ 
+.additional-info .mat-list-item {
+ 
+  height: auto;
+ 
+  padding: 10px 0;
+ 
+  border-bottom: 1px solid #e0e0e0;
+ 
+}
+ 
+.additional-info .mat-list-item:last-child {
+ 
+  border-bottom: none;
+ 
+}
+ 
+@media (max-width: 768px) {
+ 
+  .additional-info {
+ 
+    flex-direction: column;
+ 
+  }
+ 
+}
+ 
+ 
+ 

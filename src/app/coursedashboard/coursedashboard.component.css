@@ -1,0 +1,948 @@
+/* Global styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+*{
+  --icon-color : #f78888;
+}
+
+i {
+  color: var(--icon-color);
+}
+
+.navigatetoAIQuizbutton {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  transform: translate(0px, 0px);    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.dashboard-container.dark-mode {
+  background-color: #2c2c2c;
+  color: #ffffff;
+}
+
+/* Course info styles */
+.course-info {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.course-info h2 {
+  margin-top: 0;
+  color: #333333;
+}
+
+.course-info p {
+  margin-bottom: 0;
+  color: #666666;
+}
+
+.course-info .mat-progress-bar,
+.video-container .mat-progress-bar {
+  margin-top: 10px;
+}
+
+.video-container h6{
+  margin-top: 10x;
+  margin-left: 10px;
+}
+
+/* Sidenav styles */
+.mat-sidenav-container {
+  height: calc(100vh - 180px);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.course-sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  border-right: 1px solid #e0e0e0;
+}
+
+.module-box {
+  margin-bottom: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.module-box.locked {
+  opacity: 0.6;
+}
+
+.module-header {
+  background-color: #f0f0f0;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.module-header:hover {
+  background-color: #e0e0e0;
+}
+.module-name {
+  margin: 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+.module-header i {
+  margin-right: 10px;
+  font-size: 18px;
+}
+.toggle-icon {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.module-header.open .toggle-icon {
+  transform: rotate(180deg);
+}
+
+.module-content {
+  padding: 10px;
+  background-color: #ffffff;
+}
+.module-content ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.module-content li {
+  padding: 5px 0;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.module-content li:last-child {
+  border-bottom: none;
+}
+
+.module-content li:hover {
+  background-color: #f5f5f5;
+}
+
+.module-content li.active {
+  font-weight: bold;
+}
+
+.module-content li.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+/* Main content styles */
+.main-content {
+  padding: 20px;
+  padding-top: 0px;
+  background-color: #ffffff;
+}
+.video-container {
+  margin-bottom: 20px;
+  background-color: #000000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.video-container video {
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+}
+/* Tab group styles */
+.mat-tab-group .mat-tab-body-content {
+  padding: 20px;
+}
+/* Notes section styles */
+.notes-section {
+  margin-top: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.notes-section h3 {
+  margin-top: 0;
+  color: #333333;
+}
+.notes-section textarea {
+  width: 100%;
+  min-height: 100px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  resize: vertical;
+}
+.notes-section button {
+  background-color: #2196f3;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.notes-section button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+/* Dark mode toggle */
+.mat-slide-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+.lesson-item,
+.video-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+.lesson-item:hover,
+.video-item:hover {
+  background-color: #f0f0f0;
+}
+.lesson-item.active {
+  background-color: #e3f2fd;
+  font-weight: 500;
+}
+.lesson-item.locked,
+.video-item.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.videocontainer {
+  padding-left: 20px;
+}
+
+.video-item .video-icon,
+.lesson-item .lesson-icon {
+  margin-right: 10px;
+  font-size: 16px;
+}
+.video-item .video-title {
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;  /* This adds the ellipsis ("...") for overflowed text */
+  max-width: 15vw;  /* Adjust the width as needed */
+  padding-right: 1vw;  /* Add some padding to prevent text from touching the edge */
+  display: inline-block;
+  vertical-align: middle;
+}
+.course-info {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.course-info h2 {
+  margin-top: 0;
+  color: #333333;
+}
+.mat-progress-bar {
+  width: 100%;
+  margin-top: 10px;
+}
+.course-info p {
+  margin-bottom: 0;
+  color: #666666;
+}
+/* Chatbot Container */
+.chatbot-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  height: 400px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+/* Chat Header */
+.chatbot-header {
+  background-color: #2196f3;
+  color: #ffffff;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+/* Chat Messages Area */
+.chatbot-messages {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background-color: #f5f5f5;
+}
+/* Individual Message */
+.chatbot-message {
+  margin: 5px 0;
+  padding: 8px;
+  border-radius: 8px;
+  max-width: 80%;
+  clear: both;
+}
+.chatbot-message.user {
+  background-color: #2196f3;
+  color: #ffffff;
+  align-self: flex-end;
+  text-align: right;
+}
+.chatbot-message.bot {
+  background-color: #e0e0e0;
+  color: #333333;
+  align-self: flex-start;
+  text-align: left;
+}
+/* Chatbot icon */
+.chat-bot-name {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.3s ease;
+}
+
+.chat-bot-name:hover {
+  transform: scale(1.1);
+}
+
+
+
+.chatBotImg:hover {
+  margin: 0;
+  /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); */
+}
+
+/* CSS Styling for Chatbot */
+
+/* Parent Container */
+
+/* Chatbot Toggle Button */
+.chat-bot-name {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  z-index: 1001;
+}
+.chatBotImg {
+  margin: 0;
+  /* width: 100%;
+  height: 100%;
+  object-fit: cover; */
+}
+/* Chatbot Box */
+.additional-box {
+  /* position: relative; */
+  /* background-color: #ffffff; */
+  background-color: #888;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  transition: max-height 0.3s ease-in-out;
+  max-height: 80vh;
+  overflow-y: auto;
+  
+  height: 360px;
+    transform: translate(0px, -157px);
+}
+.box-visible {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #333;
+}
+/* Response Box */
+.response-box {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+.message-container {
+  display: flex;
+  flex-direction: column;
+}
+.response-message {
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+/* Input Container */
+.input-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+.additional-input {
+  width: 75%;
+  padding: 8px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+.send-button {
+  margin-left: 8px;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.send-button:hover {
+  background-color: #45a049;
+}
+
+.sendchatBotImg {
+  color: #fff;
+  font-size: 14px;
+  margin: 0;
+}
+/* General Styles for Tabs */
+mat-tab-group {
+  margin: 20px;
+}
+
+mat-tab {
+  font-size: 16px;
+}
+
+/* Lesson Details */
+.lesson-details {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-details h3 {
+  margin-top: 0;
+}
+
+.action-buttons {
+  margin-top: 20px;
+}
+
+.action-buttons button {
+  margin-right: 10px;
+}
+
+/* Transcript */
+.transcript {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.transcript p {
+  margin: 0;
+}
+
+.Resources a{
+  margin-top: 20px;
+
+}
+/* General quiz styling */
+.quiz {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.quiz-container {
+  margin-top: 20px;
+}
+
+/* Quiz Selection */
+.quiz-selection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+ 
+.quiz-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+ 
+.start-btn {
+  background-color: var(--icon-color);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+ 
+.start-btn:hover {
+  background-color: #fc9696;
+}
+/* Quiz Questions */
+.quiz-questions {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+ 
+.quiz-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+ 
+.question-item {
+  margin-bottom: 20px;
+}
+ 
+.question-text {
+  font-size: 18px;
+  font-weight: bold;
+}
+ 
+.options-list {
+  list-style: none;
+  padding: 0;
+}
+ 
+.options-list li {
+  margin-bottom: 10px;
+}
+
+label {
+  display: flex;
+  align-items: center;
+}
+
+input[type="radio"] {
+  margin-right: 10px;
+}
+ 
+input[type="radio"] {
+  margin-right: 10px;
+}
+ 
+.submit-btn {
+  background-color: var(--icon-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+ 
+.submit-btn:hover {
+  background-color: #fc9696;
+}
+/* Quiz Results */
+.quiz-results {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-results h3 {
+  margin-bottom: 10px;
+}
+
+/* Popup Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ 
+.popup-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.close-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+ 
+.close-btn:hover {
+  background-color: #c62828;
+}
+/* Comments */
+.comments {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment {
+  margin-bottom: 15px;
+}
+
+.comment strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.comment small {
+  color: #888;
+}
+
+/* Add Comment Section */
+mat-form-field {
+  width: 100%;
+}
+.notes-section .notesSubmit {
+  margin-top: 10px;
+  background-color: var(--icon-color);
+}
+
+.notes-section .notesSubmit:hover{
+  background-color: #fc9696;
+}
+
+/* Assignments */
+.assignments {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.assignment {
+  margin-bottom: 20px;
+}
+
+.assignment h6 {
+  margin-top: 0;
+}
+
+.simple-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.simple-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.dfile-input {
+  margin-bottom: 10px;
+}
+
+.dsubmit-button {
+  margin-bottom: 10px;
+}
+
+.dbbuttons {
+  margin-bottom: 20px;
+}
+
+.assignment button {
+  margin-right: 10px;
+}
+
+/* General Resources styling */
+.resources {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+/* File input and buttons container */
+.dbuttons {
+  margin-bottom: 20px;
+}
+
+.dfile-input {
+  margin-right: 10px;
+}
+
+/* File input styling */
+.dfile-input {
+  display: inline-block;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  margin-right: 10px; /* Space between input and button */
+}
+/* File input button appearance */
+.dfile-input::-webkit-file-upload-button {
+  background-color: var(--icon-color); /* Match the button color */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.dfile-input::-webkit-file-upload-button:hover {
+  background-color: #fc9696; /* Darker shade on hover */
+}
+
+.dfile-input::-webkit-file-upload-button:active {
+  background-color: var(--icon-color); /* Even darker shade on active */
+}
+
+.dsubmit-button {
+  background-color: var(--icon-color); /* Primary color */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.dsubmit-button:hover {
+  background-color: #fc9696; /* Darker shade on hover */
+}
+
+.dsubmit-button:active {
+  background-color: var(--icon-color); /* Even darker shade on active */
+}
+
+.sidenav-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+/* .additional-box {
+  flex: 1;
+  overflow-y: auto;
+} */
+.input-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+.additional-input {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+.send-button1 {
+  padding: 10px;
+  background-color: var(--icon-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 52px;
+  height: 38px;
+}
+
+.send-button:hover{
+  background-color: #fc9696;
+}
+
+.send-button h3 {
+  margin: 0;
+}
+
+
+/* ///////////////chatbot/////////// */
+
+.arrowSend{
+  width: 23px;
+  transform: translate(1px,-15px);
+  font-size: 30px;
+}
+.video-container.normal {
+  background-color: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transform: translate(0px, 0px);
+}
+ 
+.video-container.expanded {
+  width: 571px;  /* Adjust the width as needed */
+  background-color: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  right: 0;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+}
+ 
+.additional-input {
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  width: calc(100% - 80px); /* Adjust width to fit within the box */
+}
+.chatBotImg {
+  width: 45px;
+  height: 45px;
+  transform: translate(10px, 18px);
+
+}
+/* .boxmessagetest{
+  width: 460px;
+  height: 391px;
+  background-color: #333;
+  transform: translate(399px, -416px);
+  margin-bottom: -392px;
+} */
+
+
+
+.parent-container {
+  position: relative;
+  /* bottom: 0; */
+  /* right: 20px; */
+  max-width: 300px;
+  /* width: 100%; */
+  /* z-index: 1000; */
+  transform: translate(550px,-230px);
+  margin-bottom: -350px;
+}
+ 
+.additional-box {
+  background-color: #ffffff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  transition: max-height 0.3s ease-in-out;
+  max-height: 375px;
+  overflow-y: auto;
+  height: 375px;
+  transform: translate(0px, -170px);
+  position: relative; /* Position relative to place input at the bottom */
+}
+ 
+.input-container1 {
+  position: absolute;
+  bottom: 0; /* Stick input to the bottom */
+  left: 0;
+  right: 0;
+  display: flex;
+  padding: 10px;
+  background-color: #f1f1f1;
+}
+ 
+.additional-input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+ 
+.send-button1 {
+  margin-left: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  background-color: rgb(248,119,119);
+}
+ 
+.message-container {
+  margin-bottom: 60px; /* Leave space for the input */
+}
+ 
+.user-message p {
+  background-color: blue;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+ 
+.response-message p {
+  background-color: lightgray;
+  padding: 10px;
+  border-radius: 10px;
+}
+ 
+ 

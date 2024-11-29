@@ -1,0 +1,130 @@
+<div class="dashboard-container">
+  <!-- --------------------dummy------------------- -->
+  <nav class="tab-nav">
+    <i [routerLink]="['/activities', courseId]" (click)="back(courseId)" class="fa-solid fa-arrow-left" style="width: 30px; color: red; display: flex; align-items: center; margin-left: 10px;cursor: pointer;"></i>
+ 
+  </nav>
+ 
+  <div class="tab-content" [ngSwitch]="activeTab">
+    <!-- *ngSwitchCase="'quiz'" -->
+    <div *ngIf="activityType === 'quizSuccess'" class="success-message">
+      <h2>Answer Submitted Successfully</h2>
+      <div *ngFor="let q of questions; let i = index" class="question">
+        <p><strong>Question {{ i + 1 }}:</strong> {{ q.text }}</p>
+        <p>Selected Answer: {{ submittedAnswers[i].selectedAnswer }}</p>
+      </div>
+    </div>
+    <div *ngIf="activityType ==='quiz'&& !quizSuccess" class="quiz-tab">
+      <h2>Quiz Questions</h2>
+      <form [formGroup]="quizForm" (ngSubmit)="onSubmit(courseType)">
+        <div formArrayName="answers">
+          <div *ngFor="let q of questions; let i = index" class="question">
+            <p><strong>Question {{ i + 1 }}:</strong> {{ q.text }}</p>
+            <div class="options">
+              <label class="option">
+                <input type="radio" [formControlName]="i.toString()" value="A" (change)="logSelection(i, 'A')"> {{
+                q.optionA }}
+              </label>
+              <label class="option">
+                <input type="radio" [formControlName]="i.toString()" value="B" (change)="logSelection(i, 'B')"> {{
+                q.optionB }}
+              </label>
+              <label class="option">
+                <input type="radio" [formControlName]="i.toString()" value="C" (change)="logSelection(i, 'C')"> {{
+                q.optionC }}
+              </label>
+              <label class="option">
+                <input type="radio" [formControlName]="i.toString()" value="D" (change)="logSelection(i, 'D')"> {{
+                q.optionD }}
+              </label>
+            </div>
+         
+          </div>
+        </div>
+        <button type="submit" [disabled]="!quizForm.valid">Submit Answers</button>
+      </form>
+
+    </div>
+
+    <!-- *ngSwitchCase="'assignment'" -->
+
+    <!-------------- Assignment Section --------------->
+    <div *ngIf="activeTab === 'assignment' && !submissionStatus " class="submission-status-container">
+      <h3>{{ submissionStatus }}</h3>
+      h1
+      <div *ngIf="submissionStatus === 'Assignment submitted successfully'">
+        <div *ngIf="submittedAssignment">
+          <h3>{{ submittedAssignment.assignmentTitle }}</h3>
+          <p>{{ submittedAssignment.assignmentDescription }}</p>
+          <p>Your answer: {{ submittedAnswer }}</p>
+          <p>File name: {{ submittedFileName }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="submissionStatus !== 'Assignment submitted successfully' && activityType === 'assignment'" class="assignment-tab">
+      <h2>Assignments</h2>
+      <div *ngIf="assignment">
+        <div class="assignment-card">
+          <h3>{{ assignment.assignmentTitle }}</h3>
+          <p>{{ assignment.assignmentDescription }}</p>
+          <p *ngIf="assignment.lesson">Lesson ID: {{ assignment.lesson.id }}</p>
+          <p>Due: {{ assignment.endDate | date:'medium' }}</p>
+          <form [formGroup]="assignmentForm" (ngSubmit)="submitAssignment(assignment.id, userId, courseType)">
+            <textarea formControlName="answer" placeholder="Your answer here..." rows="5"></textarea>
+            <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx" />
+            <button type="submit" class="submit-btn" [disabled]="!assignmentForm.valid">Submit Assignment</button>
+          </form>
+        </div>
+      </div>
+      <p *ngIf="!assignment" class="no-content">No assignments available for this module.</p>
+    </div>
+    <div *ngIf="submissionStatus === 'Assignment submitted successfully'" class="submission-success">
+      <h2>Assignment Submitted Successfully</h2>
+      <p>Thank you for your submission!</p>
+    </div>
+
+
+
+
+    <!-- *ngSwitchCase="'project'" -->
+
+    <!-------------- Project Section --------------->
+    <div *ngIf="activityType === 'project'" class="project-tab">
+      <h2>Current Project</h2>
+      <div class="project-card">
+        <h3>{{ projectDetails[0].projectTitle }}</h3>
+        <p>{{ projectDetails[0].projectDescription}}</p>
+        <p>GIT Url:{{ projectDetails[0].gitUrl}}</p>
+        <p>Due: {{ projects[0].dueDateTime }}</p>
+        <form (ngSubmit)="submitProject(userId, courseId, projectDetails[0].id,courseType)">
+          <textarea placeholder="Project notes..." rows="3" [(ngModel)]="projectNotes" name="projectNotes"
+            required></textarea>
+          <input type="file" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx,.zip" required />
+          <button type="submit" class="submit-btn">Submit Project</button>
+        </form>
+      </div>
+    </div>
+    
+    <div *ngIf="activityType === 'submissionSuccess'" class="submission-success-tab">
+      <h2>Project Submitted Successfully!</h2>
+      <div class="submission-details">
+        <h3>{{ submittedProject.title }}</h3>
+        <div class="detail-item">
+          <strong>Description:</strong>
+          <p>{{ submittedProject.description }}</p>
+        </div>
+        <div class="detail-item">
+          <strong>Project Notes:</strong>
+          <p>{{ submittedProject.notes }}</p>
+        </div>
+        <div class="detail-item">
+          <strong>File:</strong>
+          <p>{{ submittedProject.file }}</p>
+        </div>
+      </div>
+    </div>
+ 
+
+  </div>
+</div>

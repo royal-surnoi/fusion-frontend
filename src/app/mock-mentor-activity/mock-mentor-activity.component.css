@@ -1,0 +1,422 @@
+*body{
+    overflow: hidden;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    overflow: scroll;
+      /* Add your existing styles here */
+  }
+   
+  button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: white;
+    color: black;
+    border: 1px solid salmon;
+    cursor: pointer;
+    border-radius: 20px;
+  }
+   
+  button:hover {
+    background-color: #f78888;
+    counter-reset: white;
+    color: white;
+  }
+   
+  .options {
+    margin-top: 10px;
+  }
+   
+  .form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* Adjusts height to screen size */
+    overflow: hidden;
+  }
+   
+  .form {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    max-width: 650px;
+    max-height: 200%; /* Takes full height of the container */
+    overflow-y: auto; /* Adds scroll option */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+   
+  label {
+    display: block;
+    margin-top: 10px;
+  }
+   
+  input, textarea, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    /* border: 1px solid #90ccf4; */
+  }
+   
+  .form h2 , h3 {
+    margin-top: 0;
+    /* font-weight: 500; */
+    font-size: 16px;
+    margin-top: 10px;
+    font-family: 'Mulish', Helvetica, Arial, sans-serif;
+  }
+   
+  .image-container {
+    position: relative;
+    display: inline-block;
+  }
+   
+  .image-container img {
+    display: block;
+    width: 200px; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+  }
+   
+  .delete-icon {
+    position: absolute;
+    top: 5px; /* Adjust as needed */
+    right: 5px; /* Adjust as needed */
+    background: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px; /* Adjust size as needed */
+    color: red; /* Adjust color as needed */
+    padding: 5px;
+    z-index: 1;
+  }
+  .mock-button{
+    margin-top: 100px;
+  }
+   
+  .styled-image {
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: block;
+    border-radius: 15px;
+  }
+   
+  .custom-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+    font-family: 'Mulish', Helvetica, Arial, sans-serif;
+  }
+   
+  /* ///////////////////////////////// PROJECT ////////////////////////////////////////////////// */
+   
+  .project-section {
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    /* box-shadow: 0 2px 5px rgba(236, 8, 8, 0.1); */
+  }
+   
+  .project-form {
+    display: flex;
+    flex-direction: column;
+  }
+   
+  .form-group {
+    margin-bottom: 15px;
+  }
+   
+  .form-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+  }
+   
+  .form-textarea,
+  .form-input,
+  .form-file {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 14px;
+    box-sizing: border-box;
+    overflow: hidden;
+    /* border: 1px solid #90ccf4; */
+  }
+   
+  .form-textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+   
+  .form-input,
+  .form-file {
+    margin-bottom: 10px;
+  }
+   
+  /* ///////////////////////////////// Quiz ///////////////////////////////////////////// */
+   
+  .specific-form {
+    width: 400px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+   
+  .quiz-form {
+    display: flex;
+    flex-direction: column;
+  }
+   
+  .form-heading {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+   
+  .form-group {
+    margin-bottom: 15px;
+  }
+   
+  .form-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+  }
+   
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 14px;
+    box-sizing: border-box;
+    /* border: 1px solid #90ccf4; */
+  }
+   
+  /* ///////////////////////////////// Interview ////////////////////////////////////////////////////// */
+   
+  .interview-section {
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+  }
+   
+  .form-heading {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+   
+  .interview-form {
+    display: flex;
+    flex-direction: column;
+  }
+   
+  .form-group {
+    margin-bottom: 15px;
+  }
+   
+  .form-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+  }
+   
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+   
+  /* /////////////////////////// ASSIGNMENT ////////////////////////////////////////////// */
+   
+  .assignment-section {
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+  }
+   
+  .assignment-form {
+    display: flex;
+    flex-direction: column;
+  }
+   
+  .form-group {
+    margin-bottom: 15px;
+  }
+   
+  .form-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #333;
+  }
+   
+  .form-input,
+  .form-textarea,
+  .form-input-file {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+   
+  .form-textarea {
+    height: 100px;
+    resize: vertical;
+  }
+   
+  .form-input-file {
+    padding: 5px;
+  }
+   
+  /* //////////////////////////// slot ///////////////////////////////////////////////////// */
+   
+  .slot-container {
+    width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Mulish', Helvetica, Arial, sans-serif;
+  }
+   
+  .slot-container h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
+    font-family: 'Mulish', Helvetica, Arial, sans-serif;
+  }
+   
+  .slot-container label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #555;
+    font-family: 'Mulish', Helvetica, Arial, sans-serif;
+  }
+   
+  .slot-container input[type="text"],
+  .slot-container input[type="date"],
+  .slot-container input[type="time"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-family: 'Mulish', Helvetica, Arial, sans-serif;
+  }
+   
+  .save{
+    display: flex;
+    justify-content: space-evenly;
+  }
+   
+  .Tests{
+    margin-left: 270px;
+  }
+   
+  /* .mat-drawer-content {
+    position: relative;
+    z-index: 1;
+    display: block;
+    height: 100%;
+    overflow: hidden;
+  } */
+    /* Center the table on the page */
+    .table-container {
+      width: 100%; /* Ensures full width for container */
+      margin: 0 auto; /* Centers the container */
+      text-align: center; /* Centers the content inside */
+    }
+   
+  .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px;
+    margin-top: 10px;
+    text-align: left;
+    width: 100%; /* Adjust table width */
+    max-width: 800px; /* Limit max width */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+   
+  .styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: center;
+  }
+   
+  .styled-table th,
+  .styled-table td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+  }
+   
+  .styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+  }
+   
+  .styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+  }
+   
+  .styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+  }
+   
+  .styled-table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+   
+  .styled-table button {
+    padding: 5px 10px;
+    color: #ffffff;
+    background-color: #009879;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+   
+  .styled-table button:hover {
+    background-color: #007a63;
+  }
+   
+   
+   
+   
+   

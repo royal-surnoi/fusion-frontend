@@ -1,0 +1,334 @@
+*{
+    --orange: #f78888;
+    --yellow: #f3d250;
+    --grey: #ececec;
+    --blue: #5DA2D5;
+    --blue-on-hover: #90ccf4;
+    --minor-text: #777;
+    --minor-text-hover: #555;
+    --major-text: #333;
+    --orange-on-hover: #f79c9c;
+
+    /* font-family: 'Mulish', Halvetica, Arial, sans-serif; */
+}
+
+/* i{
+    font-family: 'Courier New', Courier, monospace;
+} */
+
+
+
+
+ 
+ 
+.recommendations {
+    padding: 20px;
+    /* background-color: var(--grey); */
+}
+ 
+.recommendations-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--major-text);
+}
+
+.recommendation-slider-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 40px;
+}
+ 
+
+ 
+
+.recommendations-container {
+    display: flex;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+    padding: 0 40px;
+}
+ 
+.recommendations-container::-webkit-scrollbar {
+    display: none;
+}
+ 
+.related-courses-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    /* flex-wrap: wrap; */
+    gap: 0;
+    padding: 20px 0;
+}
+ 
+.related-courses-container::-webkit-scrollbar {
+    display: none;
+}
+ 
+.recommendation-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    min-width: 300px;
+    margin: 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex-shrink: 0;
+    flex: 0 1 calc(33.333% - 20px);
+    max-width: calc(33.333% - 20px);
+    margin-bottom: 20px;
+
+}
+
+    
+ 
+.course-image {
+    position: relative;
+    height: 200px;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+ 
+.course-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+ 
+.course-Type,
+.course-level {
+    position: absolute;
+    top: 10px;
+    background-color: var(--grey);
+    color: var(--major-text);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+ 
+.course-Type {
+    left: 10px;
+}
+ 
+.course-level {
+    right: 10px;
+}
+ 
+.course-content {
+    padding: 0;
+}
+ 
+.course-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--major-text);
+}
+ 
+.course-description {
+    font-size: 14px;
+    color: var(--minor-text);
+    line-height: 1.4;
+    margin-bottom: 15px;
+}
+ 
+.course-instructor {
+    font-size: 14px;
+    color: var(--minor-text);
+    margin-bottom: 10px;
+}
+ 
+.course-instructor a {
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--minor-text);
+    transition: color 0.3s ease;
+}
+ 
+.course-instructor a:hover {
+    color: var(--blue);
+    text-decoration: underline;
+}
+ 
+.course-stats {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+ 
+.course-rating i {
+    color: var(--yellow);
+    margin-right: 5px;
+}
+ 
+.course-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0 0;
+    width: 100%;
+}
+ 
+.course-price {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--blue);
+}
+ 
+.enroll-button {
+    background-color: var(--orange);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+ 
+.enroll-button:hover {
+    background-color: var(--orange-on-hover);
+}
+ 
+
+ 
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+ 
+.pagination-controls button {
+    background-color: var(--blue);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    margin: 0 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+ 
+.pagination-controls button:hover {
+    background-color: var(--blue-on-hover);
+}
+ 
+.pagination-controls button:disabled {
+    background-color: var(--minor-text);
+    cursor: not-allowed;
+}
+ 
+.pagination-controls button:disabled:hover {
+    background-color: var(--minor-text);
+}
+ 
+.pagination-controls span {
+    font-size: 14px;
+    color: var(--major-text);
+}
+ 
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+  }
+ 
+.spinner {
+    /* border: 4px solid var(--grey);
+    border-top: 4px solid var(--major-text); */
+    border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+ 
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+ 
+.error-message {
+    color: var(--orange);
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+}
+ 
+.no-courses {
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+    color: var(--minor-text);
+}
+ 
+.language-courses-container {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+ 
+.language-courses-container::-webkit-scrollbar {
+    display: none;
+}
+ 
+.language-courses-container .recommendation-card {
+    flex: 0 0 calc(33.333% - 20px);
+    margin: 0 10px 20px;
+}
+ 
+@media (max-width: 1200px) {
+    .language-courses-container .recommendation-card {
+        flex: 0 0 calc(50% - 20px);
+    }
+}
+ 
+@media (max-width: 768px) {
+    .language-courses-container .recommendation-card {
+        flex: 0 0 100%;
+    }
+}
+ 
+ 
+.slide-button {
+    color: var(--orange);
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    font-size: 24px;
+    line-height: 1;
+    border-radius: 50%;
+}
+
+ 
+.left {
+    left: 10px;
+}
+ 
+.right {
+    right: 10px;
+}
+ 
+ 

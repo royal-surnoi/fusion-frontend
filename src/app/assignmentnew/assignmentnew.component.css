@@ -1,0 +1,153 @@
+
+/* assignment.component.css */
+
+.assignment-container {
+
+  max-width: 800px;
+
+  margin: 0 auto;
+
+  padding: 20px;
+
+  background-color: #f9f9f9;
+
+  border-radius: 8px;
+
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+}
+ 
+.assignment-title {
+
+  text-align: center;
+
+  color: #333;
+
+  margin-bottom: 20px;
+
+}
+ 
+.assignment-details {
+
+  background-color: #fff;
+
+  padding: 15px;
+
+  border-radius: 5px;
+
+  margin-bottom: 20px;
+
+}
+ 
+.assignment-form {
+
+  background-color: #fff;
+
+  padding: 20px;
+
+  border-radius: 5px;
+
+}
+ 
+.form-group {
+
+  margin-bottom: 20px;
+
+}
+ 
+label {
+
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-weight: bold;
+
+}
+ 
+textarea {
+
+  width: 100%;
+
+  padding: 10px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 4px;
+
+  resize: vertical;
+
+}
+ 
+input[type="file"] {
+
+  display: block;
+
+  margin-top: 5px;
+
+}
+ 
+.submit-btn {
+
+  display: block;
+
+  width: 100%;
+
+  padding: 10px;
+
+  background-color: #4CAF50;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 5px;
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+  transition: background-color 0.3s ease;
+
+}
+ 
+.submit-btn:hover {
+
+  background-color: #45a049;
+
+}
+ 
+.submit-btn:disabled {
+
+  background-color: #cccccc;
+
+  cursor: not-allowed;
+
+}
+ 
+.error-message {
+
+  color: #f44336;
+
+  font-size: 14px;
+
+  margin-top: 5px;
+
+}
+ 
+@media (max-width: 600px) {
+
+  .assignment-container {
+
+    padding: 10px;
+
+  }
+
+  .assignment-form {
+
+    padding: 15px;
+
+  }
+
+}
+ 

@@ -1,0 +1,48 @@
+
+<!-- assignment.component.html -->
+
+<div class="assignment-container" *ngIf="assignmentData">
+
+  <h2 class="assignment-title">{{ assignmentData.name }}</h2>
+
+  <div class="assignment-details">
+
+    <p><strong>Description:</strong> {{ assignmentData.description }}</p>
+
+    <p><strong>Due Date:</strong> {{ assignmentData.dueDate | date:'medium' }}</p>
+
+    <p><strong>Time Remaining:</strong> {{ remainingTime }}</p>
+
+    <p><strong>Max Score:</strong> {{ assignmentData.maxScore }}</p>
+
+  </div>
+ 
+  <form [formGroup]="assignmentForm" (ngSubmit)="onSubmit()" class="assignment-form">
+
+    <div class="form-group">
+
+      <label for="answer">Your Answer:</label>
+
+      <textarea id="answer" formControlName="answer" rows="6"></textarea>
+
+      <div *ngIf="submitted && assignmentForm.get('answer')?.errors" class="error-message">
+        <div *ngIf="assignmentForm.get('answer')?.errors?.['required']">Answer is required.</div>
+        <div *ngIf="assignmentForm.get('answer')?.errors?.['minlength']">Answer must be at least 50 characters long.</div>
+      </div>
+
+    </div>
+ 
+    <div class="form-group">
+
+      <label for="attachments">Attachments:</label>
+
+      <input type="file" id="attachments" (change)="onFileChange($event)">
+
+    </div>
+ 
+    <button type="submit" [disabled]="assignmentForm.invalid" class="submit-btn">Submit Assignment</button>
+
+  </form>
+
+</div>
+ 

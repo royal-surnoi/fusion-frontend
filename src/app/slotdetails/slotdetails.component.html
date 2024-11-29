@@ -1,0 +1,59 @@
+ 
+ 
+<div *ngIf="slotDetails.length; else noSlots" class="card-container-wrapper">
+  <h2>Slot Details</h2>
+  <div class="card" *ngFor="let slot of slotDetails">
+    <div class="card-content">
+      <!-- <h3>Slot ID: {{ slot.id }}</h3> -->
+      <p><strong>Slot Name:</strong> {{ slot.slotName }}</p>
+      <!-- <h3>Slot ID: {{ slot.id }}</h3> -->
+      <p><strong>Start Time:</strong> {{ formatDateTime(slot.slotTime) }}</p>
+      <p><strong>End Time:</strong> {{ formatDateTime(slot.endTime) }}</p>
+      <p><strong>Booked:</strong> {{ slot.booked ? 'Yes' : 'No' }}</p>
+     
+      <button (click)="openBookingModal(slot)" [disabled]="slot.booked">Book</button>
+    </div>
+  </div>
+</div>
+ 
+<ng-template #noSlots>
+  <p>No slot details available.</p>
+</ng-template>
+ 
+<!-- Button to check booked slots -->
+<!-- <button (click)="loadBookedSlots(userId)" [disabled]="!userId">Check Booked Slots</button> -->
+ 
+<!-- Display booked slots -->
+<div *ngIf="bookedSlots.length; else noBookedSlots">
+  <h3>Booked Slots</h3>
+  <div class="card" *ngFor="let booking of bookedSlots">
+    <div class="card-content">
+      <p><strong>Slot ID:</strong> {{ booking.slot.id }}</p>
+      <p><strong>Slot Name:</strong> {{ booking.slot.slotName }}</p>
+      <p><strong>Start Time:</strong> {{ formatDateTime(booking.slot.slotTime) }}</p>
+      <p><strong>End Time:</strong> {{ formatDateTime(booking.slot.endTime) }}</p>
+      <p><strong>Booking Time:</strong> {{ formatDateTime(booking.bookingTime) }}</p>
+      <p><strong>User:</strong> {{ booking.user.name }}</p>
+      <button>join</button>
+     
+    </div>
+  </div>
+</div>
+<ng-template #noBookedSlots>
+  <!-- <p>No booked slots available.</p> -->
+</ng-template>
+ 
+<!-- Custom Modal -->
+<div class="modal-overlay" *ngIf="isModalOpen">
+  <div class="modal-content">
+    <h2 class="modaltitle">{{ modalTitle }}</h2>
+    <p>{{ modalMessage }}</p>
+    <div class="modal-actions">
+      <button (click)="onModalCancel()">Cancel</button>
+      <button (click)="onModalConfirm()">Confirm</button>
+    </div>
+  </div>
+</div>
+ 
+ 
+ 

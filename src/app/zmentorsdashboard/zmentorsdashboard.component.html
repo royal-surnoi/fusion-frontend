@@ -1,0 +1,123 @@
+ 
+ 
+ 
+ 
+ <!-- courses.component.html -->
+ 
+ <div class="container courses-container">
+  <h1>Course Management</h1>
+  <!-- <button class="btn btn-primary mb-3" (click)="navCourse()">Add New Course</button> -->
+ 
+  <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+    <table class="table table-striped table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Course Title</th>
+          <th scope="col">Enrolled Students</th>
+          <th scope="col">Course Type</th>
+          <th scope="col">Create Assignment</th>
+          <th scope="col">Create Project</th>
+          <th scope="col">Create Quiz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of courses">
+          <td>{{course.courseTitle}}</td>
+          <td>{{course.enrolledStudents}}</td>
+          <td>{{course.courseType}}</td>
+          <td>
+            <button mat-icon-button (click)="navigateToAssessment(course.id)">
+              <mat-icon>send</mat-icon>
+            </button>
+          </td>
+          <td>
+            <button mat-icon-button (click)="navigateToProject(course.id)">
+              <mat-icon>send</mat-icon>
+            </button>
+          </td>
+          <td>
+            <button mat-icon-button (click)="navigateToQuiz(course.id)">
+              <mat-icon>send</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+ 
+</div>
+ 
+<div>
+  <h5>Courses Assignments</h5>
+  <table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Assignment Title</th>
+        <th scope="col">Course Title</th>
+        <th scope="col">Course Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let assignment of assignments">
+        <td>{{ assignment.assignmentTitle }}</td>
+        <td>{{ assignment.courseTitle || 'N/A' }}</td>
+        <td>
+          <ng-container [ngSwitch]="assignment.courseType">
+            <span *ngSwitchCase="'online'">Online</span>
+            <span *ngSwitchCase="'offline'">Offline</span>
+            <span *ngSwitchDefault>Unknown</span>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+ 
+  <h5>Courses Projects</h5>
+  <table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Project Title</th>
+        <th scope="col">Course Title</th>
+        <th scope="col">Course Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let project of projects">
+        <td>{{ project.projectTitle }}</td>
+        <td>{{ project.courseTitle || 'N/A' }}</td>
+        <td>
+          <ng-container [ngSwitch]="project.courseType">
+            <span *ngSwitchCase="'online'">Online</span>
+            <span *ngSwitchCase="'offline'">Offline</span>
+            <span *ngSwitchDefault>Unknown</span>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+ 
+  <h5>Courses Quizzes</h5>
+  <table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Quiz Title</th>
+        <th scope="col">Course Title</th>
+        <th scope="col">Course Type</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let quiz of quizzes">
+        <td>{{ quiz.quizName }}</td>
+        <td>{{ quiz.courseTitle || 'N/A' }}</td>
+        <td>
+          <ng-container [ngSwitch]="quiz.courseType">
+            <span *ngSwitchCase="'online'">Online</span>
+            <span *ngSwitchCase="'offline'">Offline</span>
+            <span *ngSwitchDefault>Unknown</span>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+ 
+ 

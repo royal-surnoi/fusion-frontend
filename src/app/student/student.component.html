@@ -1,0 +1,723 @@
+ 
+<!-- student.component.html -->
+ 
+ 
+ 
+<div class="student-container">
+ 
+  <h1>Student Management</h1>
+ 
+ 
+ 
+  <button mat-raised-button color="primary" (click)="showAssessmentOverlay = true">
+    Add Assessment
+  </button>
+   
+  <!-- Overlay for the Add Assessment form -->
+ <!-- Assessment Form -->
+ <div class="overlay" *ngIf="showAssessmentOverlay">
+  <form [formGroup]="assessmentForm" (ngSubmit)="onSubmitAssignment()">
+    <h2>Add New Assessment</h2>
+ 
+    <div>
+      <label for="course">Select Course:</label>
+      <select id="course" formControlName="course" (change)="onCourseChange($event)">
+        <option value="" disabled>Select Course</option>
+        <option *ngFor="let course of courses" [value]="course.id">{{ course.courseTitle }}</option>
+      </select>
+    </div>
+ 
+    <div>
+      <label for="courseType">Course Type:</label>
+      <input id="courseType" formControlName="courseType" type="text" readonly>
+    </div>
+ 
+    <div *ngIf="enrollments.length > 0">
+      <label>User Enrollments:</label>
+      <input type="text" placeholder="Search users..." [(ngModel)]="searchText" (ngModelChange)="filterEnrollments()" [ngModelOptions]="{standalone: true}">
+      <ul class="enrollment-list">
+        <li *ngFor="let enrollment of filteredEnrollments">
+          <label>
+            <input type="checkbox" [value]="enrollment.user.id" (change)="onUserSelectionChange($event)" [checked]="selectedStudents.includes(enrollment.user.id)">
+            {{ enrollment.user.name }}
+          </label>
+        </li>
+      </ul>
+    </div>
+ 
+    <div>
+      <label for="assignmentTitle">Assignment Title:</label>
+      <input id="assignmentTitle" formControlName="assignmentTitle" type="text">
+    </div>
+ 
+    <div>
+      <label for="assignmentTopicName">Assignment Topic Name:</label>
+      <input id="assignmentTopicName" formControlName="assignmentTopicName" type="text">
+    </div>
+ 
+    <div>
+      <label for="assignmentDescription">Assignment Description:</label>
+      <input id="assignmentDescription" formControlName="assignmentDescription" type="text">
+    </div>
+ 
+    <div class="custom-file-wrapper">
+      <label for="assignmentDocument" class="custom-file-label">Choose File</label>
+      <span class="custom-file-text">{{ selectedFileName }}</span>
+      <input id="assignmentDocument" type="file" (change)="onFileChange($event)" />
+    </div>
+ 
+    <div>
+      <label for="startDate">Start Date:</label>
+      <input id="startDate" formControlName="startDate" type="datetime-local">
+    </div>
+ 
+    <div>
+      <label for="endDate">End Date:</label>
+      <input id="endDate" formControlName="endDate" type="datetime-local">
+    </div>
+ 
+    <div>
+      <label for="reviewMeetDate">Review Meet Date:</label>
+      <input id="reviewMeetDate" formControlName="reviewMeetDate" type="datetime-local">
+    </div>
+ 
+    <div>
+      <label for="maxScore">Marks:</label>
+      <input id="maxScore" formControlName="maxScore" type="number">
+    </div>
+ 
+    <button type="submit">Submit</button>
+    <button type="button" (click)="closeAssessmentOverlay()">Cancel</button>
+  </form>
+</div>
+ 
+ 
+ 
+  <button mat-raised-button color="primary" (click)="showOverlay = true">
+    Add Project
+  </button>
+ 
+  <div class="overlay" *ngIf="showOverlay">
+ 
+ 
+    <form [formGroup]="projectForm" (ngSubmit)="onSubmitProject()">
+      <label for="courseSelect">Course:</label>
+        <select id="courseSelect" name="course" [(ngModel)]="selectedCourseId" (change)="onCourseChange($event)" required>
+          <option *ngFor="let course of courses" [value]="course.id">{{ course.courseTitle }}</option>
+        </select>
+     
+ 
+      <div>
+        <label for="courseType">Course Type:</label>
+        <input id="courseType" formControlName="courseType" type="text" readonly>
+      </div>
+      <div *ngIf="enrollments.length > 0">
+        <label>User Enrollments:</label>
+        <input type="text" placeholder="Search users..." [(ngModel)]="searchText" (ngModelChange)="filterEnrollments()" [ngModelOptions]="{standalone: true}">
+        <ul class="enrollment-list">
+          <li *ngFor="let enrollment of filteredEnrollments">
+            <label>
+              <input type="checkbox" [value]="enrollment.user.id" (change)="onUserSelectionChange($event)" [checked]="selectedUserIds.includes(enrollment.user.id)">
+              {{ enrollment.user.name }}
+            </label>
+          </li>
+        </ul>
+      </div>
+     
+   
+      <div>
+        <label for="projectTitle">Project Title:</label>
+        <input id="projectTitle" formControlName="projectTitle" type="text" required />
+      </div>
+   
+      <div>
+        <label for="projectDescription">Project Description:</label>
+        <textarea id="projectDescription" formControlName="projectDescription" required></textarea>
+      </div>
+   
+      <div>
+        <label for="gitUrl">Git URL:</label>
+        <input id="gitUrl" formControlName="gitUrl" type="text" required />
+      </div>
+   
+      <div>
+        <label for="projectDeadline">Project Deadline:</label>
+        <input id="projectDeadline" formControlName="projectDeadline" type="datetime-local" required />
+      </div>
+   
+      <div>
+        <label for="startDate">Start Date:</label>
+        <input id="startDate" formControlName="startDate" type="datetime-local" required />
+      </div>
+   
+      <div>
+        <label for="reviewMeetDate">Review Meeting Date:</label>
+        <input id="reviewMeetDate" formControlName="reviewMeetDate" type="datetime-local" required />
+      </div>
+      <div class="custom-file-wrapper">
+        <label for="projectDocument" class="custom-file-label">Choose File</label>
+        <span class="custom-file-text">{{ selectedFileName }}</span>
+        <input id="projectDocument" type="file" (change)="onFileChange($event)" required />
+    </div>
+   
+   
+      <button type="submit" [disabled]="!projectForm.valid">Submit</button>
+      <button type="button" (click)="closeOverlay()">Cancel</button>
+    </form>
+   
+ 
+  </div>
+  <!-- Button to show the overlay for adding a quiz -->
+ 
+  <!-- Button to open the quiz creation overlay -->
+  <button mat-raised-button color="primary" (click)="showQuizOverlay = true">
+    Add Quiz
+</button>
+ 
+<!-- Overlay for the Add Quiz form -->
+<!-- Quiz Creation Form -->
+<!-- Quiz Creation Form -->
+<div class="overlay" *ngIf="!isQuizCreated && showQuizOverlay">
+  <form [formGroup]="quizForm" (ngSubmit)="onSaveQuiz()">
+    <!-- Course Selection and Course Type -->
+    <div class="form-group">
+      <label for="course">Select Course:</label>
+      <select id="course" formControlName="courseId" (change)="onCourseChange($event)" required>
+        <option value="" disabled>Select Course</option>
+        <option *ngFor="let course of courses" [value]="course.id">{{ course.courseTitle }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="courseType">Course Type:</label>
+      <input id="courseType" formControlName="courseType" type="text" readonly>
+    </div>
+ 
+    <!-- User Enrollments -->
+    <div *ngIf="enrollments.length > 0" class="form-group">
+      <label>User Enrollments:</label>
+      <input type="text" placeholder="Search users..." [(ngModel)]="searchText" (ngModelChange)="filterEnrollments()" [ngModelOptions]="{ standalone: true }" />
+      <ul class="enrollment-list">
+        <li *ngFor="let enrollment of filteredEnrollments">
+          <label>
+            <input type="checkbox" [value]="enrollment.user.id" (change)="onUserSelectionChange($event)" [checked]="selectedUserIds.includes(enrollment.user.id)" />
+            {{ enrollment.user.name }}
+          </label>
+        </li>
+      </ul>
+    </div>
+ 
+    <!-- Quiz Details -->
+    <div class="form-group quiz-details">
+      <label for="quizName">Quiz Name:</label>
+      <input type="text" id="quizName" formControlName="quizName" placeholder="Enter quiz name" required />
+ 
+      <div class="quiz-dates">
+        <label for="startDate">Start Date and Time:</label>
+        <input type="datetime-local" id="startDate" formControlName="startDate" required />
+ 
+        <label for="endDate">End Date and Time:</label>
+        <input type="datetime-local" id="endDate" formControlName="endDate" required />
+      </div>
+ 
+      <button type="submit" class="small-icon">Create Quiz</button>
+    </div>
+ 
+    <div class="form-actions">
+      <button type="button" (click)="closeQuizOverlay()">Cancel</button>
+    </div>
+  </form>
+</div>
+ 
+<!-- MCQ Question Section -->
+<!-- MCQ Question Section -->
+<!-- Overlay Container -->
+<div *ngIf="isQuizCreated" class="overlay">
+  <div class="overlay-content">
+    <h3>Quiz Questions</h3>
+    <form id="questionsForm" (ngSubmit)="onSubmitQuiz()">
+      <div *ngFor="let question of questions; let i = index" class="question">
+        <div class="question-header">
+          <span class="question-number">{{ i + 1 }}</span>
+          <input type="text" placeholder="Enter question text" class="question-box" [(ngModel)]="question.text" name="question{{ i }}Text">
+          <span class="icon small-icon" (click)="deleteQuestion(i)">
+            <i class="fas fa-trash-alt"></i>
+          </span>
+        </div>
+ 
+        <div class="options-container">
+          <div *ngFor="let option of question.options; let j = index" class="option">
+            <label>{{ option.label }}</label>
+            <input type="text" class="answer-box" [(ngModel)]="option.text" name="question{{ i }}Option{{ j }}">
+          </div>
+        </div>
+ 
+        <div class="correct-answer">
+          <label>Correct Answer:</label>
+          <select [(ngModel)]="question.correctAnswer" name="question{{ i }}CorrectAnswer">
+            <option *ngFor="let option of question.options" [value]="option.label">{{ option.label }}</option>
+          </select>
+        </div>
+      </div>
+ 
+      <div class="form-actions">
+        <button type="button" class="small-icon" (click)="addMCQ()">Add MCQ</button>
+        <button type="submit" class="small-icon">Submit Quiz Questions</button>
+      </div>
+    </form>
+    <button class="close-overlay" (click)="closeQuizOverlay()">Close</button>
+  </div>
+</div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  <!-- <button mat-raised-button color="primary" (click)="showOverlay = true">
+      Add live session
+    </button> -->
+ 
+  <!-- <button mat-raised-button color="primary">
+    Add interView
+  </button> -->
+ 
+  <button mat-raised-button color="primary" (click)="showonlineOverlay = true">
+    schedule online class
+  </button>
+ 
+ 
+  <div class="overlay" *ngIf="showonlineOverlay">
+   
+    <form (ngSubmit)="onSubmitliveclass()">
+      <div>
+        <label for="roomName">Room Name:</label>
+        <input type="text" id="roomName" name="roomName" [(ngModel)]="roomName" required>
+      </div>
+   
+      <div>
+        <label for="courseSelect">Course:</label>
+        <select id="courseSelect" name="course" [(ngModel)]="selectedCourseId" (change)="onCourseChange($event)" required>
+          <option *ngFor="let course of courses" [value]="course.id">{{ course.courseTitle }}</option>
+        </select>
+      </div>
+   
+      <div *ngIf="enrollments.length > 0">
+        <label>User Enrollments:</label>
+     
+        <!-- Search input for filtering enrollments -->
+        <input type="text" placeholder="Search users..."
+               [(ngModel)]="searchText"
+               (ngModelChange)="filterEnrollments()"
+               [ngModelOptions]="{standalone: true}">
+     
+        <!-- Filtered list of enrollments with checkboxes -->
+        <ul class="enrollment-list">
+          <li *ngFor="let enrollment of filteredEnrollments">
+            <label>
+              <input type="checkbox"
+                     [value]="enrollment.user.id"
+                     (change)="onUserSelectionChange($event)"
+                     [checked]="selectedUserIds.includes(enrollment.user.id)">
+              {{ enrollment.user.name }}
+            </label>
+          </li>
+        </ul>
+      </div>
+   
+      <div>
+        <label for="scheduledTime">Scheduled Time:</label>
+        <input type="datetime-local" id="scheduledTime" name="scheduledTime" [(ngModel)]="scheduledTime" required>
+      </div>
+   
+      <button type="submit">Create Training Room</button>
+      <button type="button" (click)="closeOnlineOverlay()">Cancel</button>
+    </form>
+</div>
+ 
+ <!-- /////////////////////////////////////////////////////// -->
+ 
+ <table class="table table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Course Title</th>
+      <th scope="col">Enrolled Students</th>
+      <th scope="col">Course Type</th>
+      <th scope="col">Assignment/Project/Quiz (Counts)</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let course of postedItems; let i = index">
+      <tr>
+        <td>{{ course.courseTitle }}</td>
+        <td>{{ course.enrolledStudentsCount }}</td>
+        <td>{{ course.courseType || 'N/A' }}</td>
+        <td>
+          <ng-container *ngIf="course.assignmentCount > 0">
+            <div>
+              <strong>Assignments:</strong> {{ course.assignmentCount }}
+            </div>
+          </ng-container>
+          <ng-container *ngIf="course.projectCount > 0">
+            <div>
+              <strong>Projects:</strong> {{ course.projectCount }}
+            </div>
+          </ng-container>
+          <ng-container *ngIf="course.quizCount > 0">
+            <div>
+              <strong>Quizzes:</strong> {{ course.quizCount }}
+            </div>
+          </ng-container>
+        </td>
+        <td>
+          <button (click)="toggleExpansion(i)">
+            {{ expandedCourseIndex === i ? 'Collapse' : 'Expand' }}
+          </button>
+        </td>
+      </tr>
+     
+      <!-- Expanded row for additional details -->
+      <tr *ngIf="expandedCourseIndex === i">
+        <td colspan="5">
+          <div class="flex-container">
+            <!-- Assignments Section -->
+            <div class="flex-item scrollable-section">
+              <div class="sticky-heading">
+                <h4>Assignments</h4>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Assignment</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let assignment of course.assignmentDetails">
+                    <tr>
+                      <td>
+                        <span class="student-icon" [attr.data-students]="getStudentNames(assignment.studentNames)">
+                          👤
+                        </span>
+                      </td>
+                      <td>{{ assignment.assignmentTitle }}</td>
+                      <td>
+                        <button (click)="editAssignmentOrProject(assignment, 'Assignment')">Edit</button>
+                        <button (click)="deleteAssignmentOrProject(assignment)">Delete</button>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+ 
+            <!-- Projects Section -->
+            <div class="flex-item scrollable-section">
+              <div class="sticky-heading">
+                <h4>Projects</h4>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Project</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let project of course.projectDetails">
+                    <tr>
+                      <td>
+                        <span class="student-icon" [attr.data-students]="getStudentNames(project.studentNames)">
+                          👤
+                        </span>
+                      </td>
+                      <td>{{ project.projectTitle }}</td>
+                      <td>
+                        <button (click)="editAssignmentOrProject(project, 'Project')">Edit</button>
+                        <button (click)="deleteAssignmentOrProject(project)">Delete</button>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+ 
+            <!-- Quizzes Section -->
+            <div class="flex-item scrollable-section">
+              <div class="sticky-heading">
+                <h4>Quizzes</h4>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Student</th>
+                    <th>Quiz</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let quiz of course.quizDetails">
+                    <tr>
+                      <td>
+                        <span class="student-icon" [attr.data-students]="getStudentNames(quiz.studentNames)">
+                          👤
+                        </span>
+                      </td>
+                      <td>{{ quiz.quizName }}</td>
+                      <td>
+                        <button (click)="onEdit(quiz.quizId)">Edit</button>
+                        <button (click)="deleteQuiz(quiz.quizId)">Delete</button>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+           
+          </div>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+ 
+ 
+ 
+ <!-- ///////////////////////////////////////////////////////////////////////// -->
+<!-- Assignment Edit Modal -->
+<div *ngIf="isAssignmentEditModalOpen" class="modal">
+  <div class="modal-content">
+    <form [formGroup]="assignmentForm" (ngSubmit)="onSubmitAssignmentOrProject('assignment')">
+      <div class="form-group">
+        <label for="course">Select Course:</label>
+        <select id="course" formControlName="course" (change)="onCourseChange($event)" required>
+          <option value="" disabled>Select Course</option>
+          <option *ngFor="let course of courses" [value]="course.id">{{ course.courseTitle }}</option>
+        </select>
+      </div>
+     
+      <div class="form-group" *ngIf="enrollments.length > 0">
+        <label>User Enrollments:</label>
+        <input type="text" placeholder="Search users..." [(ngModel)]="searchText" (ngModelChange)="filterEnrollments()" [ngModelOptions]="{standalone: true}">
+        <ul class="enrollment-list">
+          <li *ngFor="let enrollment of filteredEnrollments">
+            <label>
+              <input type="checkbox" [value]="enrollment.user.id" (change)="onUserSelectionChange($event)" [checked]="selectedStudents.includes(enrollment.user.id)">
+              {{ enrollment.user.name }}
+            </label>
+          </li>
+        </ul>
+      </div>
+      <div class="form-group">
+        <label for="assignmentTitle">Assignment Title:</label>
+        <input id="assignmentTitle" formControlName="assignmentTitle" type="text" required>
+      </div>
+      <div class="form-group">
+        <label for="assignmentTopicName">Assignment Topic Name:</label>
+        <input id="assignmentTopicName" formControlName="assignmentTopicName" type="text" required>
+      </div>
+      <div class="form-group">
+        <label for="assignmentDescription">Assignment Description:</label>
+        <textarea id="assignmentDescription" formControlName="assignmentDescription" required></textarea>
+      </div>
+      <div class="form-group custom-file-wrapper">
+        <label for="assignmentDocument" class="custom-file-label">Choose File</label>
+        <span class="custom-file-text">{{ selectedFileName }}</span>
+        <input id="assignmentDocument" type="file" (change)="onFileChange($event)" required />
+      </div>
+      <div class="form-group">
+        <label for="startDate">Start Date:</label>
+        <input id="startDate" formControlName="startDate" type="datetime-local" required>
+      </div>
+      <div class="form-group">
+        <label for="endDate">End Date:</label>
+        <input id="endDate" formControlName="endDate" type="datetime-local" required>
+      </div>
+      <div class="form-group">
+        <label for="reviewMeetDate">Review Meet Date:</label>
+        <input id="reviewMeetDate" formControlName="reviewMeetDate" type="datetime-local" required>
+      </div>
+      <div class="form-group">
+        <label for="maxScore">Marks:</label>
+        <input id="maxScore" formControlName="maxScore" type="number" required>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-save">Save</button>
+        <button type="button" class="btn-cancel" (click)="isAssignmentEditModalOpen = false">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+ 
+<!-- Project Edit Modal -->
+<!-- Project Edit Modal -->
+<div *ngIf="isProjectEditModalOpen" class="modal">
+  <div class="modal-content">
+    <form [formGroup]="projectForm" (ngSubmit)="onSubmitAssignmentOrProject('project')">
+      <div class="form-group">
+        <label for="course">Select Course:</label>
+        <select id="course" formControlName="course" (change)="onCourseChange($event)" required>
+          <option value="" disabled>Select Course</option>
+          <option *ngFor="let course of courses" [value]="course.id">{{ course.courseTitle }}</option>
+        </select>
+      </div>
+     
+      <div class="form-group" *ngIf="enrollments.length > 0">
+        <label>User Enrollments:</label>
+        <input type="text" placeholder="Search users..." [(ngModel)]="searchText" (ngModelChange)="filterEnrollments()" [ngModelOptions]="{standalone: true}">
+        <ul class="enrollment-list">
+          <li *ngFor="let enrollment of filteredEnrollments">
+            <label>
+              <input type="checkbox" [value]="enrollment.user.id" (change)="onUserSelectionChange($event)" [checked]="selectedStudents.includes(enrollment.user.id)">
+              {{ enrollment.user.name }}
+            </label>
+          </li>
+        </ul>
+      </div>
+      <div class="form-group">
+        <label for="projectTitle">Project Title:</label>
+        <input id="projectTitle" formControlName="projectTitle" type="text" required />
+      </div>
+      <div class="form-group">
+        <label for="projectDescription">Project Description:</label>
+        <textarea id="projectDescription" formControlName="projectDescription" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="gitUrl">Git URL:</label>
+        <input id="gitUrl" formControlName="gitUrl" type="text" required />
+      </div>
+      <div class="form-group">
+        <label for="projectDeadline">Project Deadline:</label>
+        <input id="projectDeadline" formControlName="projectDeadline" type="datetime-local" required />
+      </div>
+      <div class="form-group">
+        <label for="startDate">Start Date:</label>
+        <input id="startDate" formControlName="startDate" type="datetime-local" required />
+      </div>
+      <div class="form-group">
+        <label for="reviewMeetDate">Review Meeting Date:</label>
+        <input id="reviewMeetDate" formControlName="reviewMeetDate" type="datetime-local" required />
+      </div>
+      <div class="form-group custom-file-wrapper">
+        <label for="projectDocument" class="custom-file-label">Choose File</label>
+        <span class="custom-file-text">{{ selectedFileName }}</span>
+        <input id="projectDocument" type="file" (change)="onFileChange($event)" required />
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn-save">Save</button>
+        <button type="button" class="btn-cancel" (click)="isProjectEditModalOpen = false">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+ 
+<!-- Quiz Edit Modal -->
+<!-- quiz.component.html -->
+<div *ngIf="quizDetail" class="quizDisp">
+  <!-- Close button and Quiz Details header -->
+  <div class="close-btn" (click)="closeForm()">&times;</div>
+  <h2>Quiz Details</h2>
+ 
+  <!-- Course Selection -->
+  <div class="form-group">
+    <label for="courseName"><strong>Course Name:</strong></label>
+    <input id="courseName" [(ngModel)]="quizDetail.courseName" placeholder="Enter course name" class="form-control" />
+  </div>
+ 
+  <!-- User Enrollments -->
+  <div class="form-group" *ngIf="enrollments.length > 0">
+    <label>User Enrollments:</label>
+    <input type="text" placeholder="Search users..." [(ngModel)]="searchText" (ngModelChange)="filterEnrollments()" [ngModelOptions]="{standalone: true}" class="form-control">
+    <ul class="enrollment-list">
+      <li *ngFor="let enrollment of filteredEnrollments">
+        <label>
+          <input type="checkbox" [value]="enrollment.user.id" (change)="onUserSelectionChange($event)" [checked]="selectedStudents.includes(enrollment.user.id)">
+          {{ enrollment.user.name }}
+        </label>
+      </li>
+    </ul>
+  </div>
+ 
+  <!-- Start Date -->
+  <div class="form-group">
+    <label for="startDate"><strong>Start Date:</strong></label>
+    <input id="startDate" type="datetime-local" [(ngModel)]="startDateString" class="form-control" />
+  </div>
+ 
+  <!-- End Date -->
+  <div class="form-group">
+    <label for="endDate"><strong>End Date:</strong></label>
+    <input id="endDate" type="datetime-local" [(ngModel)]="endDateString" class="form-control" />
+  </div>
+ 
+  <!-- Quiz Name -->
+  <div class="form-group">
+    <label for="quizName"><strong>Quiz Name:</strong></label>
+    <input id="quizName" [(ngModel)]="quizDetail.quizName" placeholder="Enter quiz name" class="form-control" />
+  </div>
+ 
+  <h3>Questions</h3>
+ 
+  <!-- Button to Add MCQ -->
+ 
+  <!-- Loop through questions -->
+  <div *ngFor="let question of quizDetail.questions; let i = index" class="question-block">
+    <h4>Question {{ i + 1 }}</h4>
+ 
+    <!-- Question Text -->
+    <div class="form-group">
+      <label for="questionText{{i}}"><strong>Question:</strong></label>
+      <input id="questionText{{i}}" [(ngModel)]="question.text" placeholder="Enter question text" class="form-control" />
+    </div>
+ 
+    <!-- Option A -->
+    <div class="form-group">
+      <label for="optionA{{i}}"><strong>Option A:</strong></label>
+      <input id="optionA{{i}}" [(ngModel)]="question.optionA" placeholder="Enter option A" class="form-control" />
+    </div>
+ 
+    <!-- Option B -->
+    <div class="form-group">
+      <label for="optionB{{i}}"><strong>Option B:</strong></label>
+      <input id="optionB{{i}}" [(ngModel)]="question.optionB" placeholder="Enter option B" class="form-control" />
+    </div>
+ 
+    <!-- Option C -->
+    <div class="form-group">
+      <label for="optionC{{i}}"><strong>Option C:</strong></label>
+      <input id="optionC{{i}}" [(ngModel)]="question.optionC" placeholder="Enter option C" class="form-control" />
+    </div>
+ 
+    <!-- Option D -->
+    <div class="form-group">
+      <label for="optionD{{i}}"><strong>Option D:</strong></label>
+      <input id="optionD{{i}}" [(ngModel)]="question.optionD" placeholder="Enter option D" class="form-control" />
+    </div>
+ 
+    <!-- Correct Answer -->
+    <div class="form-group">
+      <label for="correctAnswer{{i}}"><strong>Correct Answer:</strong></label>
+      <select id="correctAnswer{{i}}" [(ngModel)]="question.correctAnswer" name="correctAnswer{{i}}" class="form-control">
+        <option [value]="question.optionA">A</option>
+        <option [value]="question.optionB">B</option>
+        <option [value]="question.optionC">C</option>
+        <option [value]="question.optionD">D</option>
+      </select>
+    </div>
+  </div>
+ 
+  <!-- Button Group -->
+  <div class="button-group">
+    <button (click)="updateQuiz()" class="btn btn-primary">Save Changes</button>
+    <button (click)="deleteQuiz(quizDetail.quizId)" class="btn btn-danger">Delete Quiz</button>
+    <button (click)="closeForm()" class="btn btn-secondary">Cancel</button>
+  </div>
+</div>
+ 
+ 
+</table>
+ 
+ 

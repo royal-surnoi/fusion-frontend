@@ -1,0 +1,41 @@
+
+<div class="quiz-container" *ngIf="quizData">
+
+  <h2 class="quiz-title">{{ quizData.name }}</h2>
+
+  <form (ngSubmit)="submitQuiz()">
+
+    <div class="question" *ngFor="let question of quizData.questions; let i = index">
+
+      <p class="question-text">{{ i + 1 }}. {{ question.text }}</p>
+
+      <div class="options">
+
+        <div class="option" *ngFor="let option of question.options; let j = index">
+
+          <input type="radio" [id]="'q'+i+'o'+j" [name]="'question'+i" 
+
+                 [(ngModel)]="userAnswers[i]" [value]="j">
+
+          <label [for]="'q'+i+'o'+j">{{ option }}</label>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <button type="submit" [disabled]="!isQuizComplete()" class="submit-btn">Submit Quiz</button>
+
+  </form>
+
+  <div class="results" *ngIf="quizSubmitted">
+
+    <h3>Quiz Results</h3>
+
+    <p>You scored {{ score }} out of {{ quizData.questions.length }}</p>
+
+  </div>
+
+</div>
+ 

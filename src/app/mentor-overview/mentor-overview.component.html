@@ -1,0 +1,163 @@
+
+ 
+<!-- mentor-overview.component.html -->
+ 
+<div class="overview-container">
+ 
+  <h2>Dashboard Overview</h2>
+ 
+  <div *ngIf="isLoading" class="loading-spinner">
+ 
+    <mat-spinner></mat-spinner>
+ 
+  </div>
+ 
+  <div *ngIf="error" class="error-message">
+ 
+    {{ error }}
+ 
+  </div>
+ 
+  <div *ngIf="!isLoading && !error" class="overview-content">
+ 
+    <mat-grid-list cols="2" rowHeight="200px" gutterSize="16px">
+ 
+      <mat-grid-tile>
+ 
+        <mat-card class="dashboard-card">
+ 
+          <mat-card-header>
+ 
+            <mat-card-title>Total Students</mat-card-title>
+ 
+          </mat-card-header>
+ 
+          <mat-card-content>
+ 
+            <div class="card-value">{{ activeStudents }}</div>
+ 
+          </mat-card-content>
+ 
+        </mat-card>
+ 
+      </mat-grid-tile>
+ 
+      <mat-grid-tile>
+ 
+        <mat-card class="dashboard-card">
+ 
+          <mat-card-header>
+ 
+            <mat-card-title>Active Courses</mat-card-title>
+ 
+          </mat-card-header>
+ 
+          <mat-card-content>
+ 
+            <div class="card-value">{{ totalCourses }}</div>
+ 
+          </mat-card-content>
+ 
+        </mat-card>
+ 
+      </mat-grid-tile>
+ 
+      <mat-grid-tile>
+ 
+        <mat-card class="dashboard-card">
+ 
+          <mat-card-header>
+ 
+            <mat-card-title>Pending Assessments</mat-card-title>
+ 
+          </mat-card-header>
+ 
+          <mat-card-content>
+ 
+            <div class="card-value">{{length }}</div>
+ 
+          </mat-card-content>
+ 
+        </mat-card>
+ 
+      </mat-grid-tile>
+ 
+      <mat-grid-tile>
+ 
+        <mat-card class="dashboard-card">
+ 
+          <mat-card-header>
+ 
+            <mat-card-title>Upcoming Classes</mat-card-title>
+ 
+          </mat-card-header>
+ 
+          <mat-card-content>
+ 
+            <div class="card-value">{{ upcomingClasses }}</div>
+ 
+          </mat-card-content>
+ 
+        </mat-card>
+ 
+      </mat-grid-tile>
+ 
+    </mat-grid-list>
+ 
+    <div class="additional-info">
+ 
+<!-- src/app/dashboard/dashboard.component.html -->
+<mat-card class="recent-activities">
+  <mat-card-header>
+    <mat-card-title>Recent Activities</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item style="height:100px;" *ngFor="let notification of notifications">
+        <!-- Uncomment and adjust if using icons -->
+        <!-- <mat-icon mat-list-icon>{{ activity.name }}</mat-icon> -->
+        <div mat-line>{{ notification.name }}</div>
+        <div mat-line>{{ notification.content }}</div>
+        <div mat-line>{{ notification.timestamp }}</div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
+
+ 
+      <!-- <mat-card class="top-students">
+ 
+        <mat-card-header>
+ 
+          <mat-card-title>Top Performing Students</mat-card-title>
+ 
+        </mat-card-header>
+ 
+        <mat-card-content>
+ 
+          <mat-list>
+ 
+            <mat-list-item style="height:100px;" *ngFor="let student of topPerformingStudents">
+ 
+              <mat-icon mat-list-icon>person</mat-icon>
+ 
+              <div mat-line>{{ student.name }}</div>
+ 
+              <div mat-line>Progress: {{ student.progress }}%</div>
+ 
+            </mat-list-item>
+ 
+          </mat-list>
+ 
+        </mat-card-content>
+ 
+      </mat-card> -->
+ 
+    </div>
+ 
+  </div>
+ 
+</div>
+ 
+ 

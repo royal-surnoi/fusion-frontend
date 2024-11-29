@@ -1,0 +1,102 @@
+<div class="quiz-container">
+  <!-- Quiz Questions Section -->
+  <div *ngIf="!quizCompleted && !reviewingResults">
+    <div class="question-box">
+      <p class="question-text">{{ questions[currentQuestionIndex].text }}</p>
+    </div>
+    <div class="options">
+      <div *ngFor="let option of questions[currentQuestionIndex].options; let i = index"
+           class="option-box"
+           [class.selected]="selectedAnswer === i"
+           (click)="selectAnswer(i)">
+        <span class="option-letter">{{ ['A', 'B', 'C', 'D'][i] }}.</span>
+        <span class="option-text">{{ option }}</span>
+      </div>
+    </div>
+    <div class="button-container">
+      <button class="submit" (click)="submitAnswer()" [disabled]="answerSubmitted || selectedAnswer === null">SUBMIT</button>
+      <button class="skips" (click)="skipQuestion()" [disabled]="answerSubmitted">SKIP</button>
+      <button class="next" *ngIf="answerSubmitted" (click)="nextQuestion()">NEXT</button>
+    </div>
+  </div>
+
+  <!-- Score Display -->
+  <div *ngIf="quizCompleted && !reviewingResults" class="score-board">
+    <div class="score-circle">
+      <svg viewBox="0 0 36 36" class="circular-chart">
+        <path class="circle-bg"
+          d="M18 2.0845
+            a 15.9155 15.9155 0 0 1 0 31.831
+            a 15.9155 15.9155 0 0 1 0 -31.831"
+        />
+        <path class="circle"
+          [attr.stroke-dasharray]="getFinalScorePercentage() + ', 100'"
+          d="M18 2.0845
+            a 15.9155 15.9155 0 0 1 0 31.831
+            a 15.9155 15.9155 0 0 1 0 -31.831"
+        />
+      </svg>
+      <div class="percentage">{{ getFinalScorePercentage() }}<span class="small">/100</span></div>
+      <div class="status" [class.passed]="hasPassed()" [class.failed]="!hasPassed()">
+        {{ hasPassed() ? 'PASSED' : 'FAILED' }}
+      </div>
+    </div>
+
+    <div class="score-details">
+      <div class="detail correct">
+        <span class="icon">✓</span> {{ correctAnswers }} Correct Answers
+      </div>
+      <div class="detail wrong">
+        <span class="icon">✗</span> {{ wrongAnswers }} Wrong Answers
+      </div>
+      <div class="detail unanswered">
+        <span class="icon">•</span> {{ unanswered }} Unanswered
+      </div>
+    </div>
+
+    <button class="review-mistakes" (click)="reviewResults()">REVIEW RESULTS</button>
+  </div>
+
+  <!-- Review Results -->
+  <div *ngIf="reviewingResults" class="review-results">
+    <div class="review-header">
+      <h2>Review Quiz Results</h2>
+      <button class="finish-review" (click)="finishReview()">Finish Review</button>
+    </div>
+
+    <div class="score-comparison">
+      <div class="score-bar your-score">
+        <div class="score-fill" [style.width.%]="getFinalScorePercentage()">
+          {{ getFinalScorePercentage() }}%
+        </div>
+        <span class="score-label">YOUR SCORE</span>
+      </div>
+      <div class="score-bar pass-score">
+        <div class="score-fill" [style.width.%]="passScore">
+          {{ passScore }}%
+        </div>
+        <span class="score-label">PASS SCORE</span>
+      </div>
+    </div>
+
+    <div *ngFor="let attempt of questionAttempts; let i = index" class="question-review">
+      <h3>Question {{ i + 1 }}</h3>
+      <p class="question-text">{{ attempt.question.text }}</p>
+      <div class="options">
+        <div *ngFor="let option of attempt.question.options; let j = index"
+             class="option"
+             [class.correct]="j === attempt.question.correctAnswer"
+             [class.incorrect]="j === attempt.userAnswer && j !== attempt.question.correctAnswer"
+             [class.selected]="j === attempt.userAnswer">
+          {{ option }}
+        </div>
+      </div>
+      <p class="answer-status" [ngClass]="getAnswerStatus(i)">
+        {{ getAnswerStatus(i) | uppercase }}
+      </p>
+      <p class="correct-answer" *ngIf="getAnswerStatus(i) !== 'correct'">
+        Correct answer: {{ attempt.question.options[attempt.question.correctAnswer] }}
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,189 @@
+<div class="recommendations">
+    <div  (mouseenter)="NavigatorChange()" (mouseleave)="NavigatorChangeout()">
+    <h2 class="recommendations-heading">Skill Recommendations</h2>
+    <div class="recommendation-slider-container" *ngIf="courses.length>=1">
+        <button class="slide-button left" (click)="slideLeft()" *ngIf="Naviagtors"><i class="fa-solid fa-less-than"></i></button>
+        <div #recommendationSlider class="recommendations-container">
+            <div *ngFor="let course of courses" class="recommendation-card">
+                <div class="course-image">
+                    <div class="course-Type">{{ course.courseType }}</div>
+                    <img [src]="image(course.courseImage)" [alt]="course.courseTitle">
+                    <!-- <img src="../../assets/test.png" alt=""> -->
+                    <div class="course-level">{{ getLevelString(course.level) }}</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">{{ course.courseTitle }}</h3>
+                    <p class="course-description">
+                        {{ course.courseDescription | slice: 0: 40 }}
+                        <span *ngIf="course.courseDescription.length > 40">
+                          <a [routerLink]="['/courseland']" [queryParams]="{ courseId: course.course_id }">
+                            Read More..
+                          </a>
+                        </span>
+                      </p>
+ 
+ 
+ 
+                    <p class="course-instructor">
+                        <a (click)="onInstructorSelect(course.creatorName)">
+                            {{ course.creatorName }}
+                        </a>
+                    </p>
+                    <div class="course-stats">
+                        <span class="course-rating">
+                            <ng-container *ngIf="course.courseRating === 0">
+                                <i class="far fa-star" *ngFor="let star of generateEmptyStarsArray(5)"></i>
+                            </ng-container>
+                            <ng-container *ngIf="course.courseRating > 0">
+                                <i class="fas fa-star" *ngFor="let star of generateStarsArray(course.courseRating)"></i>
+                                <i class="far fa-star" *ngFor="let star of generateEmptyStarsArray(course.courseRating)"></i>
+                            </ng-container>
+                            ({{ course.courseRating }})
+                        </span>
+                        <span class="enrollment-count">{{ course.enrollmentCount }} enrolled</span>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <span class="course-price">{{ course.courseFee | currency: 'INR' : 'symbol' }}</span>
+                    <button class="enroll-button" [routerLink]="['/courseland']" [queryParams]="{ courseId: course.course_id }">
+                        Enroll Now
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button class="slide-button right" (click)="slideRight()" *ngIf="Naviagtors"><i class="fa-solid fa-greater-than"></i></button>
+    </div>
+    <div *ngIf="courses.length==0" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+</div>
+
+<div  (mouseenter)="NavigatorChange2()" (mouseleave)="NavigatorChangeout2()">
+ <h2 class="recommendations-heading">Language Recommendations</h2>
+    <div class="recommendation-slider-container" *ngIf="langCourses.length>=1">
+        <button class="slide-button left" (click)="slideLeftLanguage()" *ngIf="Naviagtors2"><i class="fa-solid fa-less-than"></i></button>
+        <div #languageRecommendationSlider class="recommendations-container">
+            <div *ngFor="let course of langCourses" class="recommendation-card">
+                <div class="course-image">
+                    <div class="course-Type">{{ course.courseType }}</div>
+                    <img [src]="image(course.courseImage)" [alt]="course.courseTitle">
+                    <!-- <img src="../../assets/test.png" alt=""> -->
+                    <div class="course-level">{{ getLevelString(course.level) }}</div>
+                </div>
+                <div class="course-content">
+                    <h3 class="course-title">{{ course.courseTitle }}</h3>
+                    <p class="course-description">
+                        {{ course.courseDescription | slice: 0: 40 }}
+                        <span *ngIf="course.courseDescription.length > 40">
+                          <a [routerLink]="['/courseland']" [queryParams]="{ courseId: course.course_id }">
+                            Read More..
+                          </a>
+                        </span>
+                      </p>
+ 
+ 
+ 
+                    <p class="course-instructor">
+                        <a (click)="onInstructorSelect(course.creatorName)">
+                            {{ course.creatorName }}
+                        </a>
+                    </p>
+                    <div class="course-stats">
+                        <span class="course-rating">
+                            <ng-container *ngIf="course.courseRating === 0">
+                                <i class="far fa-star" *ngFor="let star of generateEmptyStarsArray(5)"></i>
+                            </ng-container>
+                            <ng-container *ngIf="course.courseRating > 0">
+                                <i class="fas fa-star" *ngFor="let star of generateStarsArray(course.courseRating)"></i>
+                                <i class="far fa-star" *ngFor="let star of generateEmptyStarsArray(course.courseRating)"></i>
+                            </ng-container>
+                            ({{ course.courseRating }})
+                        </span>
+                        <span class="enrollment-count">{{ course.enrollmentCount }} enrolled</span>
+                    </div>
+                </div>
+                <div class="course-footer">
+                    <span class="course-price">{{ course.courseFee| currency: 'INR' : 'symbol' }}</span>
+                    <button class="enroll-button" [routerLink]="['/courseland']" [queryParams]="{ courseId: course.course_id }">
+                        Enroll Now
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button class="slide-button right" (click)="slideRightLanguage()" *ngIf="Naviagtors2"><i class="fa-solid fa-greater-than"></i></button>
+    </div>
+    <div *ngIf="langCourses.length==0" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+      </div>
+</div>   
+ 
+    <!-- Related Course Recommendations with Pagination -->
+     <div >
+    <h2 class="recommendations-heading">Related Course Recommendations</h2>
+    <div class="related-courses-container" *ngIf="paginatedRelCourses.length>=1">
+        <div *ngFor="let course of paginatedRelCourses" class="recommendation-card">
+            <div class="course-image">
+                <div class="course-Type">{{ course.courseType }}</div>
+                <img [src]="image(course.courseImage)" [alt]="course.courseTitle">
+                 <!-- <img src="../../assets/test.png" alt=""> -->
+                <div class="course-level">{{ getLevelString(course.level) }}</div>
+            </div>
+            <div class="course-content">
+                <h3 class="course-title">{{ course.courseTitle }}</h3>
+                <p class="course-description">
+                    {{ course.courseDescription | slice: 0: 40 }}
+                    <span *ngIf="course.courseDescription.length > 40">
+                      <a [routerLink]="['/courseland']" [queryParams]="{ courseId: course.course_id }">
+                        Read More..
+                      </a>
+                    </span>
+                  </p>
+
+
+
+                <p class="course-instructor">
+                    <a (click)="onInstructorSelect(course.creatorName)">
+                        {{ course.creatorName }}
+                    </a>
+                </p>
+                <div class="course-stats">
+                    <span class="course-rating">
+                        <ng-container *ngIf="course.courseRating === 0">
+                            <i class="far fa-star" *ngFor="let star of generateEmptyStarsArray(5)"></i>
+                        </ng-container>
+                        <ng-container *ngIf="course.courseRating > 0">
+                            <i class="fas fa-star" *ngFor="let star of generateStarsArray(course.courseRating)"></i>
+                            <i class="far fa-star" *ngFor="let star of generateEmptyStarsArray(course.courseRating)"></i>
+                        </ng-container>
+                        ({{ course.courseRating }})
+                    </span>
+                    <span class="enrollment-count">{{ course.enrollmentCount }} enrolled</span>
+                </div>
+            </div>
+            <div class="course-footer">
+                <span class="course-price">{{ course.courseFee | currency: 'INR' : 'symbol' }}</span>
+                <button class="enroll-button" [routerLink]="['/courseland']" [queryParams]="{ courseId: course.course_id }">
+                    Enroll Now
+                </button>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="paginatedRelCourses.length==0" class="loading-spinner">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+    </div>
+   
+    <!-- Pagination Controls -->
+    <div class="pagination-controls">
+        <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+   
+</div>
+ 
+ 

@@ -1,0 +1,111 @@
+.headding {
+  height:67px;
+  width:100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #D3D9D4;
+  font-family: 'Mulish', Halvetica, Arial, sans-serif;
+ 
+  margin-top: 30px;
+
+
+  /* animation: gradientBG 30s ease infinite; */
+  padding: 0 20px;
+ 
+  color: black;
+ 
+
+  }
+form {
+max-width: 590px;
+margin: 0 auto;
+padding: 20px;
+background-color: #f5f5f5;
+border-radius: 8px;
+box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+border: 2px solid #ececec;
+margin-top: 150px;
+}
+
+.courses > div {
+  background-color: #ffffff;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #237bbb;
+  font-weight: 500;
+}
+
+input[type="text"],
+input[type="datetime-local"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #f78888;
+  border-radius: 50px;
+  font-size: 14px;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 15px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"] {
+  /* background-color: #1976d2;
+  color: white;
+  margin-right: 10px; */
+  background-color: white;
+  color: black;
+  border-radius: 20px;
+  border: 2px solid #f78888;
+  margin-right: 10px;
+}
+
+button[type="submit"]:hover {
+  background-color: #1565c0;
+  color: white;
+}
+
+.icon-button {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.icon-button:hover {
+  background-color: #e0e0e0;
+}
+
+mat-icon {
+  margin-right: 8px;
+}
+
+.icon-button mat-icon {
+  font-size: 18px;
+}
+
+button[type="button"].icon-button:last-child {
+  margin-top: 15px;
+  background-color: #4caf50;
+  color: white;
+}
+
+button[type="button"].icon-button:last-child:hover {
+  background-color: #45a049;
+}
+
+
+

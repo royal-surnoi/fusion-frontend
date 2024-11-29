@@ -1,0 +1,57 @@
+<nav class="headding">
+  <button (click)="navigateToDashboard()"> Back to Dashboard</button>
+
+  <!-- <h4 style="margin-right:400px;">Add your Course Planning</h4> -->
+</nav>
+
+<div class="container">
+  <h1>Quiz Creator</h1>
+  
+  <div class="quiz-name-input">
+    <div class="quizTitle">
+      <label for="quizName">Quiz Name:</label>
+      <input type="text" id="quizName" name="quizName" [(ngModel)]="quizName" placeholder="Enter quiz name">
+    </div>
+    
+    <div class="quizDates">
+  
+      <label for="startDate">Start Date and Time:</label>
+      <input type="datetime-local" id="startDate" name="startDate" [(ngModel)]="startDate">
+ 
+      <label for="endDate">End Date and Time:</label>
+      <input type="datetime-local" id="endDate" name="endDate" [(ngModel)]="endDate">
+
+  </div>
+    
+    <button type="button" class="small-icon" (click)="onSaveQuiz()">Create Quiz</button>
+  </div>
+
+  <form id="quizCreatorForm" *ngIf="isQuizCreated">
+    <div id="questionsContainer">
+      <div *ngFor="let question of questions; let i = index" class="question">
+        <p>
+          <span class="question-number">{{i + 1}}</span>.
+          <input type="text" placeholder="Enter question text" class="questionbox" [(ngModel)]="question.text" name="question{{i}}Text">
+        </p>
+  
+        <div *ngFor="let option of question.options; let j = index">
+          {{option.label}}
+          <input type="text" class="answerbox" [(ngModel)]="option.text" name="question{{i}}Option{{j}}">
+        </div>
+  
+        <p>
+          Correct Answer:
+          <select [(ngModel)]="question.correctAnswer" name="question{{i}}CorrectAnswer">
+            <option *ngFor="let option of question.options" [value]="option.text">{{option.text}}</option>
+          </select>
+        </p>
+  
+        <span class="icon small-icon" (click)="deleteQuestion(i)">
+          <i class="fas fa-trash-alt"></i>
+        </span>
+      </div>
+    </div>
+    <button type="button" class="small-icon" (click)="addMCQ()">Add MCQ</button>
+    <button type="button" class="small-icon" (click)="submitQuiz()">Submit Quiz</button>
+  </form>
+</div>

@@ -1,0 +1,277 @@
+candidate-dashboard-component.css
+.dashboard {
+  font-family: 'Mulish', Halvetica, Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+ 
+.search-container {
+  margin-bottom: 2rem;
+}
+ 
+.search-container input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+ 
+/* h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+} */
+ 
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+}
+ 
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+ 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+ 
+/* .courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+ 
+.course-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: transform 0.3s ease;
+}
+ 
+.course-card:hover {
+  transform: translateY(-5px);
+}
+ 
+h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+ 
+.progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  height: 10px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+ 
+.progress {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+ 
+.progress-text {
+  text-align: right;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+}
+ 
+.course-stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+ 
+.stat {
+  display: flex;
+  align-items: center;
+  color: #555;
+  font-size: 0.9rem;
+}
+ 
+.stat i {
+  margin-right: 0.5rem;
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+}
+ 
+button {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+ 
+button:hover {
+  background-color: #2980b9;
+}
+ 
+@media (max-width: 768px) {
+  .courses-grid {
+    grid-template-columns: 1fr;
+  }
+} */
+ 
+/****** course section *******/
+.courses-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  font-family: 'Mulish', Halvetica, Arial, sans-serif;
+}
+ 
+.courses-grid1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: space-between;
+}
+ 
+/* Card styling */
+.course-card {
+  background: #f8f8ff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* width: calc(100% - 20px); */
+  margin-bottom: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: 300px;
+}
+ 
+.course-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-family: 'Mulish', Halvetica, Arial, sans-serif;
+  font-weight: 500;
+}
+ 
+.progress-bar {
+  background: #e0e0e0;
+  border-radius: 5px;
+  height: 8px;
+  margin-bottom: 10px;
+}
+ 
+.progress {
+  height: 100%;
+  border-radius: 5px;
+}
+ 
+.progress-text {
+  font-size: 0.9rem;
+  margin-bottom: 0px;
+}
+ 
+/* .course-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+ 
+.stat {
+  display: flex;
+  align-items: center;
+}
+ 
+.stat i {
+  margin-right: 8px;
+  color: #666;
+}
+ 
+.stat span {
+  font-size: 0.9rem;
+} */
+ 
+.course-stats {
+  display: flex; /* Layout icons in a horizontal row */
+  justify-content: space-between; /* Space out the icons */
+  margin-top: 10px;
+}
+ 
+.stat {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; /* Stack icon and text vertically */
+  width: 60px; /* Set a fixed width for each stat */
+  height: 70px; /* Set a fixed height for each stat */
+  cursor: pointer;
+  text-align: center;
+}
+ 
+.stat i {
+  font-size: 24px;
+  color: orange; /* Default icon color */
+  transition: opacity 0.3s;
+}
+ 
+.tooltip {
+  position: absolute;
+  color: rgb(80, 132, 209);
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0; /* Initially hide the tooltip */
+  transition: opacity 0.3s;
+  margin-bottom: 40px;
+}
+ 
+.stat span:last-child {
+  margin-top: 5px; /* Space between icon/tooltip and fraction text */
+  font-size: 14px;
+  color: black;
+}
+ 
+.stat:hover i {
+  opacity: 0; /* Hide icon on hover */
+}
+ 
+.stat:hover .tooltip {
+  opacity: 1; /* Show tooltip (name) on hover */
+}
+ 
+ 
+/* .course-buttons {
+  display: flex;
+  justify-content: space-between;
+} */
+ 
+.button {
+  background-color: #f8f8ff;
+  color: black;
+  padding: 8px 12px;
+  text-decoration: none;
+  border-radius: 20px;
+  text-align: center;
+  border: 1px solid #ec5c59;
+  transition: background-color 0.2s;
+}
+ 
+.button:hover {
+  background-color: #ec5c59;
+  color: white;
+}
+ 

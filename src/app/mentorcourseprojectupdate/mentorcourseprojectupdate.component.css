@@ -1,0 +1,75 @@
+
+.headding {
+    height:100px;
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #D3D9D4;
+    background: #f3f3f3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+ 
+ 
+    }
+ 
+     
+    h4{
+      font-family: 'Poppins';
+      font-size: 38px;
+      font-weight: 400;
+      text-align: center;
+    }
+ 
+/* assignment-form.component.css */
+form {
+   
+  margin-top: 70px;
+  max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+  }
+ 
+  .form-group {
+    margin-bottom: 15px;
+  }
+ 
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+ 
+  input[type="text"],
+  input[type="date"],
+  textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+ 
+ 
+  textarea {
+    height: 100px;
+  }
+ 
+  button {
+    background-color: #f87777;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+ 
+  button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
+ 
+  button:hover:not(:disabled) {
+    background-color: #db5c5c;
+  }
+ 

@@ -1,0 +1,220 @@
+
+
+ 
+ 
+@import url('http://fonts.googleapis.com/css2?family=Creepster&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+ 
+ 
+/* General Container Styling */
+.assessments-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  background-color: #ececec;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+ 
+.assessments-container h2{
+  font-family: 'Poppins';
+  text-align: center;
+  font-size: 35px;
+  font-weight: 500;
+}
+ 
+/* Box Container for Dropdowns and Buttons */
+.box-container {
+  margin-bottom: 20px;
+  padding: 7px;
+  background-color: #fbadad;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+ 
+/* Dropdown Styling */
+select {
+  width: 100%;
+  padding: 12px;
+  border: 3px solid #8d8d8d;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-family: 'Poppins';
+  font-size: 17px;
+  color: #333;
+  background-color: #ffffff;
+}
+ 
+/* Lesson Container Styling */
+.lesson-container {
+  margin-top: 20px;
+}
+ 
+/* Task Container Styling */
+.task-container {
+  margin-top: 20px;
+}
+ 
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+ 
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+ 
+th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+ 
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+ 
+tr:hover {
+  background-color: #e9e9e9;
+}
+ 
+/* Button Styling */
+button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+ 
+button:hover {
+  background-color: #0056b3;
+}
+ 
+/* Modal Styling */
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000; /* Ensure it appears above other content */
+}
+ 
+.modal-content {
+  display: flex;
+  flex-direction: row;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  width: 70%;
+  height: 90%;
+  max-width: 1000px;
+  max-height: 500px;
+  overflow: hidden;
+  position: relative;
+  margin-left: 300px;
+  margin-top: 170px;
+}
+ 
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  z-index: 1001; /* Ensure it is above other content */
+}
+ 
+.modal-body {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+ 
+.left-side {
+  flex: 2;
+  padding: 20px;
+  overflow-y: auto;
+  border-right: 1px solid #ddd;
+ 
+}
+ 
+.right-side {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+ 
+.questions-content {
+  display: flex;
+  flex-direction: column;
+}
+ 
+.question-item {
+  margin-bottom: 20px;
+  margin-left: 30px;
+}
+ 
+.info-item {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+ 
+.info-item textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Ensure padding and border are included in width calculation */
+}
+ 
+.submit-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+ 
+.submit-button:hover {
+  background-color: #218838;
+}
+ 
+/* Styling for View Button */
+.view-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-top: 20px;
+}
+ 
+.view-button:hover {
+  background-color: #0056b3;
+}
+ 
+ 
+ 
+ 
+ 
+ 

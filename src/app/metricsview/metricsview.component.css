@@ -1,0 +1,52 @@
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow */
+  }
+  
+  th, td {
+    border: 1px solid #ff0000; /* Red border */
+    padding: 10px;
+  }
+  
+  th {
+    background-color: #2cb5a0; /* Header background color */
+    color: #ffffff; /* Header text color */
+  }
+  
+  /* Alternate row styling */
+  tr:nth-child(even) {
+    background-color: #f0f0f0; /* Light ash color */
+  }
+  
+  /* Button Styling */
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .chat-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .chat-button i {
+    color: #2cb5a0; /* Chat icon color */
+    font-size: 30px;
+  }
+  
+  .chat-button:hover {
+    background-color: #f0f0f0; /* Background color on hover */
+  }
+  
+  
+  
+  

@@ -1,0 +1,564 @@
+<div class="main-container">
+  <div class="app-container" id="wrapper" *ngIf="!isLoaded">
+    <!-- Column 1: Contacts and Search -->
+    <div class="column1">
+      <!-- New Conversation Button -->
+      <div class="new-conversation-section">
+        <button #newConversationBtn class="new-conversation-button button" (click)="openNewConversationModal()">
+          <i class="fa fa-plus"></i>
+          <span>New conversation</span>
+        </button>
+      </div>
+
+      <!-- Contacts List Heading -->
+      <div class="contacts-list-heading">
+        <p>Contacts</p>
+      </div>
+
+      <!-- Search Section -->
+      <div class="search-section">
+        <input class="search-input" type="text" placeholder="Search by name.." [(ngModel)]="searchTerm" />
+        <button class="search-button">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+
+      <!-- Contacts List -->
+      <div class="contact-list-container">
+        <div class="contacts-list" *ngFor="let contact of filteredContacts" (click)="selectContact(contact)">
+          <div class="contact">
+            <div class="new-avatar-container">
+              <div *ngIf="contact.hasNewMessage" class="new-message-indicator">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <div class="contact-avater">
+                <img [src]="getContactImageSrc(contact)" (error)="onImageError($event, contact)" alt="Avatar"
+                  class="contact-avatar" />
+              </div>
+            </div>
+            <div class="data-msg">
+              <div class="contact-data">
+                <div class="contact-name" [title]="contact.name">
+                  {{ contact.name }}
+                  <span *ngIf="contact.isGroup" class="group-indicator">(Group)</span>
+                </div>
+                <div class="last-message-time" *ngIf="contact.lastMessageTime">
+                  <span class="activeTime">
+                    {{
+                    contact.lastMessageTime
+                    ? formatMessageTime(contact.lastMessageTime)
+                    : ""
+                    }}
+                  </span>
+                </div>
+              </div>
+              <div class="last-message" *ngIf="contact.lastMessage">
+                <div class="last-message-content">
+                  {{ contact.lastMessage | slice : 0 : 10
+                  }}{{ contact.lastMessage.length > 10 ? "..." : "" }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 2: Chat Area -->
+    <div class="column2" *ngIf="selectedContact || selectedGroup">
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <div class="current-chatter-info">
+          <div class="current-chatter-avatar" [class.clickable]="!selectedContact.isGroup" (click)="
+              !selectedContact.isGroup &&
+                navigateToUserProfile(selectedContact.id)
+            ">
+            <img [src]="getContactImageSrc(selectedContact)" (error)="onImageError($event, selectedContact)"
+              alt="Avatar" class="contact-avatar" />
+          </div>
+          <div class="name-and-online">
+            <div class="current-chatter-name" [class.clickable]="!selectedContact.isGroup" (click)="
+                !selectedContact.isGroup &&
+                  navigateToUserProfile(selectedContact.id)
+              ">
+              {{ selectedContact.name }}
+            </div>
+            <div *ngIf="!selectedContact.blocked && !selectedContact?.isGroup" class="current-chatter-online-status"
+              [ngClass]="{
+                online: selectedContact.online === 'ONLINE',
+                offline: selectedContact.online === 'OFFLINE'
+              }">
+              {{ selectedContact.online }}
+            </div>
+          </div>
+          <div class="chat-files">
+            <div class="chat">
+              <button class="chat-toggle-button" (click)="toggleChattoGallery()">
+                <span *ngIf="showChat" class="active">Chat</span><span *ngIf="!showChat">Chat</span>
+              </button>
+            </div>
+            <div class="files">
+              <button class="files-toggle-button" (click)="toggleGallaryToChat()">
+                <span *ngIf="showFileGallery" class="active">Files</span><span *ngIf="!showFileGallery">Files</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="header-end-icons" *ngIf="!selectedContact.isGroup">
+            <div class="more-options-elipsis icon-button" (click)="toggleDropdown()">
+              <i class="fa-solid fa-ellipsis"></i>
+              <div class="dropdown-menu" *ngIf="showDropdown">
+                <button *ngIf="!selectedContact.blocked" (click)="blockUser(selectedContact.id)">
+                  Block
+                </button>
+                <button *ngIf="selectedContact.blocked" (click)="unblockUser(selectedContact.id)">
+                  Unblock
+                </button>
+                <button *ngIf="!selectedContact.blocked" (click)="ClearChat()">
+                  Clear Chat
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="header-end-icons" *ngIf="selectedContact.isGroup">
+            <div class="more-options-elipsis icon-button" (click)="toggleDropdown()">
+              <i class="fa-solid fa-ellipsis"></i>
+              <div class="dropdown-menu" *ngIf="showDropdown">
+                <button *ngIf="!isGroupAdmin" (click)="leaveGroupdilog(userId)">
+                  Exit
+                </button>
+                <button *ngIf="isGroupAdmin" (click)="deleteGroupdilog(userId)">
+                  Delete Group
+                </button>
+                <button (click)="ClearChat()">Clear Chat</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Body and Footer -->
+      <div class="body-footer" *ngIf="showChat">
+        <!-- Chat Body -->
+        <div class="chat-body" #messageContainer>
+          <div *ngIf="selectedContact.blocked" class="blocked-message-banner">
+            This contact is blocked. Unblock to send messages.
+          </div>
+
+          <div *ngIf="!this.isAccepted && selectedContact.isGroup" class="blocked-message-banner">
+            You are Recently Added To Group!!!
+          </div>
+
+          <div *ngIf="messages.length === 0" class="no-messages-message" @fadeIn>
+            <i class="fas fa-hand-wave"></i>
+            <p>Say hi and start a conversation!</p>
+          </div>
+
+          <!-- Messages -->
+          <ng-container *ngFor="let message of messages">
+            <!-- Personal Messages -->
+            <div *ngIf="!selectedContact.isGroup" [ngClass]="{
+                'message-sent': message.sent,
+                'message-received': !message.sent,
+                'message-failed': message.failed,
+                'message-disabled': selectedContact.blocked
+              }" class="chat-message personal-message" style="width: auto" (mouseleave)="message.showToolbar = false"
+              (mouseenter)="message.showToolbar = true">
+              <ng-container *ngIf="
+                  message.messageContent || message.fileUrl;
+                  else emptyMessage
+                ">
+                <div class="message-toolbar" *ngIf="message.showToolbar">
+                  <span class="reaction-icon" (click)="reactToMessage(message, '👍')"
+                    [ngClass]="{ 'border-active': isMyReaction(message, '👍') }">👍</span>
+                  <span class="reaction-icon" (click)="reactToMessage(message, '❤️')"
+                    [ngClass]="{ 'border-active': isMyReaction(message, '❤️') }">❤️</span>
+                  <span class="reaction-icon" (click)="reactToMessage(message, '😊')"
+                    [ngClass]="{ 'border-active': isMyReaction(message, '😊') }">😊</span>
+                  <span class="reaction-icon delete-icon" (click)="deleteMessagedilog(message)" *ngIf="message.sent">
+                    <i class="fa-solid fa-trash"></i>
+                  </span>
+                </div>
+
+                <div *ngIf="message.messageContent">
+                  <pre>{{ message.messageContent }}</pre>
+                </div>
+                <div *ngIf="message.fileUrl" class="file-container">
+                  <img *ngIf="getFileType(message.fileUrl) === 'image'" [src]="message.fileUrl" alt="Sent image"
+                    class="custom-media-size" (click)="openFile(message.fileUrl)" />
+                  <video *ngIf="getFileType(message.fileUrl) === 'video'" controls class="video-container">
+                    <source [src]="message.fileUrl" type="video/mp4" />
+                    Your browser does not support sending videos.
+                  </video>
+                  <a *ngIf="getFileType(message.fileUrl) === 'pdf'" [href]="message.fileUrl" target="_blank">
+                    <i class="fas fa-file-pdf"></i>
+                  </a>
+                  <a *ngIf="getFileType(message.fileUrl) === 'other'" (click)="
+                      downloadFile(
+                        message.fileUrl,
+                        getFileName(message.fileUrl)
+                      )
+                    ">
+                    <i class="fas fa-download"></i>
+                  </a>
+                </div>
+              </ng-container>
+              <ng-template #emptyMessage>
+                <p class="empty-message">[Empty message]</p>
+              </ng-template>
+              <div class="message-info">
+                <span>{{ formatMessageTime(message.createdAt) }}</span>
+                <span *ngIf="message.sent && !message.read" class="sent-indicator">
+                  <i class="fa fa-check"></i>
+                  <!-- Sent -->
+                </span>
+                <span *ngIf="message.sent && message.read" class="read-indicator">
+                  <i class="fa fa-check-double"></i>
+                  <!-- Read -->
+                </span>
+              </div>
+              <div *ngIf="message.temporary" class="message-status">
+                Sending...
+              </div>
+              <div *ngIf="message.failed" class="message-status">
+                Failed to send. Tap to retry.
+              </div>
+
+              <!-- Existing Reactions Section -->
+              <div class="message-reactions" *ngIf="message?.reactions && message.reactions.length > 0">
+                <ng-container *ngFor="let reaction of message.reactions.slice(0, 2)">
+                  <span class="reaction-display" [title]="
+                      reaction.user.id == userId ? 'you' : reaction.user.name
+                    ">
+                    {{ reaction.reaction }}
+                  </span>
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- Group Messages -->
+            <div *ngIf="selectedContact.isGroup" [ngClass]="{
+                'message-sent':
+                  message.senderId === userId || message.sender?.id === userId,
+                'message-received':
+                  message.senderId !== userId && message.sender?.id !== userId,
+                'message-failed': message.failed
+              }" class="chat-message group-message" style="width: auto" (mouseleave)="message.showToolbar = false"
+              (mouseenter)="message.showToolbar = true">
+              <ng-container *ngIf="
+                  message.messageContent || message.fileUrl;
+                  else emptyMessage
+                ">
+                <div class="message-toolbar" *ngIf="message.showToolbar">
+                  <span class="reaction-icon" (click)="reactToMessage(message, '👍')"
+                    [ngClass]="{ 'border-active': isMyReaction(message, '👍') }">👍</span>
+                  <span class="reaction-icon" (click)="reactToMessage(message, '❤️')"
+                    [ngClass]="{ 'border-active': isMyReaction(message, '❤️') }">❤️</span>
+                  <span class="reaction-icon" (click)="reactToMessage(message, '😊')"
+                    [ngClass]="{ 'border-active': isMyReaction(message, '😊') }">😊</span>
+                  <span class="reaction-icon delete-icon" (click)="deleteMessagedilog(message)" *ngIf="message.sent">
+                    <i class="fa-solid fa-trash"></i>
+                  </span>
+                </div>
+                <!-- Sender name (with null check) -->
+                <div class="message-sender" *ngIf="
+                    message.senderId !== userId && message.sender?.id !== userId
+                  ">
+                  <span class="name">{{
+                    message.sender?.name || "Unknown"
+                    }}</span>
+                  <span class="name" *ngIf="message.sender?.id == this.AdminId">(Admin)</span>
+                </div>
+                <div *ngIf="message.messageContent">
+                  <pre>
+                  {{ message.messageContent }}
+                  </pre>
+                </div>
+                <div *ngIf="message.fileUrl" class="file-container">
+                  <img *ngIf="getFileType(message.fileUrl) === 'image'" [src]="message.fileUrl" alt="Sent image"
+                    class="custom-media-size" (click)="openFile(message.fileUrl)" />
+                  <video *ngIf="getFileType(message.fileUrl) === 'video'" controls class="video-container">
+                    <source [src]="message.fileUrl" type="video/mp4" />
+                    Your browser does not support sending videos.
+                  </video>
+                  <a *ngIf="getFileType(message.fileUrl) === 'pdf'" [href]="message.fileUrl" target="_blank">
+                    <i class="fas fa-file-pdf"></i>
+                  </a>
+                  <a *ngIf="getFileType(message.fileUrl) === 'other'" (click)="
+                      downloadFile(
+                        message.fileUrl,
+                        getFileName(message.fileUrl)
+                      )
+                    ">
+                    <i class="fas fa-download"></i>
+                  </a>
+                </div>
+              </ng-container>
+              <ng-template #emptyMessage>
+                <p class="empty-message">[Empty message]</p>
+              </ng-template>
+              <div class="message-info">
+                <span>{{ formatMessageTime(message.createdAt) }}</span>
+                <span *ngIf="message.sent"></span>
+              </div>
+              <div *ngIf="message.temporary" class="message-status">
+                Sending...
+              </div>
+              <div *ngIf="message.failed" class="message-status">
+                Failed to send. Tap to retry.
+              </div>
+              <!-- Existing Reactions Section -->
+              <div class="message-reactions" *ngIf="message.reactions.length > 0">
+                <ng-container *ngFor="let reaction of message.reactions.slice(0, 1)">
+                  <span class="reaction-display" [title]="
+                      reaction.user.id == userId ? 'you' : reaction.user.name
+                    ">
+                    {{ reaction.reaction }}
+                  </span>
+                </ng-container>
+                <span *ngIf="message.reactions.length > 1" class="more-reactions">
+                  +{{ message.reactions.length - 1 }}
+                </span>
+
+                <!-- Hover card for all reactions -->
+                <div class="reaction-card" (mouseenter)="message.showToolbar = false"
+                  (mouseleave)="message.showToolbar = true" *ngIf="message?.reactions && message.reactions.length > 0">
+                  <ng-container *ngFor="let reaction of message.reactions">
+                    <div class="reaction-detail">
+                      {{ reaction.reaction }}
+                      <small>{{
+                        reaction.user.id == userId ? "you" : reaction.user.name
+                        }}</small>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- Chat Footer -->
+        <div class="chat-footer">
+          <div class="type-message-box" *ngIf="!selectedContact?.isGroup">
+            <textarea [(ngModel)]="messageInputs[selectedContact.id]" placeholder="Type a message"
+              (keydown)="handleKeyDown($event)" [disabled]="selectedContact.blocked" rows="1" #messageInput></textarea>
+          </div>
+
+          <div class="type-message-box" *ngIf="this.isAccepted && selectedContact?.isGroup">
+            <textarea [(ngModel)]="messageInputs[selectedContact.id]" placeholder="Type a message"
+              (keydown)="handleKeyDown($event)" [disabled]="selectedContact.blocked" rows="1" #messageInput></textarea>
+          </div>
+
+          <div *ngIf="!this.isAccepted && selectedContact.isGroup" class="type-message-box">
+            <input type="text" [(ngModel)]="newMessage" placeholder="You are Recently Added To Group!!!"
+              [disabled]="true" />
+          </div>
+          <div class="chat-footer-icons" *ngIf="this.isAccepted">
+            <div class="file-pick-section">
+              <button class="file-pick-button icon-button" (click)="triggerFileInput()">
+                <label class="plus-to-pick-file">
+                  <i class="fa-solid fa-paperclip"></i>
+                </label>
+                <input type="file" #fileInput hidden (change)="onFileSelected($event)" />
+              </button>
+            </div>
+            <div class="emoji-pick-section">
+              <button (click)="toggleEmojiPicker()" class="emoji-pick-button icon-button">
+                <i class="fa-solid fa-face-smile"></i>
+              </button>
+            </div>
+            <div class="send-button">
+              <button class="btnSendMsg icon-button" id="sendMsgBtn" (click)="sendMessage()"
+                [disabled]="selectedContact.blocked">
+                <i class="fa fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+          <div class="chat-footer-icons2" *ngIf="!this.isAccepted && selectedContact.isGroup">
+            <div class="button-container">
+              <button class="btn btn-accept" id="acceptBtn" (click)="onAcceptGroup(selectedContact.id)">
+                Accept
+              </button>
+              <button class="btn btn-reject" id="rejectBtn" (click)="leaveGroupdilog(userId)">
+                Reject
+              </button>
+            </div>
+          </div>
+
+          <!-- Emoji Picker -->
+          <div class="emoji-picker" *ngIf="showEmojiPicker">
+            <div class="emoji-row" *ngFor="let row of emojiRows">
+              <button *ngFor="let emoji of row" (click)="addEmoji(emoji)">
+                {{ emoji }}
+              </button>
+            </div>
+          </div>
+          <!-- Selected File Preview -->
+          <div *ngIf="selectedFileUrl" class="selected-file-preview">
+            <div *ngIf="isImageFile()">
+              <img [src]="selectedFileUrl" alt="Selected file" class="selected-file-preview-img" />
+            </div>
+            <div *ngIf="!isImageFile()">
+              <i class="fa fa-file-pdf"></i>{{ selectedFile?.name }}
+            </div>
+            <button class="close-file-button" (click)="cancelSelectedFile()">
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- File Gallery -->
+      <div class="file-gallery" *ngIf="showFileGallery">
+        <div class="media-gallery">
+          <ng-container *ngFor="let message of messages">
+            <div class="media-item" *ngIf="message.fileUrl" (click)="openFile(message.fileUrl)">
+              <div class="media-icon" [ngClass]="getFileType(message.fileUrl)">
+                <i class="fas" [ngClass]="{
+                    'fa-image': getFileType(message.fileUrl) === 'image',
+                    'fa-video': getFileType(message.fileUrl) === 'video',
+                    'fa-file-pdf': getFileType(message.fileUrl) === 'pdf',
+                    'fa-file': getFileType(message.fileUrl) === 'other'
+                  }"></i>
+              </div>
+              <span class="media-name">{{ getFileName(message.fileUrl) }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="column3">
+      <!-- User Profile Section -->
+      <div class="user-profile" *ngIf="selectedContact" [class.clickable]="!selectedContact.isGroup" (click)="
+          !selectedContact.isGroup && navigateToUserProfile(selectedContact.id)
+        ">
+        <div class="basic-user-info">
+          <div class="profile-image">
+            <img [src]="getContactImageSrc(selectedContact)" (error)="onImageError($event, selectedContact)"
+              alt="Avatar" class="contact-avatar" />
+          </div>
+          <div class="info">
+            <h4>{{ selectedContact.name }}</h4>
+            <p>
+              {{ selectedContact.profession
+              }}<span *ngIf="selectedContact?.isGroup">(Group)</span>
+            </p>
+          </div>
+
+          <div class="sample-description">
+            <!-- <p>{{selectContact.userDescription}}</p> -->
+            <!-- <p>I am Krishna From Narsapuram</p> -->
+          </div>
+
+          <div class="sample-description" *ngIf="selectedContact?.isGroup">
+            <!-- <p>{{selectContact.userDescription}}</p> -->
+            <!-- <p>I am Krishna From Narsapuram</p> -->
+            <p>Created By {{ this.AdminName }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="Group-line" *ngIf="selectedContact?.isGroup"></div>
+
+      <!-- kk -->
+      <div class="Group-Profile" *ngIf="selectedContact?.isGroup">
+        <!-- Group Members Section -->
+        <div class="group-members-section" *ngIf="selectedContact?.isGroup">
+          <div class="action-buttons">
+            <h6>Group Members</h6>
+          </div>
+          <ul class="group-members-list">
+            <li *ngFor="let member of groupMembers" class="group-member-item">
+              <div>
+                <img [src]="getContactImageSrc(member)" (error)="onImageError($event, member)" alt="Avatar"
+                  class="member-avatar-img" />
+                <span [title]="member.name" class="member-name">{{
+                  member.name
+                  }}</span>
+              </div>
+              <button *ngIf="isGroupAdmin" class="remove-member-btn1" (click)="removeUserFromGroup(member.id)">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+            </li>
+          </ul>
+
+          <div class="action-buttons" *ngIf="isGroupAdmin">
+            <h6>Add new Memeber</h6>
+            <button class="add-member-btn" (click)="openAddMembersModal()" *ngIf="!showAddMembersModal">
+              <span><i class="fa fa-plus"></i></span>
+            </button>
+            <button class="remove-member-btn1" (click)="closeAddMembersModal()" *ngIf="showAddMembersModal">
+              <span><i class="fa fa-times"></i></span>
+            </button>
+          </div>
+          <!-- Add Members Modal -->
+          <div class="add-members-modal" *ngIf="showAddMembersModal && isGroupAdmin">
+            <div class="modal-content">
+              <div class="search-section">
+                <input class="search-input-f" type="text" placeholder="Search by name.."
+                  [(ngModel)]="searchTermforgroup" (ngModelChange)="(filteredContacts2)" />
+              </div>
+              <div class="new-conversation-contact-list">
+                <ul class="group-members-list">
+                  <li *ngFor="let contact of filteredContacts2" class="group-member-item">
+                    <div>
+                      <img [src]="getContactImageSrc(contact)" (error)="onImageError($event, contact)" alt="Avatar"
+                        class="member-avatar-img" />
+                      <span class="member-name"> {{ contact.name }}</span>
+                    </div>
+                    <button *ngIf="isGroupAdmin" class="add-member-btn" (click)="addUserToGroup(contact.id)">
+                      <i class="fa-solid fa-user-plus"></i>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Conversation Modal -->
+<div class="new-conversation-container" *ngIf="showNewConversationModal">
+  <div class="main-content">
+    <span class="close-icon" (click)="closeNewConversationModal()">&times;</span>
+    <div class="new-conversation-search-section">
+      <div class="new-conversation-search_wrap">
+        <input class="new-conversation-search-input" type="text" placeholder="Search by name.."
+          [(ngModel)]="searchTermforgroup" />
+        <button class="new-conversation-search-button">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+    <!-- New group name input -->
+    <div class="new-group-name-section">
+      <input class="new-group-name-input" type="text" placeholder="Enter group name" [(ngModel)]="newGroupName" />
+    </div>
+    <div class="new-conversation-contact-list">
+      <div *ngFor="let contact of filteredContacts3" class="new-conversation-contact">
+        <input type="checkbox" [(ngModel)]="contact.selected" />
+        <div class="contact-details">
+          <div class="image">
+            <img [src]="getContactImageSrc(contact)" (error)="onImageError($event, contact)" alt="Avatar"
+              class="contact-avata" />
+          </div>
+          <div class="new-conversation-contact-name">{{ contact.name }}</div>
+        </div>
+      </div>
+    </div>
+
+    <button (click)="createGroupChat()" class="create-groupchat-button">
+      Create Group
+    </button>
+  </div>
+</div>
+
+<div *ngIf="isLoaded" class="loading-spinner">
+  <div class="spinner"></div>
+  <p>Loading Chats & Groups...</p>
+</div>

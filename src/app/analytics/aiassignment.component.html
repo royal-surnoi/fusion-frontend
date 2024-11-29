@@ -1,0 +1,35 @@
+<div class="ai-assignment">
+  <div class="assignment">
+    <h5>Assignment</h5>
+
+    <div *ngIf="question" class="assignment-question">
+      <p>{{ question }}</p>
+    </div>
+
+    <div *ngIf="!question" class="loading">
+      Loading assignment...
+    </div>
+
+    <div *ngIf="question" class="user-answer">
+      <input [(ngModel)]="userAnswer" placeholder="Type your answer here">
+    </div>
+
+    <div *ngIf="question" class="user-description">
+      <input [(ngModel)]="description" placeholder="Add any description here">
+    </div>
+
+
+   <div class="submit-buttons">
+    <button *ngIf="question" (click)="saveAssignment()">Save</button>
+    <button *ngIf="question" (click)="submitAssignment()">Submit</button>
+   </div>
+  </div>
+  <div *ngIf="grade && feedback" class="evaluation-results">
+    <h6>Evaluation Results</h6>
+    <div class="grade">
+      <p><strong>{{ grade }}</strong> </p>
+    </div>
+    <p><strong>Feedback:</strong></p>
+    <p><strong>{{ feedback }}</strong> </p>
+  </div>
+</div>

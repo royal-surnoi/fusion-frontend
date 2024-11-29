@@ -1,0 +1,50 @@
+<nav class="heading">
+  <button (click)="navigateToDashboard()">Back to Dashboard</button>
+  <h4 style="margin-right:500px;margin-top:15px;">Update Project</h4>
+</nav>
+
+<form [formGroup]="projectForm" (ngSubmit)="onUpdate()">
+  <div>
+    <label for="projectTitle">Project Title:</label>
+    <input id="projectTitle" formControlName="projectTitle" type="text" />
+  </div>
+
+  <div>
+    <label for="projectDescription">Project Description:</label>
+    <textarea id="projectDescription" formControlName="projectDescription"></textarea>
+  </div>
+
+  <div>
+    <label for="gitUrl">Git URL:</label>
+    <input id="gitUrl" formControlName="gitUrl" type="text" />
+  </div>
+
+  <div>
+    <label for="maxTeam">Max Team Size:</label>
+    <input id="maxTeam" formControlName="maxTeam" type="number" />
+  </div>
+
+
+
+  <div>
+    <label for="startDate">Start Date:</label>
+    <input id="startDate" formControlName="startDate" type="datetime-local" />
+  </div>
+
+  <div>
+    <label for="projectDeadline">Project Deadline:</label>
+    <input id="projectDeadline" formControlName="projectDeadline" type="datetime-local" />
+  </div>
+
+  <div>
+    <label for="reviewMeetDate">Review Meeting Date:</label>
+    <input id="reviewMeetDate" formControlName="reviewMeetDate" type="datetime-local" />
+  </div>
+
+  <div>
+    <label for="projectDocument">Project Document:</label>
+    <input id="projectDocument" type="file" (change)="onFileChange($event)" />
+  </div>
+
+  <button type="submit">Submit</button>
+</form>

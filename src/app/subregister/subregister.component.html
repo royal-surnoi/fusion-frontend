@@ -1,0 +1,60 @@
+<div class="content-wrapper">
+  <!-- Registration Form -->
+  <div class="main-body" style="margin-top: 100px;">
+    <div class="container">
+      <div class="leftsideContent">
+        <h1>Welcome to <span>FusionIQ AI</span></h1>
+        <h1><span>Mentor</span></h1>
+      </div>
+      <div class="account-wall">
+        <div class="welcome-message">
+          <h1>MENTOR - REGISTRATION</h1>
+        </div>
+        <form class="form-signin" (ngSubmit)="registerMentor()" [formGroup]="registrationForm">
+          <!-- Username Input -->
+          <div class="input-card">
+            <div class="input">
+              <input type="text" id="username" class="form-control" placeholder="Username" formControlName="username" required>
+            </div>
+            <div class="error-card" *ngIf="registrationForm.get('username')?.touched || registrationForm.get('username')?.dirty">
+              <div class="red" *ngIf="registrationForm.get('username')?.hasError('required')">*Username is required.</div>
+              <div class="red" *ngIf="registrationForm.get('username')?.hasError('minlength')">*Username must be at least 6 characters.</div>
+              <div class="red" *ngIf="registrationForm.get('username')?.hasError('maxlength')">*Username cannot exceed 8 characters.</div>
+            </div>
+          </div>
+
+          <!-- Password Input -->
+          <div class="input-card">
+            <div class="eye-toggle" (click)="togglePasswordVisibility()">
+              <i [class]="showPassword ? 'far fa-eye-slash' : 'far fa-eye'"></i>
+            </div>
+            <div class="password-input">
+              <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control" placeholder="Password" formControlName="password" required />
+            </div>
+            <div class="error-card" *ngIf="registrationForm.get('password')?.touched || registrationForm.get('password')?.dirty">
+              <div class="red" *ngIf="registrationForm.get('password')?.hasError('required')">*Password is required.</div>
+              <div class="red" *ngIf="registrationForm.get('password')?.hasError('minlength')">*Password must be at least 8 characters.</div>
+              <div class="red" *ngIf="registrationForm.get('password')?.hasError('invalidPassword')">*Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.</div>
+            </div>
+          </div>
+
+          <!-- Register Button -->
+          <button class="btn btn-lg btn-success btn-block register-button" type="submit" [disabled]="registrationForm.invalid">Register</button>
+        </form>
+        <!-- <p>Already have an account? <a class="new-account">Login Now!</a></p> -->
+      </div>
+    </div>
+    <div *ngIf="showPopup" class="popup-overlay">
+      <div class="popup-content">
+        <h2>Step Into a New World!</h2>
+        <p *ngIf="registrationStatus === null">Your registration is being processed...</p>
+        <p *ngIf="registrationStatus === 'success'">We're excited to have you .Now you have become part of our amazing community.</p>
+        <p *ngIf="registrationStatus === 'alreadyRegistered'">You are already registered.</p>
+        <p *ngIf="registrationStatus === 'failed'">Registration failed. Please try again.</p>
+        <button *ngIf="registrationStatus === 'success' || registrationStatus === 'alreadyRegistered'" (click)="redirectToLogin()" class="login-button">Click here to Login</button>
+        <button *ngIf="registrationStatus !== 'success' && registrationStatus !== 'alreadyRegistered'" (click)="closePopup()" class="close-button">Close</button>
+      </div>
+    </div>
+ 
+  </div>
+</div>

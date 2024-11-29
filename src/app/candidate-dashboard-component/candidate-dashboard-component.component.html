@@ -1,0 +1,57 @@
+<div class="dashboard">
+  <div class="search-container">
+    <input
+      type="text"
+      placeholder="Search courses..."
+      [(ngModel)]="searchTerm"
+      (input)="onSearch()"
+    />
+  </div>
+  
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+  
+  <div *ngIf="!isLoading" class="courses-grid">
+    <div class="courses-grid1">
+      <div
+        *ngFor="let item of filteredEnrolledCourseDetails"
+        class="course-card"
+      >
+        <h2>{{ item.course.course.courseTitle }} hiii</h2>
+        <div class="progress-bar">
+          <div
+            class="progress"
+            [style.width.%]="item.overAllCourseProgress"
+            [style.background-color]="getProgressColor(item.overAllCourseProgress)"
+          ></div>
+        </div>
+        <p class="progress-text">{{ item.overAllCourseProgress }}% Complete</p>
+        <div class="course-stats">
+          <div class="stat">
+            <i class="fas fa-tasks"></i>
+            <div class="tooltip">Assignments</div>
+            <span>{{ item.AssignmentProgressFraction }}</span>
+          </div>
+          <div class="stat">
+            <i class="fas fa-question-circle"></i>
+            <div class="tooltip">Quizzes</div>
+            <span>{{ item.quizProgressFraction }}</span>
+          </div>
+          <div class="stat">
+            <i class="fas fa-project-diagram"></i>
+            <div class="tooltip">Projects</div>
+            <span>{{ item.ProjectProgressFraction }}</span>
+          </div>
+        </div>
+        <button
+          class="button"
+          (click)="navigateToStudentCourseDetailsPage(item.course.course.id)"
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

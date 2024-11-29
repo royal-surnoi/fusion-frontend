@@ -1,0 +1,64 @@
+:host {
+    display: block;
+    padding: 20px;
+    max-width: 500px;
+  }
+
+  h2 {
+    color: #3f51b5;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+
+  mat-dialog-content {
+    margin-bottom: 20px;
+  }
+
+  p {
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  strong {
+    font-weight: 500;
+    color: #333;
+  }
+
+  h3 {
+    color: #3f51b5;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  li {
+    margin-bottom: 8px;
+  }
+
+  a {
+    color: #3f51b5;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  a:hover {
+    color: #303f9f;
+    text-decoration: underline;
+  }
+
+  .not-started { color: #f44336; }
+  .in-progress { color: #ff9800; }
+  .submitted { color: #4caf50; }
+
+  mat-dialog-actions {
+    margin-top: 20px;
+  }
+
+  button {
+    margin-left: 8px;
+  }

@@ -1,0 +1,33 @@
+<div *ngIf="mockTests.length; else noTests">
+  <div class="card-container">
+    <div *ngFor="let test of mockTests" class="card">
+      <div class="card-image">
+        <img [src]="image(test.image)" alt="Test Image">
+      </div>
+      <div class="card-body">
+        <div class="card-header">
+          <h3>{{ test.title }}</h3>
+        </div>
+        <p><strong>Description:</strong> {{ test.description }}</p>
+        <p><strong>id:</strong> {{ test.mock_id }}</p>
+        <p><strong>Related Course ID:</strong> {{ test.courseId }}</p>
+        <p><strong>Fee:</strong> {{ test.fee | currency }}</p>
+        <p><strong>Free Attempts:</strong> {{ test.freeAttempts }}</p>
+        <p><strong>Test Type:</strong> {{ test.testType }}</p>
+        <div *ngIf="test.enrollmentStatus">
+          <p><strong>Enrolled:</strong> {{ test.enrollmentStatus.isEnrolled ? 'Yes' : 'No' }}</p>
+          <p><strong>Completed:</strong> {{ test.enrollmentStatus.isCompleted ? 'Yes' : 'No' }}</p>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button (click)="viewDetails(test.mock_id)">View Details</button>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<ng-template #noTests>
+  <p>The Data Loading wait for Sometime</p>
+</ng-template>
+ 
+ 

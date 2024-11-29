@@ -1,0 +1,66 @@
+<table *ngIf="courses.length > 0; else noCourses" class="course-table">
+    <thead>
+        <tr>
+            <th>Course Title</th>
+            <th>Language</th>
+            <th>Level</th>
+            <th>Schedule a Class</th>
+            <th>Training Rooms</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let course of courses">
+            <tr>
+                <td>{{ course.courseTitle }}</td>
+                <td>{{ course.courseLanguage }}</td>
+                <td>{{ course.level }}</td>
+                <td>
+                    <mat-icon mat-list-icon (click)="navigateToOnlineClass(course.id)" style="cursor: pointer;">create</mat-icon>
+                </td>
+                <td>
+                    <button mat-icon-button (click)="toggleRooms(course)">
+                        <mat-icon>{{ course.showRooms ? 'expand_less' : 'expand_more' }}</mat-icon>
+                    </button>
+                </td>
+            </tr>
+            <tr *ngIf="course.showRooms">
+                <td colspan="5">
+                    <table *ngIf="course.trainingRooms && course.trainingRooms.length > 0; else noRooms">
+                        <thead>
+                            <tr>
+                                <th>Room Name</th>
+                                <th>Date & Time</th>
+                                <th>Conference URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let room of course.trainingRooms">
+                                <td>{{ room.name }}</td>
+                                <td>{{ formatDate(room.scheduledTime) }}</td>
+                                <td>
+                                    <a [href]="room.conferenceUrl"
+                                       [attr.target]="'_blank'"
+                                       [class.disabled]="isScheduledTimeCompleted(room.scheduledTime)"
+                                       [style.pointer-events]="isScheduledTimeCompleted(room.scheduledTime) ? 'none' : 'auto'"
+                                       [style.color]="isScheduledTimeCompleted(room.scheduledTime) ? 'gray' : 'blue'">
+                                        <!-- Join -->
+                                        <button id="joinButton" onclick="joinConference()">Join</button>
+ 
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ng-template #noRooms>
+                        <p>No training rooms found for this course.</p>
+                    </ng-template>
+                </td>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>
+ 
+<ng-template #noCourses>
+    <p>Loading data please wait.</p>
+</ng-template>
+ 

@@ -1,0 +1,123 @@
+
+ 
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #F5F5F5; /* Optional: a subtle background color for contrast */
+}
+ 
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 350px;
+    padding: 20px;
+    margin: 50px 0;
+    margin-left: 500px;
+    text-align: center;
+    box-shadow: 0 1px 2px #8b8eb0;;
+    border-radius: 10px;
+    background-color: white;
+    /* background: linear-gradient(to right, #8f6da3, #653D79, #3d1e4f); */
+    /* background: linear-gradient(45deg, #04051dea 0%, #2b566e 100%); */
+}
+ 
+.content {
+    width: 100%; /* Ensures the content spans the full width of the card */
+}
+ 
+.input-fields {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+   
+}
+.input-fields1 {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.dis-none{
+    display: none;
+}
+ 
+.input-fields label {
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 5px;
+    text-align: left;
+}
+ 
+.input-fields input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    box-shadow: 0 1px 2px #8b8eb0;
+    /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2), 0px 10px 20px rgba(0, 0, 0, 0.4); */
+}
+
+ 
+button {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    border: none;
+    outline: none;
+    color:white;
+    text-transform: uppercase;
+    /* font-weight: 700; */
+    font-size: 0.75rem;
+    /* padding: 0.75rem 1.5rem; */
+    background-color: #007BFF;
+    border-radius: 0.5rem;
+    width: fit-content;
+    text-shadow: 0px 4px 18px #2c3442;
+    cursor: pointer;
+}
+ /* ----------------------otp--------------------- */
+ .custom-otp-input {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+    appearance: none;
+    text-align: center;
+    border-radius: 0;
+    border: 1px solid var(--surface-400);
+    background: transparent;
+    outline-offset: -2px;
+    outline-color: transparent;
+    border-right: 0 none;
+    transition: outline-color 0.3s;
+    color: var(--text-color);
+}
+ 
+.custom-otp-input:focus {
+    outline: 2px solid var(--primary-color);
+}
+ 
+.custom-otp-input:first-child,
+.custom-otp-input:nth-child(5) {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+ 
+.custom-otp-input:nth-child(3),
+.custom-otp-input:last-child {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-color: var(--surface-400);
+}
+ 

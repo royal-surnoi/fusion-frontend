@@ -1,0 +1,47 @@
+
+ 
+/* message.component.css */
+ 
+.message-container {
+ 
+  display: flex;
+ 
+  gap: 20px;
+ 
+}
+ 
+mat-card {
+ 
+  flex: 1;
+ 
+}
+ 
+.mat-table {
+ 
+  width: 100%;
+ 
+}
+ 
+.mat-form-field {
+ 
+  width: 100%;
+ 
+  margin-bottom: 20px;
+ 
+}
+ 
+.new-message-card form {
+ 
+  display: flex;
+ 
+  flex-direction: column;
+ 
+}
+ 
+.new-message-card button {
+ 
+  align-self: flex-end;
+ 
+}
+ 
+ 

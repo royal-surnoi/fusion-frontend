@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Update Progress</h2>
+<mat-dialog-content>
+<mat-form-field appearance="fill">
+<mat-label>Progress (%)</mat-label>
+<input matInput type="number" [(ngModel)]="progress" min="0" max="100">
+<mat-error *ngIf="progress < 0 || progress > 100">
+          Progress must be between 0 and 100
+</mat-error>
+</mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+<button mat-button (click)="onCancel()">Cancel</button>
+<button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="progress < 0 || progress > 100">
+        Update
+</button>
+</mat-dialog-actions>

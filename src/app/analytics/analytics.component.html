@@ -1,0 +1,34 @@
+
+<div class="analytics-container">
+  <h2>Analytics Dashboard</h2>
+ 
+  <div class="chart-container">
+    <h3>Course Enrollment</h3>
+    <canvas baseChart
+      [data]="courseEnrollmentChartData"
+      [options]="courseEnrollmentChartOptions"
+      [type]="courseEnrollmentChartType">
+    </canvas>
+  </div>
+ 
+  <div class="chart-container">
+    <h3>Student Progress</h3>
+    <canvas baseChart
+  [datasets]="studentProgressChartData.datasets"
+  [labels]="studentProgressChartData.labels"
+  [options]="studentProgressChartOptions"
+  [type]="studentProgressChartType">
+</canvas>
+  </div>
+ 
+  <div class="chart-container">
+    <h3>Assessment Completion Over Time</h3>
+    <canvas baseChart
+    [type]="assessmentCompletionChartType"
+    [datasets]="assessmentCompletionChartData.datasets"
+    [labels]="assessmentCompletionChartData.labels"
+    [options]="assessmentCompletionChartOptions">
+    </canvas>
+  </div>
+</div>
+ 

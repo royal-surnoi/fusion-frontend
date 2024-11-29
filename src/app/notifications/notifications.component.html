@@ -1,0 +1,11 @@
+<!-- notifications.component.html -->
+<div class="notifications-container">
+    <h2>Notifications</h2>
+    <div *ngIf="notifications.length === 0">No notifications</div>
+    <ul class="notification-list">
+      <li *ngFor="let notification of notifications" class="notification-item">
+        <div class="notification-content">{{ notification.content }}</div>
+        <div class="notification-date">{{ notification.timestamp | date:'short' }}</div>
+      </li>
+    </ul>
+  </div>

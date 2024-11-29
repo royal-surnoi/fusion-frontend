@@ -1,0 +1,55 @@
+
+<div class="candidate-dashboard">
+  <header>
+    <button class="back-button" (click)="backTostudentDashboard()">Back</button>
+    <h1>Welcome, {{ userDetails?.name }}</h1>
+    <h2>{{ courseDetails?.courseTitle }} - Progress Dashboard</h2>
+  </header>
+ 
+  <section class="overall-progress">
+    <h3>Overall Course Progress</h3>
+    <div class="progress-bar">
+      <div class="progress" [style.width.%]="overallProgress" [style.backgroundColor]="getProgressColor(overallProgress)"></div>
+    </div>
+    <p>{{ overallProgress | number:'1.0-0' }}% Complete</p>
+  </section>
+ 
+  <section class="content-progress">
+    <h3>{{ isShortTerm ? 'Lesson' : 'Module' }} Progress</h3>
+    <ng-container *ngIf="isShortTerm; else longTerm">
+      <div class="item" *ngFor="let lesson of lessons">
+        <h4>{{ lesson.title }}</h4>
+        <div class="progress-bar">
+          <div class="progress" [style.width.%]="lesson.progress" [style.backgroundColor]="getProgressColor(lesson.progress)"></div>
+        </div>
+        <p>{{ lesson.progress | number:'1.0-0' }}% completed</p>
+        <button
+          [ngClass]="{'start': lesson.progress === 0, 'continue': lesson.progress > 0 && lesson.progress < 100, 'completed': lesson.progress === 100}"
+          (click)="onButtonClick(lesson,courseId)"
+          [disabled]="isButtonDisabled(lesson.progress)"
+        >
+          {{ getButtonText(lesson.progress) }}
+        </button>
+      </div>
+    </ng-container>
+    <ng-template #longTerm>
+      <div class="item" *ngFor="let module of modules">
+        <h4>{{ module.moduleName }}</h4>
+        <div class="progress-bar">
+          <div class="progress" [style.width.%]="module.progress" [style.backgroundColor]="getProgressColor(module.progress)"></div>
+        </div>
+        <p>{{ module.progress | number:'1.0-0' }}% completed</p>
+        <button
+          [ngClass]="{'start': module.progress === 0, 'continue': module.progress > 0 && module.progress < 100, 'completed': module.progress === 100}"
+          (click)="onButtonClick(module,courseId)"
+          [disabled]="isButtonDisabled(module.progress)"
+        >
+          {{ getButtonText(module.progress) }}
+        </button>
+      </div>
+    </ng-template>
+  </section>
+</div>
+ 
+ 
+ 

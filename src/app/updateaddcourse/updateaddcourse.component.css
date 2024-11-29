@@ -1,0 +1,573 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+ 
+body {
+ 
+  font-family: 'Mulish';
+   
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(225, 221, 221);
+  height: 100vh;
+  overflow: hidden; /* Prevent body scroll */
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+ 
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.course-landing {
+  padding: 20px;
+  background-color: #f7f7f7;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.course-landing:hover {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.2), rgba(18, 78, 102, 0.2));
+}
+ 
+ 
+/* input [type="file"] {
+  border-radius: 25px;
+} */
+ 
+/* .custom-file-button{
+  border-radius: 50px;
+} */
+ 
+ 
+ 
+ 
+.headding {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+    text-align: center;
+    background-color: rgb(8, 12, 12);
+    padding: 15px 0;
+    border-radius: 6px;
+    color: white;
+    font-size: 24px;
+    margin: 3px 0;
+}
+ 
+.container {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  gap: 20px;
+  padding: 20px;
+  height: 80vh; /* Adjust height as needed */
+  overflow: hidden;
+  background: linear-gradient(to right,#D3D9D4);
+}
+ 
+.right-content {
+  list-style: none;
+  overflow-y: auto;
+  padding-right: 10px;
+  flex: 3;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adjust shadow color and size as needed */
+}
+/* General styles for the left-content */
+.left-content {
+  border-radius: 5px;
+  width: 250px; /* Adjust width as needed */
+  background-color:  #D3D9D4; /* Light gray background */
+  border-right: 1px solid #dee2e6; /* Border on the right side */
+  padding: 15px; /* Padding inside the content */
+}
+ 
+/* Wrapper styling */
+.left-content .wrapper {
+  padding: 10px;
+}
+ 
+/* Sidenav styles */
+.left-content .sidnav {
+  margin-top: 20px; /* Space at the top */
+}
+ 
+/* Unordered list styles */
+.left-content .ulList {
+  list-style-type: none; /* Remove default list styles */
+  padding: 0; /* Remove default padding */
+}
+ 
+/* List item styles */
+.left-content .ulList .navcourse {
+  margin-bottom: 10px; /* Space between list items */
+  padding: 10px 15px; /* Padding inside list items */
+  background-color: #D3D9D4; /* White background */
+  border: 1px solid #dee2e6; /* Light border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition on hover */
+}
+ 
+/* Hover effect for list items */
+.left-content .ulList .navcourse:hover {
+  background-color: #e9ecef; /* Light hover background */
+}
+ 
+/* Active list item styles */
+.left-content .ulList .navcourse.active {
+  background-color: #2E3944; /* Blue background for active item */
+  color: #ffffff; /* White text for active item */
+  border-color: green 2px; /* Border color for active item */
+}
+ 
+/* Span inside list items */
+left-content .ulList .navcourse .Inspan {
+  font-size: 16px; /* Font size for span */
+  font-weight: 500; /* Font weight for span */
+}
+.mat-card {
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+border-radius: 8px;
+}
+ 
+.mat-checkbox {
+margin: 10px 0;
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .left-content {
+      width: 100%; /* Full width on small screens */
+      border-right: none; /* Remove right border */
+  }
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.planning-inputs {
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.planning-inputs:hover {
+  background: linear-gradient(to right, #e9ecef, #ced4da); /* Adjust colors for hover effect */
+}
+ 
+.input-group {
+  margin-bottom: 15px;
+}
+ 
+label {
+  font-weight: bold;
+}
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+ 
+input[type="text"],
+textarea,
+input[type="date"],
+input[type="number"],select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+ 
+input[type="text"]:focus,
+textarea:focus,
+input[type="date"]:focus,
+input[type="number"]:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+}
+video {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+button {
+  background-color: #000; /* Black background color */
+  color: white;
+  /* border: 2px solid #124E66; Green border */
+  padding: 5px 10px; /* Adjust padding for a better capsule shape */
+  border-radius: 50px; /* Capsule shape */
+  margin: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+ 
+}
+ 
+button:hover {
+   background-color: #e5ecef;  
+    color: black;
+    box-shadow: 5px 5px 5px #2E3944;  
+ 
+}
+ 
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+input[type=file]::file-selector-button {
+  border: 2px #2E3944;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background-color: #edeeee;
+  color: rgb(16, 12, 12);
+  font-weight: 600;
+  font-size: 14px;
+ 
+}
+ 
+input[type=file]::file-selector-button:hover {
+  background-color: #f3f4f5;
+  /* border: 2px solid #00cec9; */
+  box-shadow: 5px 5px 5px #2E3944;
+ 
+}
+ 
+/* Container for the pricing section */
+.pricing-section {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: auto;
+}
+.pricing-section:hover {
+  background: linear-gradient(to right, #e9ecef, #ced4da); /* Adjust colors for hover effect */
+}
+ 
+ 
+.form-group span {
+  font-size: 16px;
+  font-weight: bold;
+  color: #007bff;
+}
+ 
+/* General styling */
+.curriculum-section {
+margin-bottom: 20px;
+background-color: #0056b3;
+}
+ 
+ 
+ 
+.lesson-item {
+border: 1px solid #ccc;
+padding: 10px;
+margin-bottom: 15px;
+}
+ 
+.input-group {
+margin-bottom: 10px;
+}
+ 
+.input-group label {
+display: block;
+margin-bottom: 5px;
+font-weight: bold;
+}
+ 
+.input-group input[type="text"],
+.input-group textarea,
+.input-group select {
+width: 100%;
+padding: 8px;
+font-size: 14px;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+ 
+.input-group button {
+margin-left: 10px;
+padding: 8px 12px;
+font-size: 14px;
+cursor: pointer;
+border: none;
+border-radius: 4px;
+background-color: #007bff;
+color: #fff;
+}
+ 
+.input-group button:hover {
+background-color: #0056b3;
+}
+ 
+.file-upload input[type="file"] {
+margin-top: 5px;
+ 
+ 
+}
+ 
+.file-item {
+margin-bottom: 5px;
+ 
+}
+ 
+.project-section {
+border: 1px solid #ccc;
+padding: 10px;
+margin-top: 20px;
+}
+.project-section:hover {
+  background: linear-gradient(to right, #e9ecef, #ced4da); /* Adjust colors for hover effect */
+}
+ 
+.project-item {
+margin-top: 10px;
+padding: 10px;
+border: 1px solid #ccc;
+}
+ 
+.project-item h4 {
+margin-bottom: 5px;
+}
+ 
+.project-item button {
+margin-left: 10px;
+}
+.alert {
+padding: 15px;
+margin-bottom: 20px;
+border: 1px solid transparent;
+border-radius: 4px;
+}
+ 
+.alert-success {
+color: #3c763d;
+background-color: #dff0d8;
+border-color: #d6e9c6;
+}
+ 
+.alert-error {
+color: #a94442;
+background-color: #f2dede;
+border-color: #ebccd1;
+}
+ 
+/* styles.css */
+ 
+/* Container styling */
+.add-content-container {
+max-width: 800px;
+margin: 0 auto;
+padding: 20px;
+border: 1px solid #ccc; /* Add border around the container */
+border-radius: 4px;
+}
+ 
+/* Form styling */
+.add-content-form {
+margin-bottom: 20px;
+}
+ 
+/* Header styling */
+.add-content-header {
+font-size: 1.2em;
+margin-bottom: 10px;
+}
+ 
+.add-content-subheader {
+font-size: 1em;
+margin-bottom: 5px;
+}
+ 
+/* Label styling */
+.add-content-label {
+display: block;
+margin-bottom: 5px;
+font-weight: bold;
+}
+ 
+/* Input styling */
+.add-content-input-file {
+margin-bottom: 10px;
+}
+ 
+.add-content-input-text {
+width: 100%;
+padding: 8px;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+margin-bottom: 10px;
+}
+ 
+/* Button styling */
+.add-content-button {
+padding: 10px 20px;
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+ 
+.add-content-button:disabled {
+background-color: #ccc;
+cursor: not-allowed;
+}
+ 
+.add-content-button-secondary {
+padding: 10px 20px;
+background-color: #28a745;
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+margin-top: 10px;
+}
+ 
+.add-content-button-submit {
+padding: 10px 20px;
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+margin-top: 10px;
+}
+ 
+/* Add border around upload sets */
+.upload-set {
+border: 1px solid #ddd;
+padding: 10px;
+margin-bottom: 15px;
+border-radius: 4px;
+}
+ 
+/* Responsive adjustments */
+@media (max-width: 600px) {
+/* Adjustments for smaller screens */
+.add-content-container {
+  padding: 10px;
+}
+.add-content-input-text {
+  width: calc(100% - 16px); /* Adjust for padding and borders */
+}
+}
+.checkbox-container {
+display: flex;
+gap: 20px;
+align-items: center;
+margin: 20px auto;
+justify-content: center;
+}
+ 
+.checkbox-container label {
+display: flex;
+align-items: center;
+gap: 5px;
+font-weight: 500;
+cursor: pointer;
+}
+ 
+.checkbox-container input[type="checkbox"] {
+accent-color: #007BFF; /* Change to your preferred color */
+}
+ 
+.form-container {
+max-width: 600px;
+margin: 0 auto;
+padding: 20px;
+border: 1px solid #ddd;
+border-radius: 8px;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+ 
+.form-container div {
+margin-bottom: 15px;
+}
+ 
+.form-container label {
+display: block;
+margin-bottom: 5px;
+font-weight: 600;
+}
+ 
+.form-container input[type="text"],
+.form-container input[type="date"] {
+width: calc(100% - 20px);
+padding: 8px 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+}
+ 
+.form-container input[type="text"]:focus,
+.form-container input[type="date"]:focus {
+border-color: #007BFF; /* Change to your preferred color */
+outline: none;
+box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+ 
+.form-container button {
+background-color: #007BFF; /* Change to your preferred color */
+color: #fff;
+border: none;
+padding: 10px 20px;
+border-radius: 4px;
+cursor: pointer;
+font-size: 16px;
+}
+ 
+.form-container button:hover {
+background-color: #0056b3; /* Change to your preferred color */
+}
+ 
+ 
+ 
+ .update-btn{
+  background-color: #edeeee;
+  color: #000;
+  border-color: #edeeee;
+ }
+ 
+ .update-btn:hover{
+  box-shadow: 5px 5px 5px #2E3944;
+  color: #000;
+ 
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 

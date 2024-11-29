@@ -1,0 +1,53 @@
+<div *ngIf="generatequiz" class="quiz-wrapper">
+  <h2>Generate Quiz</h2>
+  <button class="generateQuizButton" (click)="generateQuiz()" [disabled]="isLoading">
+    {{ isLoading ? 'Generating...' : 'Generate Quiz' }}
+  </button>
+  <div *ngIf="isLoading" class="loading-indicator">
+    <span class="loader"></span>
+    <p>Generating quiz...</p>
+  </div>
+</div>
+
+<div *ngIf="generatedquizStart" class="quiz-container">
+  <h2>Generated Quizzes</h2>
+  <div *ngFor="let quiz of quizzes">
+    <h3>Quiz Name: {{ quiz.aiquizName }}</h3>
+    <p>Quiz ID: {{ quiz.id }}</p>
+    <button class="generatedquizStartButton" *ngIf="generatedquizStartButton" (click)="loadQuizQuestions(quiz.id)">Start</button>
+  </div>
+</div>
+
+<div *ngIf="quizQuestions.length && quizform" class="questions-container">
+  <form (ngSubmit)="submitQuiz()">
+    <div *ngFor="let question of quizQuestions; let i = index" class="question-container">
+      <p>{{ i + 1 }}. {{ question.aiquizQuestion }}</p>
+      <div *ngFor="let option of getValidOptions(question); let j = index">
+        <label>
+          <input type="radio"
+                 [name]="'question' + question.id"
+                 [value]="option"
+                 [(ngModel)]="userAnswers[question.id]"
+                 required>
+          {{ option }}
+        </label>
+      </div>
+    </div>
+    <button class="submitquizButton" type="submit" [disabled]="quizCompleted">Submit Quiz</button>
+  </form>
+</div>
+
+<div *ngIf="quizResult" class="quiz-result">
+  <h2>Quiz Result</h2>
+  <p>Total Questions: {{ quizResult.totalQuestions }}</p>
+  <p>Percentage: {{ quizResult.percentage }}%</p>
+  <p>Correct Answers: {{ quizResult.correctAnswers }} / {{ quizResult.totalQuestions }}</p>
+</div>
+
+<div *ngIf="NoQuizQuestionsPopup">
+  <p>No quiz questions available.</p>
+</div>
+
+<div *ngIf="NoQuizzesPopup">
+  <p>No quizzes found for this lesson.</p>
+</div>

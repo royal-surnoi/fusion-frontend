@@ -1,0 +1,368 @@
+<div class="container">
+    <!-- Show the "Mock" button at the top left corner -->
+    <div class="options">
+      <button (click)="showTestForm()" *ngIf="!mockTestCreated" [disabled]="mockTestCreated">Mock Test</button>
+   
+      <!-- <button (click)="showTestForm()" [disabled]="mockTestCreated">Mock Test</button>  -->
+         <!-- <button (click)="showInterviewForm()">Mock Interview</button> -->
+    </div>
+  <!-- Mock Test Form -->
+  <form *ngIf="formType === 'test' && !mockTestDetails" class="form" #testForm="ngForm">
+    <!-- <h2>Mock Test</h2> -->
+   
+    <!-- Image upload section -->
+    <h3>Upload Image</h3>
+    <!-- <img [src]="testImage" alt="Test Image" width="200"> -->
+    <input type="file" name="image" (change)="onImageChange($event, 'test')">
+   
+    <!-- Form fields -->
+    <label for="testTitle">Title:</label>
+    <input type="text" id="title" name="title" ngModel maxlength="255" required>
+   
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" ngModel></textarea>
+   
+    <label for="relatedCourseId">Course name:</label>
+    <select id="relatedCourseId" name="relatedCourseId" ngModel required>
+      <option *ngFor="let course of courses" [value]="course.id">
+        {{ course.courseTitle }}
+      </option>
+    </select>
+   
+    <label for="fee">Fee:</label>
+    <input type="number" step="0.01" id="fee" name="fee" ngModel>
+   
+    <label for="freeAttempts">Free Attempts:</label>
+    <input type="number" id="freeAttempts" name="freeAttempts" ngModel>
+   
+    <label for="testType">Test Type:</label>
+    <select id="testType" name="testType" [(ngModel)]="selectedTestType" required>
+      <option value="PROJECT">Project</option>
+      <option value="QUIZ">Quiz</option>
+      <option value="ASSIGNMENT">Assignment</option>
+      <option value="INTERVIEW">Interview</option>
+   
+    </select>
+   
+    <button type="button" (click)="saveMockTestDetails(testForm)" class="Tests">Save Mock Test Details</button>
+    <button type="button" (click)="goBack()" class="Test">Back</button>
+  </form>
+   
+  <!-- Specific Forms for Quiz, Assessment, or Project -->
+  <div *ngIf="mockTestDetails && formType === 'test'" class="specific-form">
+    <ng-container [ngSwitch]="selectedTestType">
+      <!-- Quiz Form -->
+      <div *ngSwitchCase="'QUIZ'">
+        <!-- <h3>Quiz Details</h3> -->
+        <label for="quizDuration">Duration (minutes):</label>
+        <input type="number" id="quizDuration" name="quizDuration" ngModel required>
+   
+        <label for="quizQuestions">Number of Questions:</label>
+        <input type="number" id="quizQuestions" name="quizQuestions" ngModel required>
+   
+        <label for="quizPassingScore">Passing Score:</label>
+        <input type="number" id="quizPassingScore" name="quizPassingScore" ngModel required>
+   
+        <button type="button" (click)="submitQuizForm()" class="submit" style="margin-left: 350px;">Submit Quiz</button>
+      </div>
+   
+     
+      <!-- Assessment Form -->
+     
+      <!-- Assessment Form -->
+          <div *ngSwitchCase="'ASSIGNMENT'">
+            <form [formGroup]="assignmentForm" (ngSubmit)="submitAssignmentForm1122()">
+              <div>
+                <label for="title">Title:</label>
+                <input type="text" id="title" formControlName="assignmentTitle" >
+              </div>
+           
+              <div>
+                <label for="topicName">Topic Name :</label>
+                <input type="text" id="topicName" formControlName="assignmentTopicName" >
+              </div>
+           
+              <div>
+                <label for="description">Description:</label>
+                <textarea id="description" formControlName="assignmentDescription" ></textarea>
+              </div>
+           
+              <div>
+                <label for="document">Document:</label>
+                <input type="file" id="document" (change)="onFileChange($event)" >
+              </div>
+           
+              <div class="button-container">
+                <button type="submit" [disabled]="!assignmentForm.valid" class="submit" style="margin-left: 350px;">Submit Assignment</button>
+              </div>
+            </form>
+          </div>
+       
+          <!-- <div *ngSwitchCase="'ASSIGNMENT'">
+            <h3>Assignment Details</h3>
+            <form [formGroup]="assignmentForm" (ngSubmit)="submitAssignmentForm()">
+              <label for="title">Title:</label>
+              <input type="text" id="title" formControlName="title" required>
+       
+              <label for="topicName">Topic Name:</label>
+              <input type="text" id="topicName" formControlName="topicName" required>
+       
+              <label for="description">Description:</label>
+              <textarea id="description" formControlName="description" required></textarea>
+       
+              <label for="document">Document:</label>
+              <input type="file" id="document" (change)="onFileChange($event)" required>
+       
+   
+              <button type="submit" [disabled]="!assignmentForm.valid">Submit Assignment</button>
+            </form> -->
+       
+            <!-- <div *ngIf="assignmentSubmissionMessage" [ngClass]="{'success': assignmentSubmissionMessage.includes('successfully'), 'error': assignmentSubmissionMessage.includes('Error')}">
+              {{ assignmentSubmissionMessage }}
+            </div>
+          </div> -->
+       
+   
+      <!-- Project Form -->
+      <div *ngSwitchCase="'PROJECT'">
+        <!-- <h3>Project Details</h3> -->
+     
+        <form #projectForm="ngForm">
+          <div>
+            <label for="projectTitle">Project name:</label>
+            <textarea id="projectTitle" name="projectTitle" ngModel required></textarea>
+          </div>
+     
+          <div>
+            <label for="projectDescription">Project Description:</label>
+            <input type="text" id="projectDescription" name="projectDescription" ngModel required>
+          </div>
+     
+          <!-- <div>
+            <label for="gitUrl">Git URL:</label>
+            <input type="text" id="gitUrl" name="gitUrl" ngModel required>
+          </div> -->
+     
+          <div>
+            <label for="projectDocument">Project Document:</label>
+            <input type="file" id="projectDocument" name="projectDocument" ngModel required>
+          </div>
+     
+          <button type="button" (click)="submitProjectForm(projectForm)" class="submit" style="margin-left: 350px;">Submit Project</button>
+        </form>
+      </div>
+     
+   
+   
+      <div *ngSwitchCase="'INTERVIEW'">
+        <!-- <h3>INTERVIEW Details</h3> -->
+        <form [formGroup]="interviewForm">
+          <div>
+            <label for="interviewName">INTERVIEW NAME:</label>
+            <input id="interviewName" formControlName="interviewName" type="text" required />
+          </div>
+       
+          <div>
+            <label for="interviewTime">INTERVIEW TIME:</label>
+            <input id="interviewTime" formControlName="interviewTime" type="datetime-local" required />
+          </div>
+         
+          <button type="button" (click)="submitInterviewForm()" class="submit" style="margin-left: 350px;">Submit Interview</button>
+        </form>
+       
+      </div>
+    </ng-container>
+  </div>
+   
+   
+   
+  <!-- Slot creation section for Mock Test, visible only if mock test details are saved -->
+  <div *ngIf="mockTestDetails && formType === 'test'" class="slot-container">
+    <h3>Available Slots</h3>
+    <label for="slotName">Slot Name:</label>
+    <input type="text" id="slotName" name="slotName" #slotName>
+   
+    <label for="slotDate">Date:</label>
+    <input type="date" id="slotDate" name="slotDate" #slotDate>
+   
+    <label for="slotStartTime">Start Time:</label>
+    <input type="time" id="slotStartTime" name="slotStartTime" #slotStartTime>
+   
+    <label for="slotEndTime">End Time:</label>
+    <input type="time" id="slotEndTime" name="slotEndTime" #slotEndTime>
+   
+    <button type="button" (click)="addTestSlot(slotName.value, slotDate.value, slotStartTime.value, slotEndTime.value)">Add Slot</button>
+   
+    <!-- Display added slots -->
+    <div class="slots-list">
+      <h4>Added Slots:</h4>
+      <div *ngFor="let slot of testSlots; let i = index">
+        {{ slot.slotName }} - {{ formatDateTime(slot.slotTime) }} to {{ formatDateTime(slot.endTime) }}
+        <button type="button" (click)="removeSlot(i, 'test')">Delete</button>
+      </div>
+    </div>
+   
+    <!-- Save Slots button -->
+    <button type="button" (click)="saveSlots('test')">Save Slots</button>
+    <button type="button" (click)="goBack()">Back</button>
+  </div>
+   
+  <!-- Mock Interview Form -->
+  <form *ngIf="formType === 'interview' && !mockInterviewDetails" class="form" #interviewForm="ngForm">
+    <h2>Mock Interview</h2>
+   
+    <!-- Image upload section -->
+    <h3>Upload Image</h3>
+    <img [src]="interviewImage" alt="Interview Image" width="200">
+    <input type="file" (change)="onImageChange($event, 'interview')">
+   
+    <!-- Form fields -->
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" ngModel maxlength="255" required>
+   
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" ngModel></textarea>
+   
+    <label for="interviewCourseId">Course name:</label>
+    <select id="interviewCourseId" name="interviewCourseId" ngModel required>
+      <option *ngFor="let course of courses" [value]="course.id">
+        {{ course.courseTitle }}
+      </option>
+    </select>
+   
+    <label for="fee">Fee:</label>
+    <input type="number" step="0.01" id="fee" name="fee" ngModel>
+   
+    <label for="freeAttempts">Free Attempts:</label>
+    <input type="number" id="freeAttempts" name="freeAttempts" ngModel>
+   
+    <label for="interviewTestType">Test Type:</label>
+    <select id="interviewTestType" name="interviewTestType" [(ngModel)]="selectedTestType" required>
+      <option value="PROJECT">PROJECT</option>
+      <option value="QUIZ">QUIZ</option>
+      <option value="ASSIGNMENT">ASSIGNMENT</option>
+    </select>
+   
+    <button type="button" (click)="saveMockInterviewDetails(interviewForm)">Save Mock Interview Details</button>
+    <button type="button" (click)="goBack()">Back</button>
+  </form>
+   
+  <!-- Specific Forms for Quiz, Assessment, or Project in Mock Interview -->
+  <div *ngIf="mockInterviewDetails && formType === 'interview'" class="specific-form">
+    <ng-container [ngSwitch]="selectedTestType">
+      <!-- Quiz Form -->
+      <div *ngSwitchCase="'QUIZ'">
+        <!-- <h3>Quiz Details</h3> -->
+        <label for="quizDuration">Duration (minutes):</label>
+        <input type="number" id="quizDuration" name="quizDuration" ngModel required>
+   
+        <label for="quizQuestions">Number of Questions:</label>
+        <input type="number" id="quizQuestions" name="quizQuestions" ngModel required>
+   
+        <label for="quizPassingScore">Passing Score:</label>
+        <input type="number" id="quizPassingScore" name="quizPassingScore" ngModel required>
+   
+        <button type="button" (click)="submitQuizForm()">Submit Quiz</button>
+      </div>
+   
+   
+  <!-- Assessment Form -->
+  <div *ngSwitchCase="'ASSIGNMENT'">
+    <!-- <h3>Assignment Details</h3> -->
+    <form [formGroup]="assignmentForm" (ngSubmit)="submitAssignmentForm()">
+      <label for="title">Title:</label>
+      <input type="text" id="title" formControlName="title" required>
+   
+      <label for="topicName">Topic Name:</label>
+      <input type="text" id="topicName" formControlName="topicName" required>
+   
+      <label for="description">Description:</label>
+      <textarea id="description" formControlName="description" required></textarea>
+   
+      <label for="document">Document:</label>
+      <input type="file" id="document" (change)="onFileChange($event)" required>
+   
+      <!-- <label for="assignmentTasks">Number of Tasks:</label>
+      <input type="number" id="assignmentTasks" formControlName="assignmentTasks" required>
+   
+      <label for="assignmentDuration">Assignment Duration (minutes):</label>
+      <input type="number" id="assignmentDuration" formControlName="assignmentDuration" required>
+   
+      <label for="assignmentCriteria">Evaluation Criteria:</label>
+      <textarea id="assignmentCriteria" formControlName="assignmentCriteria" required></textarea> -->
+   
+      <button type="submit" [disabled]="!assignmentForm.valid">Submit Assignment</button>
+    </form>
+   
+    <div *ngIf="assignmentSubmissionMessage" [ngClass]="{'success': assignmentSubmissionMessage.includes('successfully'), 'error': assignmentSubmissionMessage.includes('Error')}">
+      {{ assignmentSubmissionMessage }}
+    </div>
+  </div>
+   
+   
+   
+      <!-- Project Form -->
+      <div *ngSwitchCase="'PROJECT'">
+        <!-- <h3>Project Details</h3> -->
+     
+        <form #projectForm="ngForm">
+          <div>
+            <label for="projectTitle">Project name:</label>
+            <textarea id="projectTitle" name="projectTitle" ngModel required></textarea>
+          </div>
+     
+          <div>
+            <label for="projectDescription">Project Description:</label>
+            <input type="text" id="projectDescription" name="projectDescription" ngModel required>
+          </div>
+     
+          <!-- <div>
+            <label for="gitUrl">Git URL:</label>
+            <input type="text" id="gitUrl" name="gitUrl" ngModel required>
+          </div> -->
+     
+          <div>
+            <label for="projectDocument">Project Document:</label>
+            <input type="file" id="projectDocument" name="projectDocument" ngModel required>
+          </div>
+     
+          <button type="button" (click)="submitProjectForm(projectForm)">Submit Project</button>
+        </form>
+      </div>
+     
+    </ng-container>
+  </div>
+  <!-- Slot creation section for Mock Interview, visible only if mock interview details are saved -->
+  <div *ngIf="mockInterviewDetails && formType === 'interview'" class="slot-container">
+    <h3>Available Slots</h3>
+    <label for="slotName">Slot Name:</label>
+    <input type="text" id="slotName" name="slotName" #slotName>
+   
+    <label for="slotDate">Date:</label>
+    <input type="date" id="slotDate" name="slotDate" #slotDate>
+   
+    <label for="slotStartTime">Start Time:</label>
+    <input type="time" id="slotStartTime" name="slotStartTime" #slotStartTime>
+   
+    <label for="slotEndTime">End Time:</label>
+    <input type="time" id="slotEndTime" name="slotEndTime" #slotEndTime>
+   
+    <button type="button" (click)="addInterviewSlot(slotName.value, slotDate.value, slotStartTime.value, slotEndTime.value)">Add Slot</button>
+   
+    <!-- Display added slots -->
+    <div class="slots-list">
+      <h4>Added Slots:</h4>
+      <div *ngFor="let slot of interviewSlots; let i = index">
+        {{ slot.slotName }} - {{ formatDateTime(slot.slotTime) }} to {{ formatDateTime(slot.endTime) }}
+        <button type="button" (click)="removeSlot(i, 'interview')">Delete</button>
+      </div>
+    </div>
+   
+    <!-- Save Slots button -->
+    <button type="button" (click)="saveSlots('interview')">Save Slots</button>
+    <button type="button" (click)="goBack()">Back</button>
+  </div>
+   
+   
+   
+  </div>

@@ -1,0 +1,90 @@
+
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+ 
+html,
+body {
+    height: 100%;
+    background-color: #fafdff;
+    font-family: 'Mulish', 'Mulish', Halvetica, Arial, sans-serif !important;
+    margin: 0;
+ 
+ 
+ 
+    .advanced-pie-legend .total-value {
+        font-size: 30px !important;
+        font-weight: 400 !important;
+        margin-bottom: 7px !important;
+    }
+.advanced-pie-legend .total-label {
+    font-size: 25px !important;
+    margin-bottom: 30px !important;
+  }
+ 
+  .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-value {
+    font-size: 24px !important;
+    margin-top: 0px !important;
+    margin-left: 11px !important;
+  }
+ 
+  .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-label {
+    font-size: 14px !important;
+    opacity: 0.7 !important;
+    margin-left: 11px !important;
+    margin-top: 0px !important;
+  }
+ 
+  /*** assignment section*** */
+ 
+ 
+  .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab {
+    flex-grow: 1;
+    background-color: #ec5c59;
+    /* border-radius: 5px; */
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+   
+}
+  .mdc-tab__text-label {
+    transition: 150ms color linear;
+    display: inline-block;
+    line-height: 1;
+    z-index: 2;
+    font-weight: 570;
+    color: white !important;
+    font-size: 16px;
+    font-family: 'Mulish', Halvetica, Arial, sans-serif !important;
+}
+.mat-mdc-tab-labels {
+  display: flex;
+  background-color: #f8f8ff;
+  flex: 1 0 auto;
+}
+  .mat-tab-label-active {
+    color: #1976d2;
+    font-size: 16px;
+  }
+ 
+  .mat-mdc-ink-bar {
+    background-color: #ebf0f6;
+  }
+ 
+  .mat-mdc-list-item:not(.mat-mdc-list-item-interactive), .mat-mdc-list-option:not(.mat-mdc-list-item-interactive) {
+    cursor: default;
+    margin-bottom: 15px !important;
+    height: fit-content;
+}
+ 
+.mat-display-medium, .mat-typography .mat-display-medium, .mat-typography h2 {
+  /* font: 400 -10.188rem / 3.25rem Roboto, sans-serif; */
+  letter-spacing: 0rem;
+  margin: 0 0 .5em;
+  font-family: 'Mulish', Halvetica, Arial, sans-serif !important;
+  font-weight: 500;
+  font-size: 30px;
+}
+ 
+}
+ 
+ 

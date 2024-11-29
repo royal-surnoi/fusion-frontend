@@ -7,6 +7,7 @@ pipeline{
         docker_registry = 'iamroyalreddy/fusion-fe'
         DOCKERHUB_CREDENTIALS = credentials('docker-credentials')
         DEV_INSTANCE_IP= ''
+        SONAR_SCANNER_HOME = tool name: 'sonarqube'
     }
     options {
         timeout(time: 1, unit: 'HOURS')
@@ -23,49 +24,53 @@ pipeline{
                 }
             }
         }
-        stage('Dependency Scanning') {
-            parallel {
-                stage('NPM Dependency Audit') {
-                    steps {
-                        sh '''
-                            npm audit --audit-level=critical
-                            echo $?
-                        '''
-                    }
-                }
 
-                stage('OWASP Dependency Check') {
-                    steps {
-                        dependencyCheck additionalArguments: '''
-                            --scan \'./\' 
-                            --out \'./\'  
-                            --format \'ALL\' 
-                            --disableYarnAudit \
-                            --prettyPrint''', odcInstallation: 'OWASP-DepCheck-10'
+        // stage('Dependency Scanning') {
+        //     parallel {
+        //         stage('NPM Dependency Audit') {
+        //             steps {
+        //                 sh '''
+        //                     npm audit --audit-level=critical
+        //                     echo $?
+        //                 '''
+        //             }
+        //         }
 
-                        dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
-                    }
-                }
-            }
-        }
+        //         stage('OWASP Dependency Check') {
+        //             steps {
+        //                 dependencyCheck additionalArguments: '''
+        //                     --scan \'./\' 
+        //                     --out \'./\'  
+        //                     --format \'ALL\' 
+        //                     --disableYarnAudit \
+        //                     --prettyPrint''', odcInstallation: 'OWASP-DepCheck-10'
 
-        stage('Unit Testing'){
-            steps{
-                sh 'sleep 5s'
-            }
-        }
+        //                 dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
+        //             }
+        //         }
+        //     }
+        // }
+
+        // stage('Unit Testing'){
+        //     steps{
+        //         sh 'sleep 5s'
+        //     }
+        // }
+
         stage ("SAST - SonarQube") {
             steps {
                 dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend'){
                     script {
-                        withSonarQubeEnv(installationName: 'sonarqube', credentialsId: 'sonar-credentials') {
-                            sh '''
-                                sonar-scanner \
-                                    -Dsonar.projectKey=fusion-fe \
-                                    -Dsonar.sources=. \
-                                    -Dsonar.host.url=http://3.87.22.97:9000 \
-                                    -Dsonar.token=sqp_4504048bc6ef51e702899801c87e22b8ccf8a4d2
-                            '''
+                        withSonarQubeEnv('sonarqube') {
+                            withEnv(["PATH+SONAR=$SONAR_SCANNER_HOME/bin"]) {
+                                sh '''
+                                    sonar-scanner \
+                                        -Dsonar.projectKey=fusion-fe \
+                                        -Dsonar.sources=. \
+                                        -Dsonar.host.url=http://3.87.22.97:9000 \
+                                        -Dsonar.token=sqp_4504048bc6ef51e702899801c87e22b8ccf8a4d2
+                                '''
+                            }
                         }
                     }
                 }

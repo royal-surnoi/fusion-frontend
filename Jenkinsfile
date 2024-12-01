@@ -70,7 +70,7 @@ pipeline{
                         dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend'){
                             script {
                                 withSonarQubeEnv('sonarqube') {
-                                    withCredentials([string(credentialsId: 'sonar-credentials', variable: 'SONAR_TOKEN')]){
+                                    withCredentials([string(credentialsId: 'sonar-fe-credentials', variable: 'SONAR_TOKEN')]){
                                         withEnv(["PATH+SONAR=$SONAR_SCANNER_HOME/bin"]) {
                                             sh '''
                                                 sonar-scanner \

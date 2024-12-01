@@ -12,7 +12,7 @@ if [[ "$PublichIPAddress" != '' ]]; then
     ping -c 4 $PublichIPAddress || { echo "Ping failed. Check network access."; exit 1; }
     echo "Making HTTP request..."
     http_code=$(curl -x "" -s -o /dev/null -w "%{http_code}"  http://$PublichIPAddress:80)
-    sleep 30s
+    # sleep 30s
     echo "http_code - "$http_code
     
     if [[ "$http_code" -eq 200 ]]; 

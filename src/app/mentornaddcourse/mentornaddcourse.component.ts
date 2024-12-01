@@ -1857,9 +1857,9 @@ onUpload(): void {
     formData.append('document', this.selectedFile, this.selectedFile.name);
 
 
-    this.http.post(`http://54.162.84.143:8080/saveLesson/${this.lessonId}/${this.courseId}`, formData).subscribe(
+    this.http.post(`http://34.230.34.88:8080/saveLesson/${this.lessonId}/${this.courseId}`, formData).subscribe(
 
-    // this.http.post(`http://54.162.84.143:8080/saveLesson/${this.lessonId}/${this.courseId}`, formData).subscribe(
+    // this.http.post(`http://34.230.34.88:8080/saveLesson/${this.lessonId}/${this.courseId}`, formData).subscribe(
 
       response => {
         console.log('Assignment saved successfully:', response);

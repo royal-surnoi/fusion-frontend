@@ -37,17 +37,17 @@ export interface UserWithFollowerCount extends User {
 })
 export class UserService {
  
-  private apiBaseUrl = 'http://54.162.84.143:8080';
-  // private apiUrl = 'http://54.162.84.143:8080/user/all';
-  // private apiUrl = 'http://54.162.84.143:8080/user/all';
-  private apiUrl = 'http://54.162.84.143:8080/suggestFriendsRecommendations'
+  private apiBaseUrl = 'http://34.230.34.88:8080';
+  // private apiUrl = 'http://34.230.34.88:8080/user/all';
+  // private apiUrl = 'http://34.230.34.88:8080/user/all';
+  private apiUrl = 'http://34.230.34.88:8080/suggestFriendsRecommendations'
  
-  private incrementUrl = 'http://54.162.84.143:8080/follow/incrementCounts';
-  private decrementUrl = 'http://54.162.84.143:8080/follow/decrementCounts';
-  private followUrl = 'http://54.162.84.143:8080/follow/saveByIds';
-  private apiUrll = 'http://54.162.84.143:8080/api/users';
+  private incrementUrl = 'http://34.230.34.88:8080/follow/incrementCounts';
+  private decrementUrl = 'http://34.230.34.88:8080/follow/decrementCounts';
+  private followUrl = 'http://34.230.34.88:8080/follow/saveByIds';
+  private apiUrll = 'http://34.230.34.88:8080/api/users';
  
- private followRequestsUrl = 'http://54.162.84.143:8080/follow/zero-followers-following/followings'
+ private followRequestsUrl = 'http://34.230.34.88:8080/follow/zero-followers-following/followings'
  
  
  private readonly SENT_REQUESTS_KEY = 'sentFollowRequests';
@@ -234,7 +234,7 @@ export class UserService {
       .set('followerId', followerId.toString())
       .set('followingId', userId.toString());
 
-    return this.http.delete('http://54.162.84.143:8080/follow/deleteByIds', { params }).pipe(
+    return this.http.delete('http://34.230.34.88:8080/follow/deleteByIds', { params }).pipe(
       tap(() => {
         // Update the local users array
         const users = this.usersSubject.getValue();
@@ -306,7 +306,7 @@ export class UserService {
         .set('followerId', followerId.toString())
         .set('followingId', followingId.toString());
   
-      return this.http.delete('http://54.162.84.143:8080/follow/deleteByIds', { params }).pipe(
+      return this.http.delete('http://34.230.34.88:8080/follow/deleteByIds', { params }).pipe(
         tap(() => {
           // Update the local users array
           const users = this.usersSubject.getValue();
@@ -360,7 +360,7 @@ export class UserService {
         .set('followerId', requestingUserId.toString())
         .set('followingId', currentUserId.toString());
   
-      return this.http.delete('http://54.162.84.143:8080/follow/deleteByIds', { params }).pipe(
+      return this.http.delete('http://34.230.34.88:8080/follow/deleteByIds', { params }).pipe(
         tap(() => {
           console.log('Follow request ignored successfully');
           const users = this.usersSubject.getValue();

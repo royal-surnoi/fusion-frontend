@@ -37,13 +37,13 @@ export interface FollowRequestUser {
 })
 export class UsersprofileService {
  
-  private apiBaseUrl = 'http://54.162.84.143:8080';
-  private apiUrl = 'http://54.162.84.143:8080/user/all';
+  private apiBaseUrl = 'http://34.230.34.88:8080';
+  private apiUrl = 'http://34.230.34.88:8080/user/all';
  
-  private incrementUrl = 'http://54.162.84.143:8080/follow/incrementCounts';
-  private decrementUrl = 'http://54.162.84.143:8080/follow/decrementCounts';
-  private followUrl = 'http://54.162.84.143:8080/follow/saveByIds';
-  private apiUrll = 'http://54.162.84.143:8080/api/users';
+  private incrementUrl = 'http://34.230.34.88:8080/follow/incrementCounts';
+  private decrementUrl = 'http://34.230.34.88:8080/follow/decrementCounts';
+  private followUrl = 'http://34.230.34.88:8080/follow/saveByIds';
+  private apiUrll = 'http://34.230.34.88:8080/api/users';
  
  
  

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LocationService {
-  private apiUrl = 'http://54.162.84.143:8080';  // Replace with your backend URL
+  private apiUrl = 'http://34.230.34.88:8080';  // Replace with your backend URL
 
   constructor(private http: HttpClient) { }
 

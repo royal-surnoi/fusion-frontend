@@ -6,12 +6,17 @@ pipeline{
     environment {
         docker_registry = 'iamroyalreddy/fusion-fe'
         DOCKERHUB_CREDENTIALS = credentials('docker-credentials')
-        DEV_INSTANCE_IP= ''
         SONAR_SCANNER_HOME = tool name: 'sonarqube'
     }
     options {
         timeout(time: 1, unit: 'HOURS')
+        disableResume()
         disableConcurrentBuilds()
+        timestamps()
+    }
+    parameters {
+        booleanParam(name: 'CodeAnalysisDependencyCheck', defaultValue: false, description: 'is it required Code Analysis and Dependency Check')
+        choice(name: 'DeployToStage', choices: ['yes', 'no'], description: 'is it required Deploy to stage')
     }
     stages{
         stage('Build and Package'){
@@ -26,6 +31,11 @@ pipeline{
         }
 
         stage('Dependency Scanning') {
+            when {
+                expression{
+                    params.CodeAnalysisDependencyCheck == true
+                }
+            }
             parallel {
                 stage('NPM Dependency Audit') {
                     steps {
@@ -37,8 +47,8 @@ pipeline{
                 }
 
                 stage('OWASP Dependency Check') {
-                    steps {
-                        dependencyCheck additionalArguments: '''
+                        steps {
+                            dependencyCheck additionalArguments: '''
                             --scan \'./\' 
                             --out \'./\'  
                             --format \'ALL\' 
@@ -48,28 +58,30 @@ pipeline{
                         dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
                     }
                 }
-            }
-        }
 
-        stage('Unit Testing'){
-            steps{
-                sh 'sleep 5s'
-            }
-        }
+                stage('Unit Testing'){
+                    steps{
+                        sh 'sleep 5s'
+                    }
+                }
 
-        stage ("SAST - SonarQube") {
-            steps {
-                dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend'){
-                    script {
-                        withSonarQubeEnv('sonarqube') {
-                            withEnv(["PATH+SONAR=$SONAR_SCANNER_HOME/bin"]) {
-                                sh '''
-                                    sonar-scanner \
-                                        -Dsonar.projectKey=fusion-fe \
-                                        -Dsonar.sources=. \
-                                        -Dsonar.host.url=http://3.87.22.97:9000 \
-                                        -Dsonar.token=sqp_4504048bc6ef51e702899801c87e22b8ccf8a4d2
-                                '''
+                stage ("SAST - SonarQube") {
+                    steps {
+                        dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend'){
+                            script {
+                                withSonarQubeEnv('sonarqube') {
+                                    withCredentials([string(credentialsId: 'sonar-credentials', variable: 'SONAR_TOKEN')]){
+                                        withEnv(["PATH+SONAR=$SONAR_SCANNER_HOME/bin"]) {
+                                            sh '''
+                                                sonar-scanner \
+                                                    -Dsonar.projectKey=fusion-fe \
+                                                    -Dsonar.sources=. \
+                                                    -Dsonar.host.url=$SONAR_HOST_URL \
+                                                    -Dsonar.token=$SONAR_TOKEN
+                                            '''
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -140,38 +152,49 @@ pipeline{
                 sh "docker push $docker_registry:$GIT_COMMIT"
             }       
         }
-
-        stage('Deploy - AWS EC2') {
-            steps {
-                script{
-                     // Fetch AWS instance IP
-                    withAWS(credentials: 'aws-fusion-dev-deploy', region: 'us-east-1') {
-                        DEV_INSTANCE_IP = sh(
-                            script: "aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --filters Name=tag:Name,Values=dev-deploy --output text",
-                            returnStdout: true
-                        ).trim()
-                    }
-                    sshagent(['dev-deploy-ec2-instance']) {
-                        sh """
-                            ssh -o StrictHostKeyChecking=no ec2-user@${DEV_INSTANCE_IP} "
-                                // echo "Cleaning up old containers..."
-                                // docker ps -aq | xargs -r docker rm -f
-                                echo "Running new Docker container..."
-                                docker run -d -p 80:80 ${docker_registry}:${GIT_COMMIT}
-                            "
-                        """
-                    }
+        stage('Deploy to Development') {
+            when {
+                expression { 
+                    params.DeployToStage == 'yes'
                 }
-            }   
-        }
+            }
+            environment {
+                DEV_STAGE_INSTANCE_IP= ''
+            }
+            stages{
+                stage('Deploy - Dev-Stage Instance') {
+                    steps {
+                        script{
+                            // Fetch AWS instance IP
+                            withAWS(credentials: 'aws-fusion-dev-deploy', region: 'us-east-1') {
+                                DEV_INSTANCE_IP = sh(
+                                    script: "aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --filters Name=tag:Name,Values=dev-deploy --output text",
+                                    returnStdout: true
+                                ).trim()
+                            }
+                            sshagent(['dev-deploy-ec2-instance']) {
+                                sh """
+                                    ssh -o StrictHostKeyChecking=no ec2-user@${DEV_INSTANCE_IP} "
+                                        // echo "Cleaning up old containers..."
+                                        // docker ps -aq | xargs -r docker rm -f
+                                        echo "Running new Docker container..."
+                                        docker run -d -p 80:80 ${docker_registry}:${GIT_COMMIT}
+                                    "
+                                """
+                            }
+                        }
+                    }   
+                }
 
-        stage('Integration Testing - AWS EC2') {
-            steps {
-               sh 'sleep 50s'
-               withAWS(credentials: 'aws-fusion-dev-deploy', region: 'us-east-1') {
-                    sh  '''
-                        sh integration_test.sh
-                    '''
+                stage('Integration Testing in Development') {
+                    steps {
+                    sh 'sleep 30s'
+                    withAWS(credentials: 'aws-fusion-dev-deploy', region: 'us-east-1') {
+                            sh  '''
+                                sh integration_test.sh
+                            '''
+                        }
+                    }
                 }
             }
         }

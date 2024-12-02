@@ -9,7 +9,7 @@ import { Contact } from './chat/chat.models';
   providedIn: 'root'
 })
 export class NotificationService {
-  private apiUrl = 'http://34.230.34.88:8080/api';
+  private apiUrl = 'http://54.162.40.172:8080/api';
   private unreadCountSubject = new BehaviorSubject<number>(0);
 
  

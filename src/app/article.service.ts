@@ -11,9 +11,9 @@ export class ArticleService {
   }
 
 
-  private apiUrl = 'http://34.230.34.88:8080/api/articleposts';
+  private apiUrl = 'http://54.162.40.172:8080/api/articleposts';
 
-  // private apiUrl = 'http://34.230.34.88:8080/api/articleposts';
+  // private apiUrl = 'http://54.162.40.172:8080/api/articleposts';
 
 
  
@@ -38,14 +38,14 @@ export class ArticleService {
   }
  
   getCommentsByArticleId(articleId: number): Observable<any[]> {
-    return this.http.get<any[]>(`http://34.230.34.88:8080/api/comments/article/${articleId}`);
+    return this.http.get<any[]>(`http://54.162.40.172:8080/api/comments/article/${articleId}`);
   }
  
   addComment(articleId: number, comment: string): Observable<any> {
-    return this.http.post<any>(`http://34.230.34.88:8080/api/comments/article/${articleId}`, { content: comment });
+    return this.http.post<any>(`http://54.162.40.172:8080/api/comments/article/${articleId}`, { content: comment });
   }
   getTotalCommentsByArticlePostId(articlePostId: number): Observable<number> {
-    return this.http.get<number>(`http://34.230.34.88:8080/api/count/articlepost/${articlePostId}`);
+    return this.http.get<number>(`http://54.162.40.172:8080/api/count/articlepost/${articlePostId}`);
   }
 }
  

@@ -3,7 +3,7 @@ export const environment = {
     standalone:true,
 
    
-    apiBaseUrl:'http://34.230.34.88:8080',
+    apiBaseUrl:'http://54.162.40.172:8080',
 
  
 

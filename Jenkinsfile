@@ -167,8 +167,8 @@ pipeline{
                         dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend/terrafrom'){
                             sh '''
                                 terraform destroy --auto-approve
-                                terraform init
-                                terraform apply --auto-approve
+                                // terraform init
+                                // terraform apply --auto-approve
                             '''
                         }
                     }

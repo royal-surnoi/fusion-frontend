@@ -162,6 +162,14 @@ pipeline{
                 DEV_STAGE_INSTANCE_IP= ''
             }
             stages{
+                stage('initialize-Dev-Stage Instance') {
+                    dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend/terrafrom'){
+                        sh '''
+                            terraform init
+                            terraform apply -auto-approve
+                        '''
+                    }
+                }
                 stage('Deploy - Dev-Stage Instance') {
                     steps {
                         script{

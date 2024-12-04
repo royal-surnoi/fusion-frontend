@@ -699,9 +699,9 @@ updateUserImage(imageData: string | null) {
  
   getUserNameById(userId: number): Observable<User> {
 
-    return this.http.get<User>(`http://54.162.40.172:8080/user/find/${userId}`).pipe(
+    return this.http.get<User>(`http://54.165.131.215:8080/user/find/${userId}`).pipe(
 
-    // return this.http.get<User>(`http://54.162.40.172:8080/user/find/${userId}`).pipe(
+    // return this.http.get<User>(`http://54.165.131.215:8080/user/find/${userId}`).pipe(
 
       catchError(error => {
         console.error('Error fetching user details', error);

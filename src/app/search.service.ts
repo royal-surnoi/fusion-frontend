@@ -15,7 +15,7 @@ export class SearchService {
 
 
 
-  private apiUrl = 'http://54.162.40.172:8080/user';
+  private apiUrl = 'http://54.165.131.215:8080/user';
 
 
 

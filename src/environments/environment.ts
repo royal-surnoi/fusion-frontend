@@ -2,12 +2,12 @@ export const environment = {  production:false,
     standalone:true,
  
 
-    // apiBaseUrl:'http://54.165.131.215:8080'
+    // apiBaseUrl:'http://3.93.191.129:8080'
 
 
 
 
-        apiBaseUrl:'http://54.165.131.215:8080'
+        apiBaseUrl:'http://3.93.191.129:8080'
 
 
 
@@ -27,7 +27,7 @@ export const environment = {  production:false,
 
 
 
-        // apiBaseUrl:'http://54.165.131.215:8080'
+        // apiBaseUrl:'http://3.93.191.129:8080'
 
     // webSocketUrl:'ws://localhost:8080/ws'
 }

@@ -8,7 +8,7 @@ import { environment } from '../environments/environment';
 })
 export class OtpService {
   // private apiUrl = 'http://ec2-43-204-32-2.ap-south-1.compute.amazonaws.com:8080'; // Replace with your backend URL
-  private apiUrl = 'http://54.165.131.215:8080'; // Replace with your backend URL
+  private apiUrl = 'http://3.93.191.129:8080'; // Replace with your backend URL
 
   constructor(private http: HttpClient) { }
 

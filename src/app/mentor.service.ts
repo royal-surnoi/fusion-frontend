@@ -7,7 +7,7 @@ import { Mentor } from './subregister/subregister.component';  // Ensure this pa
   providedIn: 'root'
 })
 export class MentorService {
-  private baseUrl = 'http://54.165.131.215:8080/user';
+  private baseUrl = 'http://3.93.191.129:8080/user';
 
   constructor(private http: HttpClient) { }
 

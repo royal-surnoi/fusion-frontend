@@ -224,7 +224,7 @@ post {
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './', reportFiles: 'trivy-image-CRITICAL-results.html', reportName: 'Trivy Image Critical Vul Report', reportTitles: '', useWrapperFileDirectly: true])
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './', reportFiles: 'trivy-image-MEDIUM-results.html', reportName: 'Trivy Image Medium Vul Report', reportTitles: '', useWrapperFileDirectly: true])
             echo "\033[34mJob completed. Cleaning up workspace...\033[0m"
-            deleteDir()
+            // deleteDir()
         }
         success {
             echo "\033[33mPipeline completed successfully. Performing success actions...\033[0m"

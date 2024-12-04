@@ -43,6 +43,14 @@ resource "aws_vpc_security_group_ingress_rule" "allow_HTTPS_ipv4" {
   to_port           = 443
 }
 
+resource "aws_vpc_security_group_ingress_rule" "allow_icmp" {
+  security_group_id = aws_security_group.dev-stage-sg.id
+  cidr_ipv4         = var.cidr_blocks
+  from_port         = -1
+  ip_protocol       = "icmp"
+  to_port           = -1
+}
+
 resource "aws_vpc_security_group_ingress_rule" "allow_8080_ipv4" {
   security_group_id = aws_security_group.dev-stage-sg.id
   cidr_ipv4         = var.cidr_blocks

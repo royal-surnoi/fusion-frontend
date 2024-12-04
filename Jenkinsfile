@@ -171,6 +171,7 @@ pipeline{
                                 terraform init
                                 echo "Applying Terraform configuration..."
                                 terraform apply --auto-approve
+                                sleep 40s
                             '''
                         }
                     }

@@ -166,8 +166,10 @@ pipeline{
                     steps{
                         dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend/terrafrom'){
                             sh '''
+                                set -e
+                                echo "Initializing Terraform..."
                                 terraform init
-                                // terraform destroy --auto-approve
+                                echo "Applying Terraform configuration..."
                                 terraform apply --auto-approve
                             '''
                         }

@@ -907,9 +907,9 @@ replyingTo: { [commentId: number]: boolean } = {};
  
   getUserNameById(userId: number): Observable<User> {
 
-    return this.http.get<User>(`http://3.93.191.129:8080/user/find/${userId}`).pipe(
+    return this.http.get<User>(`http://be.royalreddy.co.in:8080/user/find/${userId}`).pipe(
 
-    // return this.http.get<User>(`http://3.93.191.129:8080/user/find/${userId}`).pipe(
+    // return this.http.get<User>(`http://be.royalreddy.co.in:8080/user/find/${userId}`).pipe(
 
       catchError(error => {
         console.error('Error fetching user details', error);

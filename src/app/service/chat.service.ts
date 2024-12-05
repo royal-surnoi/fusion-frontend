@@ -35,7 +35,7 @@ interface UserData {
   providedIn: 'root'
 })
 export class ChatService {
-  private apiUrl = 'http://3.93.191.129:8080';
+  private apiUrl = 'http://be.royalreddy.co.in:8080';
   contacts: Contact[] = [];
 
 
@@ -452,7 +452,7 @@ getGroupsForUser(userId: string): Observable<Contact[]> {
   }
 
   setReaction(userId: number, messageId: number, reaction: string): Observable<string> {
-    const url = `http://3.93.191.129:8080/Reactions/react?messageId=${messageId}&userId=${userId}&reaction=${reaction}`;
+    const url = `http://be.royalreddy.co.in:8080/Reactions/react?messageId=${messageId}&userId=${userId}&reaction=${reaction}`;
     return this.http.post(url, {}, { responseType: 'text' }); // Set responseType to 'text'
   }
   

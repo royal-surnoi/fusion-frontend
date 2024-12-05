@@ -37,17 +37,17 @@ export interface UserWithFollowerCount extends User {
 })
 export class UserService {
  
-  private apiBaseUrl = 'http://3.93.191.129:8080';
-  // private apiUrl = 'http://3.93.191.129:8080/user/all';
-  // private apiUrl = 'http://3.93.191.129:8080/user/all';
-  private apiUrl = 'http://3.93.191.129:8080/suggestFriendsRecommendations'
+  private apiBaseUrl = 'http://be.royalreddy.co.in:8080';
+  // private apiUrl = 'http://be.royalreddy.co.in:8080/user/all';
+  // private apiUrl = 'http://be.royalreddy.co.in:8080/user/all';
+  private apiUrl = 'http://be.royalreddy.co.in:8080/suggestFriendsRecommendations'
  
-  private incrementUrl = 'http://3.93.191.129:8080/follow/incrementCounts';
-  private decrementUrl = 'http://3.93.191.129:8080/follow/decrementCounts';
-  private followUrl = 'http://3.93.191.129:8080/follow/saveByIds';
-  private apiUrll = 'http://3.93.191.129:8080/api/users';
+  private incrementUrl = 'http://be.royalreddy.co.in:8080/follow/incrementCounts';
+  private decrementUrl = 'http://be.royalreddy.co.in:8080/follow/decrementCounts';
+  private followUrl = 'http://be.royalreddy.co.in:8080/follow/saveByIds';
+  private apiUrll = 'http://be.royalreddy.co.in:8080/api/users';
  
- private followRequestsUrl = 'http://3.93.191.129:8080/follow/zero-followers-following/followings'
+ private followRequestsUrl = 'http://be.royalreddy.co.in:8080/follow/zero-followers-following/followings'
  
  
  private readonly SENT_REQUESTS_KEY = 'sentFollowRequests';
@@ -234,7 +234,7 @@ export class UserService {
       .set('followerId', followerId.toString())
       .set('followingId', userId.toString());
 
-    return this.http.delete('http://3.93.191.129:8080/follow/deleteByIds', { params }).pipe(
+    return this.http.delete('http://be.royalreddy.co.in:8080/follow/deleteByIds', { params }).pipe(
       tap(() => {
         // Update the local users array
         const users = this.usersSubject.getValue();
@@ -306,7 +306,7 @@ export class UserService {
         .set('followerId', followerId.toString())
         .set('followingId', followingId.toString());
   
-      return this.http.delete('http://3.93.191.129:8080/follow/deleteByIds', { params }).pipe(
+      return this.http.delete('http://be.royalreddy.co.in:8080/follow/deleteByIds', { params }).pipe(
         tap(() => {
           // Update the local users array
           const users = this.usersSubject.getValue();
@@ -360,7 +360,7 @@ export class UserService {
         .set('followerId', requestingUserId.toString())
         .set('followingId', currentUserId.toString());
   
-      return this.http.delete('http://3.93.191.129:8080/follow/deleteByIds', { params }).pipe(
+      return this.http.delete('http://be.royalreddy.co.in:8080/follow/deleteByIds', { params }).pipe(
         tap(() => {
           console.log('Follow request ignored successfully');
           const users = this.usersSubject.getValue();

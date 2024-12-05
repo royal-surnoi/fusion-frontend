@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LocationService {
-  private apiUrl = 'http://3.93.191.129:8080';  // Replace with your backend URL
+  private apiUrl = 'http://be.royalreddy.co.in:8080';  // Replace with your backend URL
 
   constructor(private http: HttpClient) { }
 

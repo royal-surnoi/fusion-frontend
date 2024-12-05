@@ -231,7 +231,7 @@ constructor(private http: HttpClient){
     console.log(userId, courseId, "pppppppppp");
   
     if (courseTerm === 'long') {
-      // http://3.93.191.129:8080/
+      // http://be.royalreddy.co.in:8080/
       return this.http.get(`${environment.apiBaseUrl}/video/progressOfCourse/user/${courseId}/course/${userId}`);
     } else if (courseTerm === 'short') {
       

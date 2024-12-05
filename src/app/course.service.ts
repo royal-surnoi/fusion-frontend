@@ -355,15 +355,15 @@ export class CourseService {
   // -----------------------------student dashbord--------------------
   getCourseAssignments(courseId: number): Observable<any[]> {
  
-    return this.http.get<any[]>(`http://3.93.191.129:8080/course/${courseId}`);
+    return this.http.get<any[]>(`http://be.royalreddy.co.in:8080/course/${courseId}`);
  
  
  
  
  
-    // return this.http.get<any[]>(`http://3.93.191.129:8080/course/${courseId}`);
+    // return this.http.get<any[]>(`http://be.royalreddy.co.in:8080/course/${courseId}`);
  
-    // return this.http.get<any[]>(`http://3.93.191.129:8080/course/${courseId}`);
+    // return this.http.get<any[]>(`http://be.royalreddy.co.in:8080/course/${courseId}`);
  
  
   }
@@ -535,9 +535,9 @@ getCourseProgress(userId: number, courseId: number): Observable<number> {
 }
   getCourseProjects(courseId: number): Observable<any[]> {
  
-    return this.http.get<any[]>(`http://3.93.191.129:8080/course/${courseId}/projects`);
+    return this.http.get<any[]>(`http://be.royalreddy.co.in:8080/course/${courseId}/projects`);
  
-    // return this.http.get<any[]>(`http://3.93.191.129:8080/course/${courseId}/projects`);
+    // return this.http.get<any[]>(`http://be.royalreddy.co.in:8080/course/${courseId}/projects`);
   }
  
   ////////////////////////////////chatbot/////////////
@@ -563,7 +563,7 @@ getCourseProgress(userId: number, courseId: number): Observable<number> {
       course_id: courseId,
       lesson_id: lessonId
     };
-    return this.http.post<any>('http://3.93.191.129:8080/generateAssignment', payload).pipe(
+    return this.http.post<any>('http://be.royalreddy.co.in:8080/generateAssignment', payload).pipe(
       tap(response => {
         this.assignmentSubject.next(response); // Share the response via the BehaviorSubject
       })

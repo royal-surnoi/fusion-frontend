@@ -15,7 +15,7 @@ resource "aws_key_pair" "deployer" {
 }
 
 resource "aws_security_group" "dev-stage-sg" {
-    name        = "DevelopmentServer-sg"
+    name        = "Dev-frontend-sg"
     description = "Allow SSH,HTTP,80 and 8080 inbound traffic and all outbound traffic"
     tags = var.tags
 }

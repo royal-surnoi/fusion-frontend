@@ -12,30 +12,30 @@ pipeline{
             steps{
                 dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend'){
                     sh '''
-                        npm install --no-audit
+                        npm install 
                         ng build --configuration=production
                     '''
                 }
             }
         }
 
-        // stage('containerization') {
-        //     steps {
-        //         script{
-        //             sh '''
-        //                 EXISTING_IMAGE=$(docker images -q $docker_registry)
-        //                 if [ ! -z "$EXISTING_IMAGE" ]; then
-        //                     echo "previous build Image '$IMAGE_NAME' found. Removing..."
-        //                     docker rmi -f $EXISTING_IMAGE
-        //                     echo "previous build image is removed."
-        //                 else
-        //                     echo "No existing image found for '$IMAGE_NAME'."
-        //                 fi
-        //                 docker build -t $docker_registry:$GIT_COMMIT .
-        //             '''
-        //         }
-        //     }
-        // }
+        stage('containerization') {
+            steps {
+                script{
+                    sh '''
+                        EXISTING_IMAGE=$(docker images -q $docker_registry)
+                        if [ ! -z "$EXISTING_IMAGE" ]; then
+                            echo "previous build Image '$IMAGE_NAME' found. Removing..."
+                            docker rmi -f $EXISTING_IMAGE
+                            echo "previous build image is removed."
+                        else
+                            echo "No existing image found for '$IMAGE_NAME'."
+                        fi
+                        docker build -t $docker_registry:$GIT_COMMIT .
+                    '''
+                }
+            }
+        }
 
         // stage('Publish Docker Image') {
         //     steps {
@@ -103,5 +103,9 @@ pipeline{
 
 
     }
+    post { 
+        always { 
+            deleteDir()
+        }
 }
 

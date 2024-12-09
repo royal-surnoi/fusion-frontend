@@ -69,7 +69,7 @@ pipeline{
                             // Fetch AWS instance IP
                             withAWS(credentials: 'aws-fusion-dev-deploy', region: 'us-east-1') {
                                 DEV_INSTANCE_IP = sh(
-                                    script: "aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --filters Name=tag:Name,Values=DevelopmentServer --output text",
+                                    script: "aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --filters Name=tag:Name,Values=Dev-Frontend-Server --output text",
                                     returnStdout: true
                                 ).trim()
                             }

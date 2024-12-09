@@ -5,7 +5,7 @@ aws --version
 
 Data=$(aws ec2 describe-instances)
 # echo "Data - "$Data
-PublichIPAddress=$(aws ec2 describe-instances | jq -r ' .Reservations[].Instances[] | select(.Tags[].Value == "DevelopmentServer") | .PublicIpAddress')
+PublichIPAddress=$(aws ec2 describe-instances | jq -r ' .Reservations[].Instances[] | select(.Tags[].Value == "Dev-Frontend-Server") | .PublicIpAddress')
 echo "PublichIPAddress - "$PublichIPAddress
 if [[ "$PublichIPAddress" != '' ]]; then
     echo "Testing connectivity to $PublichIPAddress"

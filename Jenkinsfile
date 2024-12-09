@@ -37,12 +37,12 @@ pipeline{
             }
         }
 
-        // stage('Publish Docker Image') {
-        //     steps {
-        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        //         sh "docker push $docker_registry:$GIT_COMMIT"
-        //     }       
-        // }
+        stage('Publish Docker Image') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                sh "docker push $docker_registry:$GIT_COMMIT"
+            }       
+        }
 
         // stage('Deploy to Development') {
         //     environment {

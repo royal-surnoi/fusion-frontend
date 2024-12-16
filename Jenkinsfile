@@ -3,10 +3,10 @@ pipeline{
     tools {
         nodejs 'nodejs-22-6-0'
     }
-    environment {
-        docker_registry = 'iamroyalreddy/fusion-fe'
-        DOCKERHUB_CREDENTIALS = credentials('docker-credentials')
-    }
+    // environment {
+    //     docker_registry = 'iamroyalreddy/fusion-fe'
+    //     DOCKERHUB_CREDENTIALS = credentials('docker-credentials')
+    // }
     stages{
         stage('Build and Package'){
             steps{

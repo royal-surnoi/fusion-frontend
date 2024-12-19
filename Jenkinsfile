@@ -24,16 +24,101 @@ pipeline{
                 steps {
                     dir('/var/lib/jenkins/workspace/fusionIQ/Fusion-Frontend'){
                         script {
-                            sh '''
-                                sonar-scanner \
-                                    -Dsonar.projectKey=fusion-fe \
-                                    -Dsonar.sources=. \
-                                    -Dsonar.host.url=http://3.85.120.238:9000 \
-                                    -Dsonar.login=sqp_5439369c85af6daacd648b19b11d726dd3af8a89
-                            '''
+                            withSonarQubeEnv('sonarqube') {
+                                withCredentials([string(credentialsId: 'sonar-fe-credentials', variable: 'SONAR_TOKEN')]){
+                                    withEnv(["PATH+SONAR=$SONAR_SCANNER_HOME/bin"]) {
+                                        sh '''
+                                                sonar-scanner \
+                                                    -Dsonar.projectKey=fusion-fe \
+                                                    -Dsonar.sources=. \
+                                                    -Dsonar.host.url=$SONAR_HOST_URL \
+                                                    -Dsonar.token=$SONAR_TOKEN
+                                            '''    
+                                }
+                            }
                         }
                     }
                 }
+            }
+        }
+
+        // stage('containerization') {
+        //     steps {
+        //         script{
+        //             sh '''
+        //                 EXISTING_IMAGE=$(docker images -q $docker_registry)
+        //                 if [ ! -z "$EXISTING_IMAGE" ]; then
+        //                     echo "previous build Image '$IMAGE_NAME' found. Removing..."
+        //                     docker rmi -f $EXISTING_IMAGE
+        //                     echo "previous build image is removed."
+        //                 else
+        //                     echo "No existing image found for '$IMAGE_NAME'."
+        //                 fi
+        //                 docker build -t $docker_registry:$GIT_COMMIT .
+        //             '''
+        //         }
+        //     }
+        // }
+
+        // stage('Publish Docker Image') {
+        //     steps {
+        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        //         sh "docker push $docker_registry:$GIT_COMMIT"
+        //     }       
+        // }
+
+        // stage('Deploy to Development') {
+        //     environment {
+        //         DEV_STAGE_INSTANCE_IP= ''
+        //     }
+        //     stages{
+        //         stage('initialize-Dev-Stage Instance') {
+        //             steps{
+        //                 dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend/terrafrom'){
+        //                     sh '''
+        //                         set -e
+        //                         echo "Initializing Terraform..."
+        //                         terraform init
+        //                         echo "Applying Terraform configuration..."
+        //                         terraform apply --auto-approve
+        //                         sleep 40s
+        //                     '''
+        //                 }
+        //             }
+        //         }
+        //         // stage('Deploy - Dev-Stage Instance') {
+        //         //     steps {
+        //         //         script{
+        //         //             // Fetch AWS instance IP
+        //         //             withAWS(credentials: 'aws-fusion-dev-deploy', region: 'us-east-1') {
+        //         //                 DEV_INSTANCE_IP = sh(
+        //         //                     script: "aws ec2 describe-instances --query 'Reservations[].Instances[].PublicIpAddress' --filters Name=tag:Name,Values=Dev-Frontend-Server --output text",
+        //         //                     returnStdout: true
+        //         //                 ).trim()
+        //         //             }
+        //         //             sshagent(['dev-deploy-ec2-instance']) {
+        //         //                 sh """
+        //         //                     ssh -o StrictHostKeyChecking=no ec2-user@${DEV_INSTANCE_IP} "
+        //         //                         // echo "Cleaning up old containers..."
+        //         //                         // docker ps -aq | xargs -r docker rm -f
+        //         //                         echo "Running new Docker container..."
+        //         //                         docker run -d -p 80:80 ${docker_registry}:${GIT_COMMIT}
+        //         //                     "
+        //         //                 """
+        //         //             }
+        //         //         }
+        //         //     }   
+        //         // }
+
+        //     }
+        // }
+
+
+
+    }
+    post { 
+        always { 
+            deleteDir()
         }
     }
 }

@@ -8,8 +8,8 @@ pipeline{
         // DOCKERHUB_CREDENTIALS = credentials('docker-credentials')
         SONAR_SCANNER_HOME = tool name: 'sonarqube'
     }
-        stages{
-            stage('Build and Package'){
+    stages{
+        stage('Build and Package'){
                 steps{
                     dir('/var/lib/jenkins/workspace/fusionIQ/Fusion-Frontend'){
                         sh '''
@@ -18,9 +18,9 @@ pipeline{
                         '''
                     }
                 }
-            }
+        }
 
-            stage ("SAST - SonarQube") {
+        stage ("SAST - SonarQube") {
                     steps {
                         dir('/var/lib/jenkins/workspace/fusionIQ/Fusion-Frontend'){
                             script {
@@ -40,6 +40,14 @@ pipeline{
                         }
                 }
             }
+        }
+
+        stage('push to s3') {
+        steps{ 
+          sh 'aws s3 cp /var/lib/jenkins/workspace/fusionIQ/Fusion-Frontend/dist/ s3://fusion-dev-v2-fe/ --recursive --exclude "*" --include "3rdpartylicenses.txt"'
+            sh 'aws s3 cp /var/lib/jenkins/workspace/fusionIQ/Fusion-Frontend/dist/browser/ s3://fusion-dev-v2-fe/ --recursive --exclude "*" --include "*.*"'
+  
+        }
         }
     }
 

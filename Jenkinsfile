@@ -44,8 +44,8 @@ pipeline{
 
         stage('push to s3') {
         steps{ 
-          sh 'aws s3 cp /var/lib/jenkins/workspace/fusionIQ/Fusion-Frontend/dist/ s3://fusion-dev-v2-fe/ --recursive --exclude "*" --include "3rdpartylicenses.txt"'
-            sh 'aws s3 cp /var/lib/jenkins/workspace/fusionIQ/Fusion-Frontend/dist/browser/ s3://fusion-dev-v2-fe/ --recursive --exclude "*" --include "*.*"'
+          sh 'aws s3 cp /var/lib/jenkins/workspace/fusionIQ/Fusion-Frontend/dist/ s3://fusioniq-v3-fe/ --recursive --exclude "*" --include "3rdpartylicenses.txt"'
+            sh 'aws s3 cp /var/lib/jenkins/workspace/fusionIQ/Fusion-Frontend/dist/browser/ s3://fusioniq-v3-fe/ --recursive --exclude "*" --include "*.*"'
   
         }
         }
